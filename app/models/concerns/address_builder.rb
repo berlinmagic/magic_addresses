@@ -1,3 +1,4 @@
+# encoding: utf-8
 module AddressBuilder
   extend ActiveSupport::Concern
   

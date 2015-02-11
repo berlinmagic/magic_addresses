@@ -1,3 +1,4 @@
+# encoding: utf-8
 class AddMagicAddresses < ActiveRecord::Migration
   def up
     
