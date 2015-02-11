@@ -6,7 +6,7 @@ class Location::Address < ActiveRecord::Base
   
   
   # =====> C O N S T A N T S <=============================================================== #
-  MODEL_PARAMS = [      :street_name, :street_number, :street_additional, :zipcode, :city_name, :subcity_name, :subsubcity_name,
+  MODEL_PARAMS = [      :street_name, :street_number, :street_additional, :zipcode, :city_name, :district_name, :subdistrict_name,
                         :state_name, :country_name, :country_code, :address, :latitude, :longitude, :visibility,  :id, :check, :_destroy        ]
   
   
@@ -17,18 +17,18 @@ class Location::Address < ActiveRecord::Base
   belongs_to :owner,    polymorphic: true
   belongs_to :context,  polymorphic: true
   
-  belongs_to :subsubcity,   class_name: "Location::Subsubcity", foreign_key: :subsubcity_id
-  belongs_to :subcity,      class_name: "Location::Subcity",    foreign_key: :subcity_id
-  belongs_to :city,         class_name: "Location::City",       foreign_key: :city_id
-  belongs_to :state,        class_name: "Location::State",      foreign_key: :state_id
-  belongs_to :country,      class_name: "Location::Country",    foreign_key: :country_id
+  belongs_to :subdistrict,  class_name: "Location::Subdistrict",  foreign_key: :subdistrict_id
+  belongs_to :district,     class_name: "Location::District",     foreign_key: :district_id
+  belongs_to :city,         class_name: "Location::City",         foreign_key: :city_id
+  belongs_to :state,        class_name: "Location::State",        foreign_key: :state_id
+  belongs_to :country,      class_name: "Location::Country",      foreign_key: :country_id
   
   
   belongs_to :patient, -> { where(location_addresses: {owner_type: 'Patient'}) }, foreign_key: 'owner_id'
   
   
   # =====> A T T R I B U T E S <============================================================= #
-  attr_accessor :address, :street_name, :subsubcity_name, :subcity_name, :city_name, :state_name, :state_short_name, :country_name, :country_code
+  attr_accessor :address, :street_name, :subdistrict_name, :district_name, :city_name, :state_name, :state_short_name, :country_name, :country_code
   
   acts_as_geolocated lat: 'latitude', lng: 'longitude'
   
@@ -88,12 +88,12 @@ class Location::Address < ActiveRecord::Base
     self.city ? self.city.name : nil
   end
   
-  def subcity!
-    self.subcity ? self.subcity.name : nil
+  def district!
+    self.district ? self.district.name : nil
   end
   
-  def subsubcity!
-    self.subsubcity ? self.subsubcity.name : nil
+  def subdistrict!
+    self.subdistrict ? self.subdistrict.name : nil
   end
   
   

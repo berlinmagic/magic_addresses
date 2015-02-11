@@ -27,11 +27,11 @@ module Geocoder::Result
       @data['address']['country_code'].present? ? @data['address']['country_code'].to_s.upcase : nil
     end
     
-    def subcity
+    def district
       @data['address']['city_district'].present? ? @data['address']['city_district'] : nil
     end
     
-    def subsubcity
+    def subdistrict
       @data['address']['suburb'].present? ? @data['address']['suburb'] : nil
     end
     
@@ -42,11 +42,11 @@ module Geocoder::Result
       @data['display_name'].split(',').count > 3 ? @data['display_name'].split(',')[-3].strip : nil
     end
     
-    def subcity_code
+    def district_code
       @data['address']['city_district'].present? ? @data['address']['city_district'] : nil
     end
     
-    def subsubcity_code
+    def subdistrict_code
       @data['address']['suburb'].present? ? @data['address']['suburb'] : nil
     end
     

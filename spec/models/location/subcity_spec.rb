@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Location::Subcity do
+describe Location::District do
   
   describe 'should have usual attributes' do
     

@@ -11,8 +11,8 @@ class Location::City < ActiveRecord::Base
   belongs_to :country,    class_name: "Location::Country",  foreign_key: :country_id
   
   has_many :addresses,    class_name: "Location::Address",  foreign_key: :city_id
-  has_many :subcities,    class_name: "Location::Subcity",  foreign_key: :city_id
-  has_many :subsubcities, through: :subcities,              source: :subsubcities
+  has_many :districts,    class_name: "Location::District",  foreign_key: :city_id
+  has_many :subdistricts, through: :districts,              source: :subdistricts
   
   
   # =====> A T T R I B U T E S <============================================================= #

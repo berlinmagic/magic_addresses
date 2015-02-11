@@ -123,13 +123,13 @@ private
       if geo_data["de"].city.present? && self.country
         connet_address_association( :city, geo_data )
       end
-      # build subcity
-      if geo_data["de"].subcity.present? && self.city
-        connet_address_association( :subcity, geo_data )
+      # build district
+      if geo_data["de"].district.present? && self.city
+        connet_address_association( :district, geo_data )
       end
-      # build subsubcity
-      if geo_data["de"].subsubcity.present? && self.city && self.subcity
-        connet_address_association( :subsubcity, geo_data )
+      # build subdistrict
+      if geo_data["de"].subdistrict.present? && self.city && self.district
+        connet_address_association( :subdistrict, geo_data )
       end
       
     end
@@ -143,8 +143,8 @@ private
     that_params[ that == :country ? :iso_code : :short_name ] = geo_data["en"].send( "#{that}_code".to_sym ).to_s
     that_params.merge!({ country_id: self.country.id })     if [:city, :state].include?(that) && self.country
     that_params.merge!({ state_id: self.state.id })         if that == :city && self.state
-    that_params.merge!({ city_id: self.city.id })           if [:subcity, :subsubcity].include?(that) && self.city
-    that_params.merge!({ subcity_id: self.subcity.id })     if that == :subsubcity && self.subcity
+    that_params.merge!({ city_id: self.city.id })           if [:district, :subdistrict].include?(that) && self.city
+    that_params.merge!({ district_id: self.district.id })     if that == :subdistrict && self.district
     
     self.attributes = { that => "Location::#{that.to_s.classify}".constantize.unscoped.where( that_params ).first_or_create }# unless self.send(that)
     

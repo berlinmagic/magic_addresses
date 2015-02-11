@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Location::Subsubcity do
+describe Location::Subdistrict do
   
   describe 'should have usual attributes' do
     
@@ -10,7 +10,7 @@ describe Location::Subsubcity do
     it { should respond_to :fsm_state }
     
     it { should respond_to :city }
-    it { should respond_to :subcity }
+    it { should respond_to :district }
     
     it { should respond_to :addresses }
     

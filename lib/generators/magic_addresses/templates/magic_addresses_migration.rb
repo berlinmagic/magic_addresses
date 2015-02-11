@@ -88,7 +88,7 @@ class AddMagicAddresses < ActiveRecord::Migration
     #
     # District
     #
-    create_table :location_subcities do |t|
+    create_table :location_districts do |t|
       t.string      :name_default
       t.string      :short_name
       # t.string      :name
@@ -97,27 +97,27 @@ class AddMagicAddresses < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index :location_subcities, :city_id
+    add_index :location_districts, :city_id
     
-    Location::Subcity.create_translation_table! :name => :string
+    Location::District.create_translation_table! :name => :string
     
     #
     # Subdistrict
     #
-    create_table :location_subsubcities do |t|
+    create_table :location_subdistricts do |t|
       t.string      :name_default
       t.string      :short_name
       # t.string    :name
       t.string      :fsm_state,      default: "new"
-      t.references  :subcity
+      t.references  :district
       t.references  :city
       t.timestamps
     end
     
-    add_index :location_subsubcities, :subcity_id
-    add_index :location_subsubcities, :city_id
+    add_index :location_subdistricts, :district_id
+    add_index :location_subdistricts, :city_id
     
-    Location::Subsubcity.create_translation_table! :name => :string
+    Location::Subdistrict.create_translation_table! :name => :string
     
   end
   def down
@@ -143,14 +143,14 @@ class AddMagicAddresses < ActiveRecord::Migration
     drop_table :location_cities
     Location::City.drop_translation_table!
     
-    remove_index :location_subcities, :city_id
-    drop_table :location_subcities
-    Location::Subcity.drop_translation_table!
+    remove_index :location_districts, :city_id
+    drop_table :location_districts
+    Location::District.drop_translation_table!
     
-    remove_index  :location_subsubcities, :subcity_id
-    remove_index  :location_subsubcities, :city_id
-    drop_table    :location_subsubcities
-    Location::Subsubcity.drop_translation_table!
+    remove_index  :location_subdistricts, :district_id
+    remove_index  :location_subdistricts, :city_id
+    drop_table    :location_subdistricts
+    Location::Subdistrict.drop_translation_table!
     
   end
 end

@@ -36,8 +36,8 @@ class AddressWorker
       # =>   address.country.translations.where( name: [ "", nil ] ).delete_all    if address.country
       # =>   address.state.translations.where( name: [ "", nil ] ).delete_all      if address.state
       # =>   address.city.translations.where( name: [ "", nil ] ).delete_all       if address.city
-      # =>   address.subcity.translations.where( name: [ "", nil ] ).delete_all    if address.subcity
-      # =>   address.subsubcity.translations.where( name: [ "", nil ] ).delete_all if address.subsubcity
+      # =>   address.district.translations.where( name: [ "", nil ] ).delete_all    if address.district
+      # =>   address.subdistrict.translations.where( name: [ "", nil ] ).delete_all if address.subdistrict
       # =>   
       # => end
     end

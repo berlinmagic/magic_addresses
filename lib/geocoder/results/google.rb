@@ -10,7 +10,7 @@ module Geocoder::Result
       end
     end
     
-    def subcity
+    def district
       fields = [:sublocality_level_1, :sublocality]
       fields.each do |f|
         if entity = address_components_of_type(f).first
@@ -20,9 +20,9 @@ module Geocoder::Result
       return nil # no appropriate components found
     end
   
-    def subsubcity
-      if subsubcity = address_components_of_type(:sublocality_level_2).first
-        return subsubcity['long_name']
+    def subdistrict
+      if subdistrict = address_components_of_type(:sublocality_level_2).first
+        return subdistrict['long_name']
       end
       return nil # no appropriate components found
     end
@@ -42,7 +42,7 @@ module Geocoder::Result
       return nil # no appropriate components found
     end
     
-    def subcity_code
+    def district_code
       fields = [:sublocality_level_1, :sublocality]
       fields.each do |f|
         if entity = address_components_of_type(f).first
@@ -52,9 +52,9 @@ module Geocoder::Result
       return nil # no appropriate components found
     end
     
-    def subsubcity_code
-      if subsubcity = address_components_of_type(:sublocality_level_2).first
-        return subsubcity['short_name']
+    def subdistrict_code
+      if subdistrict = address_components_of_type(:sublocality_level_2).first
+        return subdistrict['short_name']
       end
       return nil # no appropriate components found
     end

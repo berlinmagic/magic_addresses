@@ -17,7 +17,7 @@ describe Location::Address do
     it { should respond_to :zipcode }
     
     it { should respond_to :city }
-    it { should respond_to :subcity }
+    it { should respond_to :district }
     it { should respond_to :state }
     it { should respond_to :country }
     
@@ -49,8 +49,8 @@ describe Location::Address do
       expect( Location::Country.count ).to eq 0
       expect( Location::State.count ).to eq 0
       expect( Location::City.count ).to eq 0
-      expect( Location::Subcity.count ).to eq 0
-      expect( Location::Subsubcity.count ).to eq 0
+      expect( Location::District.count ).to eq 0
+      expect( Location::Subdistrict.count ).to eq 0
       
       # expect( I18n.available_locales.count ).to eq 2
       expect( ::Wizard::Locale.count ).to eq 3
@@ -66,8 +66,8 @@ describe Location::Address do
       expect( Location::Country.count ).to eq 1
       expect( Location::State.count ).to eq 1
       expect( Location::City.count ).to eq 1
-      expect( Location::Subcity.count ).to eq 1
-      expect( Location::Subsubcity.count ).to eq 1
+      expect( Location::District.count ).to eq 1
+      expect( Location::Subdistrict.count ).to eq 1
       
       # trigger background task
       @address.build_association_translations
@@ -75,8 +75,8 @@ describe Location::Address do
       expect( @address.city.name(:en) ).to eq ("Berlin")
       expect( @address.city.name(:it) ).to eq ("Berlino")
       
-      expect( @address.subsubcity.name(:en) ).to eq ("Prenzlauer Berg")
-      expect( @address.subcity.name(:en) ).to eq ("Pankow")
+      expect( @address.subdistrict.name(:en) ).to eq ("Prenzlauer Berg")
+      expect( @address.district.name(:en) ).to eq ("Pankow")
       
       expect( @address.country.name(:en) ).to eq ("Germany")
       expect( @address.country.name(:de) ).to eq ("Deutschland")
@@ -143,8 +143,8 @@ describe Location::Address do
       expect( @address.city.name(:en) ).to eq ("Berlin")
       expect( @address.city.name(:it) ).to eq ("Berlino")
       
-      expect( @address.subsubcity.name(:en) ).to eq ("Prenzlauer Berg")
-      expect( @address.subcity.name(:en) ).to eq ("Pankow")
+      expect( @address.subdistrict.name(:en) ).to eq ("Prenzlauer Berg")
+      expect( @address.district.name(:en) ).to eq ("Pankow")
       
       expect( @address.country.name(:en) ).to eq ("Germany")
       expect( @address.country.name(:de) ).to eq ("Deutschland")
@@ -157,8 +157,8 @@ describe Location::Address do
       expect( Location::Country.count ).to eq 0
       expect( Location::State.count ).to eq 0
       expect( Location::City.count ).to eq 0
-      expect( Location::Subcity.count ).to eq 0
-      expect( Location::Subsubcity.count ).to eq 0
+      expect( Location::District.count ).to eq 0
+      expect( Location::Subdistrict.count ).to eq 0
       
       @address.address = "Heinz-Kapelle-Str. 6 10407 Berlin DE"
       @address.save
@@ -183,8 +183,8 @@ describe Location::Address do
       expect( Location::Country.count ).to eq 1
       expect( Location::State.count ).to eq 1
       expect( Location::City.count ).to eq 1
-      expect( Location::Subcity.count ).to eq 3
-      expect( Location::Subsubcity.count ).to eq 3
+      expect( Location::District.count ).to eq 3
+      expect( Location::Subdistrict.count ).to eq 3
       
       
       expect( Location::City.first.name ).to eq "Berlin"

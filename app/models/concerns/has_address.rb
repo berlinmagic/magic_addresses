@@ -23,7 +23,7 @@ module HasAddress
                   :class_name => "Location::Address",
                   :autosave => true,
                   :dependent => :destroy
-      # => delegate    :street, :street_number, :zipcode, :city, :subcity, :subsubcity, :state, :country, 
+      # => delegate    :street, :street_number, :zipcode, :city, :district, :subdistrict, :state, :country, 
       # =>             to: :address, allow_nil: true
       accepts_nested_attributes_for :address, allow_destroy: true # => , reject_if: :all_blank
     end
@@ -37,8 +37,8 @@ module HasAddress
     # =>               :class_name => "Address",
     # =>               :autosave => true,
     # =>               :dependent => :destroy
-    # =>   delegate    :street, :number, :zip, :city, :subcity, :state, :country, 
-    # =>               :street=, :number=, :zip=, :city=, :subcity=, :state=, :country=, 
+    # =>   delegate    :street, :number, :zip, :city, :district, :state, :country, 
+    # =>               :street=, :number=, :zip=, :city=, :district=, :state=, :country=, 
     # =>               to: :address, allow_nil: true
     # =>   accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :all_blank
     # =>   alias_method_chain :address, :build

@@ -11,8 +11,8 @@ class Location::State < ActiveRecord::Base
   
   has_many :addresses,    class_name: "Location::Address",  foreign_key: :state_id
   has_many :cities,       class_name: "Location::City",     foreign_key: :state_id
-  has_many :subcities,    through: :cities,                 source: :subcities
-  has_many :subsubcities, through: :subcities,              source: :subsubcities
+  has_many :districts,    through: :cities,                 source: :districts
+  has_many :subdistricts, through: :districts,              source: :subdistricts
   
   
   # =====> A T T R I B U T E S <============================================================= #
