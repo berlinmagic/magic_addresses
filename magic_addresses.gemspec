@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = MagicAddresses::VERSION
   s.authors     = ["Torsten Wetzel"]
   s.email       = ["torstenwetzel@berlinmagic.com"]
-  s.homepage    = "TODO"
+  s.homepage    = "https://github.com/berlinmagic/magic_addresses"
   s.summary     = "A really nice address plugin we offten use."
   s.description = "Easy sortable and translated addresses uses google-api with nominatim fallback."
   s.license     = "MIT"
@@ -19,4 +19,5 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 4.2.0"
 
   s.add_development_dependency "sqlite3"
+  s.add_development_dependency "rspec-rails"
 end
