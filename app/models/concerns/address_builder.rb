@@ -35,17 +35,7 @@ private
   def build_address_associations_if_needed
     dev_log "address ... #{self.owner.class.name.to_s if self.owner} .. #{self.owner_type}"
     # build_address_associations() if self.new_record? || self.street_number_changed? || self.zipcode_changed? || city_is_changed? || country_is_changed?
-    if self.owner_type && self.owner_type == "Patient"
-      dev_log "Patient Address.. .. .."
-      if self.street_name.present? && self.street_number.present? && self.zipcode.present? && self.city_name.present?
-        if self.street_number_changed? || self.zipcode_changed? || street_is_changed? || city_is_changed?
-          dev_log "Patient Address.. build_address_associations .. .."
-          build_address_associations
-        end
-      else
-        true
-      end
-    elsif self.new_record? || self.street_number_changed? || self.zipcode_changed? || street_is_changed? || city_is_changed? || country_is_changed?
+    if self.new_record? || self.street_number_changed? || self.zipcode_changed? || street_is_changed? || city_is_changed? || country_is_changed?
       dev_log
       dev_log "build_address_associations needed !!!"
       dev_log

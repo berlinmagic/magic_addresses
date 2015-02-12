@@ -17,8 +17,17 @@ module MagicAddresses
       end
 
       def copy_migrations
-        migration_template "magic_addresses_migration.rb", "db/migrate/add_magic_addresses.rb"
+        migration_template( "magic_addresses_migration.rb", "db/migrate/add_magic_addresses.rb" )
       end
+      
+      # => def create_seeds_folder
+      # =>   directory( "db/seeds" )
+      # => end
+      
+      def copy_country_seeds
+        copy_file( "country_seeds.rb", "db/seed_countries.rb" )
+      end
+      
     end
   end
 end
