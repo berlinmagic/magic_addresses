@@ -10,26 +10,10 @@ module MagicAddresses
     module ClassMethods
     
       def mgca_translate( field = :name )
-        # send :extend, ClassMethods
         send :include, InstanceMethods
         
         translates field, fallbacks_for_empty_translations: true
         accepts_nested_attributes_for :translations, reject_if: proc { |attributes| attributes[field.to_s].blank? }
-        
-        # add search class method
-        # => self.class.send(:define_method, :search) do |search|
-        # =>   if self.respond_to?(:translations)
-        # =>     if search
-        # =>       logger.info "#{field} = #{search}"
-        # =>       with_translations.where("#{field} LIKE ?", "%#{search}%")
-        # =>     else
-        # =>       with_translations
-        # =>     end
-        # =>   else
-        # =>     nil
-        # =>   end
-        # => end
-        
       end
     
     
@@ -45,13 +29,13 @@ module MagicAddresses
       end
       
       def self.included(base)
-        base.send :extend, MoreMethods
+        base.send :extend, MoreClassMethods
       end
       
     end #> InstanceMethods
     
     ##   M O R E - M E T H O D S   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-    module MoreMethods
+    module MoreClassMethods
       
       def search(search)
         field = self.respond_to?(:street) ? :street : :name
@@ -62,7 +46,7 @@ module MagicAddresses
         end
       end
       
-    end #> InstanceMethods
+    end #> MoreClassMethods
     
   end
 end
