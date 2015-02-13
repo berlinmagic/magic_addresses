@@ -17,14 +17,18 @@ module MagicAddresses
         accepts_nested_attributes_for :translations, reject_if: proc { |attributes| attributes[field.to_s].blank? }
         
         # add search class method
-        self.class.send(:define_method, :search) do |search|
-          if search
-            logger.info "#{field} = #{search}"
-            with_translations.where("#{field} LIKE ?", "%#{search}%")
-          else
-            with_translations
-          end
-        end
+        # => self.class.send(:define_method, :search) do |search|
+        # =>   if self.respond_to?(:translations)
+        # =>     if search
+        # =>       logger.info "#{field} = #{search}"
+        # =>       with_translations.where("#{field} LIKE ?", "%#{search}%")
+        # =>     else
+        # =>       with_translations
+        # =>     end
+        # =>   else
+        # =>     nil
+        # =>   end
+        # => end
         
       end
     
@@ -39,7 +43,26 @@ module MagicAddresses
         locales = translated_locales if locales.empty?
         includes(:translations).with_locales(locales).with_required_attributes
       end
-    
+      
+      def self.included(base)
+        base.send :extend, MoreMethods
+      end
+      
     end #> InstanceMethods
+    
+    ##   M O R E - M E T H O D S   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    module MoreMethods
+      
+      def search(search)
+        field = self.respond_to?(:street) ? :street : :name
+        if search
+          with_translations.where("#{field} LIKE ?", "%#{search}%")
+        else
+          with_translations
+        end
+      end
+      
+    end #> InstanceMethods
+    
   end
 end

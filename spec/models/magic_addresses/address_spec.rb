@@ -5,6 +5,9 @@ describe MagicAddresses::Address do
   
   describe 'should have usual attributes' do
     
+    # usual
+    it { should respond_to :name }
+    
     # location
     it { should respond_to :latitude }
     it { should respond_to :longitude }
