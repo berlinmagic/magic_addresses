@@ -1,8 +1,14 @@
 require "magic_addresses/configuration"
 
+require "../../app/models/magic_addresses/association"
+require "../../app/models/magic_addresses/translator"
+require "../../app/models/magic_addresses"
+
 require "magic_addresses/railtie" if defined?(Rails::Railtie)
 
 module MagicAddresses
+  
+  autoload :Address,    "../../app/models/magic_addresses/address"
   
   class << self
     attr_accessor :configuration
@@ -21,3 +27,10 @@ module MagicAddresses
   end
   
 end
+
+ActiveSupport.on_load(:active_record) do
+  require 'globalize'
+end
+
+ActiveRecord::Base.send :include, MagicAddresses::Association
+ActiveRecord::Base.send :include, MagicAddresses::Translator
