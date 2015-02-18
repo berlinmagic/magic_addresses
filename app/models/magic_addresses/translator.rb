@@ -28,6 +28,7 @@ module MagicAddresses
         includes(:translations).with_locales(locales).with_required_attributes
       end
       
+      # need to be loaded so stupid, otherwise it is accessible for all model (tested with rspec)
       def self.included(base)
         base.send :extend, MoreClassMethods
       end

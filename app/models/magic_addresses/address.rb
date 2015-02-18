@@ -20,7 +20,7 @@ class MagicAddresses::Address < ActiveRecord::Base
   
   
   # =====> A T T R I B U T E S <============================================================= #
-  accepts_nested_attributes_for :translations
+  # accepts_nested_attributes_for :translations
   
   
   # =====> V A L I D A T I O N <============================================================= #

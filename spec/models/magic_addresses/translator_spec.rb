@@ -18,7 +18,6 @@ describe MagicAddresses::Translator do
       expect( TestAddress.search("xxx") ).equal? []
       expect( TestLocation.respond_to?(:search) ).to be false
       expect{ TestLocation.search("xxx") }.to raise_error(NoMethodError)
-      #expect( TestLocation.respond_to?(:search) ).to be false
     end
     
   end
