@@ -19,6 +19,7 @@ module MagicAddresses
   autoload :Country,    "../../app/models/magic_addresses/country"
   autoload :State,      "../../app/models/magic_addresses/state"
   autoload :City,       "../../app/models/magic_addresses/city"
+  autoload :District,   "../../app/models/magic_addresses/district"
   
   class << self
     attr_accessor :configuration

@@ -40,7 +40,7 @@ class AddMagicAddresses < ActiveRecord::Migration
     # Country
     #
     create_table :location_countries do |t|
-      t.string      :name_default
+      t.string      :default_name
       # t.string    :name
       t.string      :iso_code,       limit: 2
       t.string      :dial_code
@@ -56,7 +56,7 @@ class AddMagicAddresses < ActiveRecord::Migration
     # State
     #
     create_table :location_states do |t|
-      t.string      :name_default
+      t.string      :default_name
       t.string      :short_name
       # t.string      :name
       t.string      :fsm_state,      default: "new"
@@ -72,7 +72,7 @@ class AddMagicAddresses < ActiveRecord::Migration
     # City
     #
     create_table :location_cities do |t|
-      t.string      :name_default
+      t.string      :default_name
       t.string      :short_name
       # t.string      :name
       t.string      :fsm_state,      default: "new"
@@ -90,7 +90,7 @@ class AddMagicAddresses < ActiveRecord::Migration
     # District
     #
     create_table :location_districts do |t|
-      t.string      :name_default
+      t.string      :default_name
       t.string      :short_name
       # t.string      :name
       t.string      :fsm_state,      default: "new"
@@ -106,7 +106,7 @@ class AddMagicAddresses < ActiveRecord::Migration
     # Subdistrict
     #
     create_table :location_subdistricts do |t|
-      t.string      :name_default
+      t.string      :default_name
       t.string      :short_name
       # t.string    :name
       t.string      :fsm_state,      default: "new"

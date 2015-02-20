@@ -48,6 +48,12 @@ describe MagicAddresses::Address do
     it { should respond_to :city_id }
     
     
+    it { should respond_to :magic_district }
+    it { should belong_to  :magic_district }
+    it { should respond_to :district }
+    it { should respond_to :district_id }
+    
+    
   end
   
   describe 'validations' do 

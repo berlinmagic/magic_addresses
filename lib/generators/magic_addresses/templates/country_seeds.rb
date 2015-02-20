@@ -15,7 +15,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Austria"}, 
       {:locale=>"ru", :name=>"Австрия"}
     ], 
-    :name_default => "Austria"
+    :default_name => "Austria"
   }, 
   "BY"=>{
     :dial_code => "+375", 
@@ -29,7 +29,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Białoruś"}, 
       {:locale=>"ru", :name=>"Беларусь"}
     ], 
-    :name_default => "Belarus"
+    :default_name => "Belarus"
   }, 
   "BE"=>{
     :dial_code => "+32", 
@@ -43,7 +43,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Belgia"}, 
       {:locale=>"ru", :name=>"Бельгия"}
     ], 
-    :name_default => "Belgium"
+    :default_name => "Belgium"
   }, 
   "BA"=>{
     :dial_code => "+387", 
@@ -57,7 +57,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Bośnia i Hercegowina"}, 
       {:locale=>"ru", :name=>"Босния и Герцеговина"}
     ], 
-    :name_default => "Bosnia and Herzegovina"
+    :default_name => "Bosnia and Herzegovina"
   }, 
   "BG"=>{
     :dial_code => "+359", 
@@ -71,7 +71,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Bułgaria"}, 
       {:locale=>"ru", :name=>"Болгария"}
     ], 
-    :name_default => "Bulgaria"
+    :default_name => "Bulgaria"
   }, 
   "CA"=>{
     :dial_code => "+1", 
@@ -85,7 +85,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Kanada"}, 
       {:locale=>"ru", :name=>"Канада"}
     ], 
-    :name_default => "Canada"
+    :default_name => "Canada"
   }, 
   "HR"=>{
     :dial_code => "+385", 
@@ -99,7 +99,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Chorwacja"}, 
       {:locale=>"ru", :name=>"Хорватия"}
     ], 
-    :name_default => "Croatia"
+    :default_name => "Croatia"
   }, 
   "CY"=>{
     :dial_code => "+357", 
@@ -113,7 +113,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Cypr"}, 
       {:locale=>"ru", :name=>"Кипр"}
     ], 
-    :name_default => "Cyprus"
+    :default_name => "Cyprus"
   }, 
   "CZ"=>{
     :dial_code => "+420", 
@@ -127,7 +127,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Czechy"}, 
       {:locale=>"ru", :name=>"Чешская Республика"}
     ], 
-    :name_default => "Czech Republic"
+    :default_name => "Czech Republic"
   }, 
   "DK"=>{
     :dial_code => "+45", 
@@ -141,7 +141,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Dania"}, 
       {:locale=>"ru", :name=>"Дания"}
     ], 
-    :name_default => "Denmark"
+    :default_name => "Denmark"
   }, 
   "FI"=>{
     :dial_code => "+358", 
@@ -155,7 +155,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Finlandia"}, 
       {:locale=>"ru", :name=>"Финляндия"}
     ], 
-    :name_default => "Finland"
+    :default_name => "Finland"
   }, 
   "FR"=>{
     :dial_code => "+33", 
@@ -169,7 +169,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Francja"}, 
       {:locale=>"ru", :name=>"Франция"}
     ], 
-    :name_default => "France"
+    :default_name => "France"
   }, 
   "DE"=>{
     :dial_code => "+49", 
@@ -183,7 +183,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Niemcy"}, 
       {:locale=>"ru", :name=>"Германия"}
     ], 
-    :name_default => "Germany"
+    :default_name => "Germany"
   }, 
   "GR"=>{
     :dial_code => "+30", 
@@ -197,7 +197,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Grecja"}, 
       {:locale=>"ru", :name=>"Греция"}
     ], 
-    :name_default => "Greece"
+    :default_name => "Greece"
   }, 
   "HU"=>{
     :dial_code => "+36", 
@@ -211,7 +211,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Węgry"}, 
       {:locale=>"ru", :name=>"Венгрия"}
     ], 
-    :name_default => "Hungary"
+    :default_name => "Hungary"
   }, 
   "IE"=>{
     :dial_code => "+353", 
@@ -225,7 +225,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Irlandia"}, 
       {:locale=>"ru", :name=>"Ирландия"}
     ], 
-    :name_default => "Ireland"
+    :default_name => "Ireland"
   }, 
   "IT"=>{
     :dial_code => "+39", 
@@ -239,7 +239,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Włochy"}, 
       {:locale=>"ru", :name=>"Италия"}
     ], 
-    :name_default => "Italy"
+    :default_name => "Italy"
   }, 
   "LV"=>{
     :dial_code => "+371", 
@@ -253,7 +253,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Łotwa"}, 
       {:locale=>"ru", :name=>"Латвия"}
     ], 
-    :name_default => "Latvia"
+    :default_name => "Latvia"
   }, 
   "LI"=>{
     :dial_code => "+423", 
@@ -267,7 +267,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Liechtenstein"}, 
       {:locale=>"ru", :name=>"Лихтенштейн"}
     ], 
-    :name_default => "Liechtenstein"
+    :default_name => "Liechtenstein"
   }, 
   "LT"=>{
     :dial_code => "+370", 
@@ -281,7 +281,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Litwa"}, 
       {:locale=>"ru", :name=>"Литва"}
     ], 
-    :name_default => "Lithuania"
+    :default_name => "Lithuania"
   }, 
   "LU"=>{
     :dial_code => "+352", 
@@ -295,7 +295,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Luksemburg"}, 
       {:locale=>"ru", :name=>"Люксембург"}
     ], 
-    :name_default => "Luxembourg"
+    :default_name => "Luxembourg"
   }, 
   "NL"=>{
     :dial_code => "+31", 
@@ -309,7 +309,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Holandia"}, 
       {:locale=>"ru", :name=>"Нидерланды"}
     ], 
-    :name_default => "Netherlands"
+    :default_name => "Netherlands"
   }, 
   "NO"=>{
     :dial_code => "+47", 
@@ -323,7 +323,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Norwegia"}, 
       {:locale=>"ru", :name=>"Норвегия"}
     ], 
-    :name_default => "Norway"
+    :default_name => "Norway"
   }, 
   "PL"=>{
     :dial_code => "+48", 
@@ -337,7 +337,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Polska"}, 
       {:locale=>"ru", :name=>"Польша"}
     ], 
-    :name_default => "Poland"
+    :default_name => "Poland"
   }, 
   "PT"=>{
     :dial_code => "+351", 
@@ -351,7 +351,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Portugalia"}, 
       {:locale=>"ru", :name=>"Португалия"}
     ], 
-    :name_default => "Portugal"
+    :default_name => "Portugal"
   }, 
   "RO"=>{
     :dial_code => "+40", 
@@ -365,7 +365,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Rumunia"}, 
       {:locale=>"ru", :name=>"Румыния"}
     ], 
-    :name_default => "Romania"
+    :default_name => "Romania"
   }, 
   "RU"=>{
     :dial_code => "+7", 
@@ -379,7 +379,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Federacja Rosyjska"}, 
       {:locale=>"ru", :name=>"Российская Федерация"}
     ], 
-    :name_default => "Russian Federation"
+    :default_name => "Russian Federation"
   }, 
   "RS"=>{
     :dial_code => "+381", 
@@ -393,7 +393,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Serbia"}, 
       {:locale=>"ru", :name=>"Сербия"}
     ], 
-    :name_default => "Serbia"
+    :default_name => "Serbia"
   }, 
   "SK"=>{
     :dial_code => "+421", 
@@ -407,7 +407,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Słowacja"}, 
       {:locale=>"ru", :name=>"Словакия"}
     ], 
-    :name_default => "Slovakia"
+    :default_name => "Slovakia"
   }, 
   "SI"=>{
     :dial_code => "+386", 
@@ -421,7 +421,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Słowenia"}, 
       {:locale=>"ru", :name=>"Словения"}
     ], 
-    :name_default => "Slovenia"
+    :default_name => "Slovenia"
   }, 
   "ES"=>{
     :dial_code => "+34", 
@@ -435,7 +435,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Hiszpania"}, 
       {:locale=>"ru", :name=>"Испания"}
     ], 
-    :name_default => "Spain"
+    :default_name => "Spain"
   }, 
   "SE"=>{
     :dial_code => "+46", 
@@ -449,7 +449,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Szwecja"}, 
       {:locale=>"ru", :name=>"Швеция"}
     ], 
-    :name_default => "Sweden"
+    :default_name => "Sweden"
   }, 
   "CH"=>{
     :dial_code => "+41", 
@@ -463,7 +463,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Szwajcaria"}, 
       {:locale=>"ru", :name=>"Швейцария"}
     ], 
-    :name_default => "Switzerland"
+    :default_name => "Switzerland"
   }, 
   "UA"=>{
     :dial_code => "+380", 
@@ -477,7 +477,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Ukraina"}, 
       {:locale=>"ru", :name=>"Украина"}
     ], 
-    :name_default => "Ukraine"
+    :default_name => "Ukraine"
   }, 
   "GB"=>{
     :dial_code => "+44", 
@@ -491,7 +491,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Wielka Brytania"}, 
       {:locale=>"ru", :name=>"Соединённое Королевство"}
     ], 
-    :name_default => "United Kingdom"
+    :default_name => "United Kingdom"
   }, 
   "US"=>{
     :dial_code => "+1", 
@@ -505,7 +505,7 @@ magic_addresses_default_countries = {
       {:locale=>"pl", :name=>"Stany Zjednoczone"}, 
       {:locale=>"ru", :name=>"Соединённые штаты"}
     ], 
-    :name_default => "United States"
+    :default_name => "United States"
   }
 }
 

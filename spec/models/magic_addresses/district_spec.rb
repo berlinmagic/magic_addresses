@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 
-describe MagicAddresses::City do
+describe MagicAddresses::District do
   
   describe 'should have usual attributes' do
     
@@ -20,10 +20,8 @@ describe MagicAddresses::City do
     it { should have_many  :addresses }
     
     # more
-    it { should respond_to :country }
-    it { should belong_to  :country }
-    it { should respond_to :state }
-    it { should belong_to  :state }
+    it { should respond_to :city }
+    it { should belong_to  :city }
     
   end
   

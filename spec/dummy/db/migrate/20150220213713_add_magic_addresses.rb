@@ -34,7 +34,7 @@ class AddMagicAddresses < ActiveRecord::Migration
       t.float         :latitude
       # => 
       # => t.references    :subdistrict
-      # => t.references    :district
+      t.references    :district
       t.references    :city
       t.references    :state
       t.references    :country
@@ -45,7 +45,7 @@ class AddMagicAddresses < ActiveRecord::Migration
     end
     
     # => add_index :mgca_addresses, :subdistrict_id
-    # => add_index :mgca_addresses, :district_id
+    add_index :mgca_addresses, :district_id
     add_index :mgca_addresses, :city_id
     add_index :mgca_addresses, :state_id
     add_index :mgca_addresses, :country_id
@@ -63,7 +63,7 @@ class AddMagicAddresses < ActiveRecord::Migration
     ##### Country
     #####
     create_table :mgca_countries do |t|
-      t.string      :name_default
+      t.string      :default_name
       # t.string    :name
       t.string      :iso_code,       limit: 2
       t.string      :dial_code
@@ -81,7 +81,7 @@ class AddMagicAddresses < ActiveRecord::Migration
     ##### State
     #####
     create_table :mgca_states do |t|
-      t.string      :name_default
+      t.string      :default_name
       t.string      :short_name
       # t.string      :name
       t.string      :fsm_state,      default: "new"
@@ -98,7 +98,7 @@ class AddMagicAddresses < ActiveRecord::Migration
     ##### City
     #####
     create_table :mgca_cities do |t|
-      t.string      :name_default
+      t.string      :default_name
       t.string      :short_name
       # t.string      :name
       t.string      :fsm_state,      default: "new"
@@ -111,6 +111,24 @@ class AddMagicAddresses < ActiveRecord::Migration
     add_index :mgca_cities, :country_id
     
     MagicAddresses::City.create_translation_table! :name => :string
+    
+    
+    #############################################################################################################
+    ##### District
+    #####
+    create_table :mgca_districts do |t|
+      t.string      :default_name
+      t.string      :short_name
+      # t.string      :name
+      t.string      :fsm_state,      default: "new"
+      t.references  :city
+      t.timestamps
+    end
+    
+    add_index :mgca_districts, :city_id
+    
+    MagicAddresses::District.create_translation_table! :name => :string
+    
     
   end
   def down
@@ -143,6 +161,11 @@ class AddMagicAddresses < ActiveRecord::Migration
     drop_table    :mgca_cities
     MagicAddresses::City.drop_translation_table!
     
+    
+    ## Districts
+    remove_index  :mgca_districts, :city_id
+    drop_table    :mgca_districts
+    MagicAddresses::District.drop_translation_table!
     
     # => # disable extensions for distance calculation
     # => disable_extension "earthdistance"
