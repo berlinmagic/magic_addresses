@@ -8,9 +8,10 @@ class MagicAddresses::Address < ActiveRecord::Base
   # =====> C O N S T A N T S <=============================================================== #
   
   # =====> A S S O Z I A T I O N S <========================================================= #
-  belongs_to :owner,          polymorphic: true
+  belongs_to :owner,              polymorphic: true
   
-  belongs_to :magic_country,  class_name: "MagicAddresses::Country", foreign_key: :country_id
+  belongs_to :magic_country,      class_name: "MagicAddresses::Country",    foreign_key: :country_id
+  belongs_to :magic_state,        class_name: "MagicAddresses::State",      foreign_key: :state_id
   
   # globalize translated attributes: street
   #   Usage:
@@ -52,16 +53,16 @@ class MagicAddresses::Address < ActiveRecord::Base
   
   
   
-  # => %w[street].each do |key|
-  # =>   # attr_accessor key
-  # =>   define_method(key) do
-  # =>     fetch_address && fetch_address["fetch_#{key}"] || street_name
-  # =>   end
-  # =>   define_method("#{key}=") do |value|
-  # =>     # self["fetch_#{key}"] = value
-  # =>     self.fetch_address = (fetch_address || {}).merge("fetch_#{key}" => value)
-  # =>   end
-  # => end
+  %w[country state].each do |key|
+    # attr_accessor key
+    define_method(key) do
+      fetch_address && fetch_address["fetch_#{key}"] || self.send("magic_#{key}") && self.send("magic_#{key}").name
+    end
+    define_method("#{key}=") do |value|
+      # self["fetch_#{key}"] = value
+      self.fetch_address = (fetch_address || {}).merge("fetch_#{key}" => value)
+    end
+  end
   
   
   

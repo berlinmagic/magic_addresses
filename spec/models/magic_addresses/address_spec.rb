@@ -31,6 +31,16 @@ describe MagicAddresses::Address do
     it { should respond_to :fetch_country }
     
     
+    # external attributes
+    it { should respond_to :magic_country }
+    it { should belong_to  :magic_country }
+    it { should respond_to :country }
+    
+    it { should respond_to :magic_state }
+    it { should belong_to  :magic_state }
+    it { should respond_to :state }
+    
+    
   end
   
   describe 'validations' do 
@@ -39,7 +49,7 @@ describe MagicAddresses::Address do
   
   
   
-  describe "use fetch address to save" do
+  describe "use fetch address to save street" do
 
     let(:user){ User.create!(name: "Test User") }
     let(:address){ MagicAddresses::Address.create!(name: "Test", owner: user) }
@@ -74,5 +84,21 @@ describe MagicAddresses::Address do
     end
 
   end
+  
+  describe "use fetch address to save country" do
+    let(:user){ User.create!(name: "Some User") }
+    let(:address){ MagicAddresses::Address.create!(name: "Another", owner: user) }
+    it "save attributes first in fetch_address" do
+      I18n.locale = :en
+      expect( address.fetch_address ).to eq( {} )
+      address.country = "Germany"
+      expect( address.fetch_address ).to eq( { "fetch_country" => "Germany" } )
+      expect( address.country ).to eq "Germany"
+      expect( address.fetch_country ).to eq "Germany"
+    end
+  end
+  
+  
+  
   
 end

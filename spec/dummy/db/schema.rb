@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220194200) do
+ActiveRecord::Schema.define(version: 20150220202151) do
 
   create_table "mgca_address_translations", force: :cascade do |t|
     t.integer  "mgca_address_id", null: false
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20150220194200) do
     t.boolean  "default"
     t.float    "longitude"
     t.float    "latitude"
+    t.integer  "state_id"
     t.integer  "country_id"
     t.integer  "owner_id"
     t.string   "owner_type"
@@ -39,6 +40,7 @@ ActiveRecord::Schema.define(version: 20150220194200) do
 
   add_index "mgca_addresses", ["country_id"], name: "index_mgca_addresses_on_country_id"
   add_index "mgca_addresses", ["owner_type", "owner_id"], name: "index_mgca_addresses_on_owner_type_and_owner_id"
+  add_index "mgca_addresses", ["state_id"], name: "index_mgca_addresses_on_state_id"
 
   create_table "mgca_countries", force: :cascade do |t|
     t.string   "name_default"
@@ -59,6 +61,28 @@ ActiveRecord::Schema.define(version: 20150220194200) do
 
   add_index "mgca_country_translations", ["locale"], name: "index_mgca_country_translations_on_locale"
   add_index "mgca_country_translations", ["mgca_country_id"], name: "index_mgca_country_translations_on_mgca_country_id"
+
+  create_table "mgca_state_translations", force: :cascade do |t|
+    t.integer  "mgca_state_id", null: false
+    t.string   "locale",        null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "name"
+  end
+
+  add_index "mgca_state_translations", ["locale"], name: "index_mgca_state_translations_on_locale"
+  add_index "mgca_state_translations", ["mgca_state_id"], name: "index_mgca_state_translations_on_mgca_state_id"
+
+  create_table "mgca_states", force: :cascade do |t|
+    t.string   "name_default"
+    t.string   "short_name"
+    t.string   "fsm_state",    default: "new"
+    t.integer  "country_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "mgca_states", ["country_id"], name: "index_mgca_states_on_country_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 
-describe MagicAddresses::Country do
+describe MagicAddresses::State do
   
   describe 'should have usual attributes' do
     
