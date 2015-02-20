@@ -22,6 +22,9 @@ describe MagicAddresses::Address do
     it { should respond_to :owner_type }
     it { should respond_to :owner_id }
     
+    # fetch params
+    it { should respond_to :fetch_address }
+    
   end
   
   describe 'validations' do 

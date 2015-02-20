@@ -1,3 +1,4 @@
+require 'geocoder/results/nominatim'
 module Geocoder::Result
   Nominatim.class_eval do
     

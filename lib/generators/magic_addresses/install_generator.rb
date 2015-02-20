@@ -5,7 +5,7 @@ module MagicAddresses
     class InstallGenerator < ::Rails::Generators::Base
       include Rails::Generators::Migration
       source_root File.expand_path('../templates', __FILE__)
-      desc "add the migrations"
+      desc "add magic_addresses migrations"
 
       def self.next_migration_number(path)
         unless @prev_migration_nr
@@ -24,8 +24,19 @@ module MagicAddresses
       # =>   directory( "db/seeds" )
       # => end
       
+      desc "add country-seed file"
       def copy_country_seeds
         copy_file( "country_seeds.rb", "db/seed_countries.rb" )
+      end
+      
+      desc "add magic_addresses initialitzer"
+      def copy_mgca_initialitzer
+        copy_file( "magic_initializer.rb", "config/initializers/magic_addresses.rb" )
+      end
+      
+      desc "add geocoder initialitzer"
+      def copy_geocoder_initialitzer
+        copy_file( "geocoder_initializer.rb", "config/initializers/geocoder.rb" )
       end
       
     end

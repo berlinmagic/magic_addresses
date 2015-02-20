@@ -1,3 +1,4 @@
+require 'geocoder/results/google'
 module Geocoder::Result
   Google.class_eval do
     

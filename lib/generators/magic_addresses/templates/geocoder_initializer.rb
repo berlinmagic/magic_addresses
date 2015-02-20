@@ -1,3 +1,4 @@
+# Geocoder initialer slightly changed to work with magic_addresses
 Geocoder.configure(
   # geocoding options
   :timeout      => 5,           # geocoding service timeout (secs)
@@ -14,6 +15,8 @@ Geocoder.configure(
   # (if you want to implement custom error handling);
   # supports SocketError and TimeoutError
   # :always_raise => [],
+  
+  # needs to raise OverQueryLimitError to change lookup type when appears
   :always_raise => [Geocoder::OverQueryLimitError],
 
   # calculation options
@@ -22,15 +25,4 @@ Geocoder.configure(
   
   # needed for nominatim lookups
   :http_headers => { "User-Agent" => "YOUR-APP-NAME", "Accept-Language" => "de" },
-)
-
-
-MagicAddresses.configure(
-  # in which locales addresses should be saved
-  :active_locales => [:en, :de]
-  # what is the default language (should be :en, except you don't need english at all)
-  :default_locale => :en
-  # use a background-process for the lookups
-  :job_backend => :none
-  
 )

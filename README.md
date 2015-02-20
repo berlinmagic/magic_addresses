@@ -5,8 +5,12 @@ An address gem for rails .. fetches *country*, *state*, *city*, *district* and *
 This gives the great advantage, that each address can be displayed in each language. And not matter how you write an address it fetches the right one.
 For example the german city *munich* in german *München* .. both save a city-model with a name translated all app-locales. 
 
+```ruby
+rails g magic_addresses:install
+```
 
-.. will add info, sometimes ...
+
+.. will more info, sometimes ...
 
 
 This project rocks and uses MIT-LICENSE.

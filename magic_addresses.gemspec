@@ -16,9 +16,10 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib,spec}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "rails",       ">= 4.2"
-  s.add_dependency "globalize",   ">= 5.0"
-  s.add_dependency "geocoder",    ">= 1.2"
+  s.add_runtime_dependency "rails",                                 ">= 4.2"
+  s.add_runtime_dependency "globalize",                             ">= 5.0"
+  s.add_runtime_dependency "geocoder",                              ">= 1.2"
+  s.add_runtime_dependency "activerecord-postgres-earthdistance",   ">= 0.3"
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "rspec-rails"

@@ -18,6 +18,8 @@ class MagicAddresses::Address < ActiveRecord::Base
   # translates :street, fallbacks_for_empty_translations: true #, table_name: "mgca_addresses"
   mgca_translate :street
   
+  acts_as_geolocated lat: 'latitude', lng: 'longitude' if MagicAddresses.configuration.earthdistance
+  
   
   # =====> A T T R I B U T E S <============================================================= #
   # accepts_nested_attributes_for :translations

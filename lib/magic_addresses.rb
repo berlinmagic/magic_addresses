@@ -1,3 +1,10 @@
+# require 'geocoder'
+
+require 'activerecord-postgres-earthdistance'
+
+# require 'geocoder/results/google_decorator'
+# require 'geocoder/results/nominatim_decorator'
+
 require "magic_addresses/configuration"
 
 require "../../app/models/magic_addresses/association"
@@ -30,7 +37,10 @@ end
 
 ActiveSupport.on_load(:active_record) do
   require 'globalize'
+  require 'geocoder'
 end
+
+#require 'geocoder'
 
 ActiveRecord::Base.send :include, MagicAddresses::Association
 ActiveRecord::Base.send :include, MagicAddresses::Translator
