@@ -37,7 +37,7 @@ class AddMagicAddresses < ActiveRecord::Migration
       # => t.references    :district
       # => t.references    :city
       # => t.references    :state
-      # => t.references    :country
+      t.references    :country
       
       t.references    :owner,      polymorphic: true
       
@@ -48,7 +48,7 @@ class AddMagicAddresses < ActiveRecord::Migration
     # => add_index :mgca_addresses, :district_id
     # => add_index :mgca_addresses, :city_id
     # => add_index :mgca_addresses, :state_id
-    # => add_index :mgca_addresses, :country_id
+    add_index :mgca_addresses, :country_id
     add_index :mgca_addresses, [:owner_type, :owner_id]
     
     # when use postgres earthdistance
@@ -59,10 +59,29 @@ class AddMagicAddresses < ActiveRecord::Migration
     MagicAddresses::Address.create_translation_table! :street_name => :string
     
     
+    #############################################################################################################
+    ##### Country
+    #####
+    create_table :mgca_countries do |t|
+      t.string      :name_default
+      # t.string    :name
+      t.string      :iso_code,       limit: 2
+      t.string      :dial_code
+      t.string      :fsm_state,      default: "new"
+      t.timestamps
+    end
+    
+    MagicAddresses::Country.create_translation_table! :name => :string
+    
+    # seed some countries in some languages
+    load "#{ ::Rails.root }/db/seed_countries.rb"
+    
+    
+    
+    
   end
   def down
     
-    #
     ## Addresses
     # => remove_index  :mgca_addresses, :subdistrict_id
     # => remove_index  :mgca_addresses, :district_id
@@ -74,6 +93,9 @@ class AddMagicAddresses < ActiveRecord::Migration
     MagicAddresses::Address.drop_translation_table!
     
     
+    ## Countries
+    drop_table    :mgca_countries
+    MagicAddresses::Country.drop_translation_table!
     
     
     # => # disable extensions for distance calculation

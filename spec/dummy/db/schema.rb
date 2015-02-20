@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220150740) do
+ActiveRecord::Schema.define(version: 20150220194200) do
 
   create_table "mgca_address_translations", force: :cascade do |t|
     t.integer  "mgca_address_id", null: false
@@ -30,13 +30,35 @@ ActiveRecord::Schema.define(version: 20150220150740) do
     t.boolean  "default"
     t.float    "longitude"
     t.float    "latitude"
+    t.integer  "country_id"
     t.integer  "owner_id"
     t.string   "owner_type"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
 
+  add_index "mgca_addresses", ["country_id"], name: "index_mgca_addresses_on_country_id"
   add_index "mgca_addresses", ["owner_type", "owner_id"], name: "index_mgca_addresses_on_owner_type_and_owner_id"
+
+  create_table "mgca_countries", force: :cascade do |t|
+    t.string   "name_default"
+    t.string   "iso_code",     limit: 2
+    t.string   "dial_code"
+    t.string   "fsm_state",              default: "new"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "mgca_country_translations", force: :cascade do |t|
+    t.integer  "mgca_country_id", null: false
+    t.string   "locale",          null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "name"
+  end
+
+  add_index "mgca_country_translations", ["locale"], name: "index_mgca_country_translations_on_locale"
+  add_index "mgca_country_translations", ["mgca_country_id"], name: "index_mgca_country_translations_on_mgca_country_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

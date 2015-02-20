@@ -14,4 +14,11 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 group :test do
   gem 'shoulda-matchers'
+  gem 'database_cleaner'
+end
+
+group :development, :test do
+  gem 'awesome_print'
+  gem 'spring-commands-rspec'
+  gem 'guard-rails'
 end

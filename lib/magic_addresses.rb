@@ -16,6 +16,7 @@ require "magic_addresses/railtie" if defined?(Rails::Railtie)
 module MagicAddresses
   
   autoload :Address,    "../../app/models/magic_addresses/address"
+  autoload :Country,    "../../app/models/magic_addresses/country"
   
   class << self
     attr_accessor :configuration

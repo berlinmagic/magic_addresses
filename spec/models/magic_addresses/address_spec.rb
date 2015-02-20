@@ -45,13 +45,32 @@ describe MagicAddresses::Address do
     let(:address){ MagicAddresses::Address.create!(name: "Test", owner: user) }
 
 
-    it "add address attributes only if asked for" do
-      expect( address.fetch_address ).to be {}
-      address.street = "Heinz-Kapelle-Str."
-      expect( address.fetch_address ).equal? Hash.new({ :fetch_street => "Heinz-Kapelle-Str." })
-      expect( address.street ).equal? "Heinz-Kapelle-Str."
-      expect( address.fetch_street ).equal? "Heinz-Kapelle-Str."
-      expect( address.street_name ).equal? "Heinz-Kapelle-Str."
+    it "save attributes first in fetch_address" do
+      I18n.locale = :en
+      expect( address.fetch_address ).to eq( {} )
+      address.street = "Heinz-Kapelle-Street"
+      expect( address.fetch_address ).to eq( { "fetch_street" => "Heinz-Kapelle-Street" } )
+      expect( address.street ).to eq "Heinz-Kapelle-Street"
+      expect( address.fetch_street ).to eq "Heinz-Kapelle-Street"
+      expect( address.street_name ).to eq "Heinz-Kapelle-Street"
+      address.save
+      expect( address.street ).to eq "Heinz-Kapelle-Street"
+      expect( address.fetch_street ).to eq( "Heinz-Kapelle-Street" )
+      expect( address.street_name ).to eq "Heinz-Kapelle-Street"
+      I18n.locale = :de
+      address.street = "Heinz-Kapelle-Straße"
+      expect( address.fetch_address ).to eq( { "fetch_street" => "Heinz-Kapelle-Straße" } )
+      expect( address.street ).to eq "Heinz-Kapelle-Straße"
+      expect( address.fetch_street ).to eq "Heinz-Kapelle-Straße"
+      expect( address.street_name ).to eq "Heinz-Kapelle-Straße"
+      address.save
+      expect( address.street ).to eq "Heinz-Kapelle-Straße"
+      expect( address.fetch_street ).to eq( "Heinz-Kapelle-Straße" )
+      expect( address.street_name ).to eq "Heinz-Kapelle-Straße"
+      I18n.locale = :en
+      expect( address.street_name ).to eq "Heinz-Kapelle-Street"
+      I18n.locale = :de
+      expect( address.street_name ).to eq "Heinz-Kapelle-Straße"
     end
 
   end

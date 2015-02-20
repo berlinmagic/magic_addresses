@@ -8,7 +8,9 @@ class MagicAddresses::Address < ActiveRecord::Base
   # =====> C O N S T A N T S <=============================================================== #
   
   # =====> A S S O Z I A T I O N S <========================================================= #
-  belongs_to :owner,    polymorphic: true
+  belongs_to :owner,          polymorphic: true
+  
+  belongs_to :magic_country,  class_name: "MagicAddresses::Country", foreign_key: :country_id
   
   # globalize translated attributes: street
   #   Usage:

@@ -1,5 +1,8 @@
 # encoding: utf-8
-app_countries = {
+
+puts "MagicAddresses seed default countries"
+
+magic_addresses_default_countries = {
   "AT"=>{
     :dial_code => "+43", 
     :translations_attributes => [
@@ -506,7 +509,11 @@ app_countries = {
   }
 }
 
-  app_countries.each do |key, params|
-    Location::Country.create!( params.merge({ iso_code: key.to_s }) )
-  end
+magic_addresses_default_countries.each do |key, params|
+  puts " + #{params[:translations_attributes][2][:name]}"
+  MagicAddresses::Country.create!( params.merge({ iso_code: key.to_s }) )
+end
+
+puts "MagicAddresses finished #{MagicAddresses::Country.all.count} countries"
+
 
