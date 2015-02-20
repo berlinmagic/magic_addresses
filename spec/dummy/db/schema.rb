@@ -11,20 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220143021) do
-
-  create_table "companies", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 20150220150740) do
 
   create_table "mgca_address_translations", force: :cascade do |t|
     t.integer  "mgca_address_id", null: false
     t.string   "locale",          null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.string   "street"
+    t.string   "street_name"
   end
 
   add_index "mgca_address_translations", ["locale"], name: "index_mgca_address_translations_on_locale"
@@ -43,12 +37,6 @@ ActiveRecord::Schema.define(version: 20150220143021) do
   end
 
   add_index "mgca_addresses", ["owner_type", "owner_id"], name: "index_mgca_addresses_on_owner_type_and_owner_id"
-
-  create_table "people", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

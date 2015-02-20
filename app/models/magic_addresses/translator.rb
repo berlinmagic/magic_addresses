@@ -39,7 +39,7 @@ module MagicAddresses
     module MoreClassMethods
       
       def search(search)
-        field = self.respond_to?(:street) ? :street : :name
+        field = self.respond_to?(:street_name) ? :street_name : :name
         if search
           with_translations.where("#{field} LIKE ?", "%#{search}%")
         else

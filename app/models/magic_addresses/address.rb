@@ -12,16 +12,57 @@ class MagicAddresses::Address < ActiveRecord::Base
   
   # globalize translated attributes: street
   #   Usage:
-  #     address.street                                      # => street in I18n.locale
-  #     address.read_attribute(:street, locale: :de)        # => street in german (:de), no fallback
+  #     address.street_name                                      # => street in I18n.locale
+  #     address.read_attribute(:street_name, locale: :de)        # => street in german (:de), no fallback
   #
-  # translates :street, fallbacks_for_empty_translations: true #, table_name: "mgca_addresses"
-  mgca_translate :street
+  # translates :street_name, fallbacks_for_empty_translations: true #, table_name: "mgca_addresses"
+  mgca_translate :street_name
   
   acts_as_geolocated lat: 'latitude', lng: 'longitude' if MagicAddresses.configuration.earthdistance
   
   
   # =====> A T T R I B U T E S <============================================================= #
+  if MagicAddresses.configuration.hstore
+    # setup hstore
+    store_accessor  :fetch_address # , :fetch_street, :fetch_number, :fetch_city, :fetch_zipcode, :fetch_country
+  else
+    serialize       :fetch_address, Hash
+  end
+  
+  %w[fetch_street fetch_number fetch_city fetch_zipcode fetch_country].each do |key|
+    # attr_accessor key
+    define_method(key) do
+      fetch_address && fetch_address[key]
+    end
+    define_method("#{key}=") do |value|
+      self.fetch_address = (fetch_address || {}).merge(key => value)
+    end
+  end
+  
+  # attr_accessor :street
+  def street
+    fetch_address && fetch_address["fetch_street"] || street_name
+  end
+  def street=(value)
+    self.street_name = value
+    self.fetch_address = (fetch_address || {}).merge("fetch_street" => value)
+  end
+  
+  
+  
+  # => %w[street].each do |key|
+  # =>   # attr_accessor key
+  # =>   define_method(key) do
+  # =>     fetch_address && fetch_address["fetch_#{key}"] || street_name
+  # =>   end
+  # =>   define_method("#{key}=") do |value|
+  # =>     # self["fetch_#{key}"] = value
+  # =>     self.fetch_address = (fetch_address || {}).merge("fetch_#{key}" => value)
+  # =>   end
+  # => end
+  
+  
+  
   # accepts_nested_attributes_for :translations
   
   

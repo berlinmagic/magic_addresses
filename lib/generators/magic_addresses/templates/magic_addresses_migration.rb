@@ -52,9 +52,11 @@ class AddMagicAddresses < ActiveRecord::Migration
     add_index :mgca_addresses, [:owner_type, :owner_id]
     
     # when use postgres earthdistance
-    # => add_earthdistance_index :mgca_addresses, lat: 'latitude', lng: 'longitude'
+    if MagicAddresses.configuration.earthdistance
+      add_earthdistance_index :mgca_addresses, lat: 'latitude', lng: 'longitude'
+    end
     
-    MagicAddresses::Address.create_translation_table! :street => :string
+    MagicAddresses::Address.create_translation_table! :street_name => :string
     
     
   end
