@@ -12,6 +12,7 @@ class MagicAddresses::Address < ActiveRecord::Base
   
   belongs_to :magic_country,      class_name: "MagicAddresses::Country",    foreign_key: :country_id
   belongs_to :magic_state,        class_name: "MagicAddresses::State",      foreign_key: :state_id
+  belongs_to :magic_city,         class_name: "MagicAddresses::City",       foreign_key: :city_id
   
   # globalize translated attributes: street
   #   Usage:
@@ -53,7 +54,7 @@ class MagicAddresses::Address < ActiveRecord::Base
   
   
   
-  %w[country state].each do |key|
+  %w[country state city].each do |key|
     # attr_accessor key
     define_method(key) do
       fetch_address && fetch_address["fetch_#{key}"] || self.send("magic_#{key}") && self.send("magic_#{key}").name

@@ -35,7 +35,7 @@ class AddMagicAddresses < ActiveRecord::Migration
       # => 
       # => t.references    :subdistrict
       # => t.references    :district
-      # => t.references    :city
+      t.references    :city
       t.references    :state
       t.references    :country
       
@@ -46,7 +46,7 @@ class AddMagicAddresses < ActiveRecord::Migration
     
     # => add_index :mgca_addresses, :subdistrict_id
     # => add_index :mgca_addresses, :district_id
-    # => add_index :mgca_addresses, :city_id
+    add_index :mgca_addresses, :city_id
     add_index :mgca_addresses, :state_id
     add_index :mgca_addresses, :country_id
     add_index :mgca_addresses, [:owner_type, :owner_id]
@@ -94,13 +94,31 @@ class AddMagicAddresses < ActiveRecord::Migration
     MagicAddresses::State.create_translation_table! :name => :string
     
     
+    #############################################################################################################
+    ##### City
+    #####
+    create_table :mgca_cities do |t|
+      t.string      :name_default
+      t.string      :short_name
+      # t.string      :name
+      t.string      :fsm_state,      default: "new"
+      t.references  :state
+      t.references  :country
+      t.timestamps
+    end
+    
+    add_index :mgca_cities, :state_id
+    add_index :mgca_cities, :country_id
+    
+    MagicAddresses::City.create_translation_table! :name => :string
+    
   end
   def down
     
     ## Addresses
     # => remove_index  :mgca_addresses, :subdistrict_id
     # => remove_index  :mgca_addresses, :district_id
-    # => remove_index  :mgca_addresses, :city_id
+    remove_index  :mgca_addresses, :city_id
     remove_index  :mgca_addresses, :state_id
     remove_index  :mgca_addresses, :country_id
     remove_index  :mgca_addresses, [:owner_type, :owner_id]
@@ -117,6 +135,13 @@ class AddMagicAddresses < ActiveRecord::Migration
     remove_index  :mgca_states, :country_id
     drop_table    :mgca_states
     MagicAddresses::State.drop_translation_table!
+    
+    
+    ## Cities
+    remove_index  :mgca_cities, :state_id
+    remove_index  :mgca_cities, :country_id
+    drop_table    :mgca_cities
+    MagicAddresses::City.drop_translation_table!
     
     
     # => # disable extensions for distance calculation

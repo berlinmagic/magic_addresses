@@ -35,10 +35,17 @@ describe MagicAddresses::Address do
     it { should respond_to :magic_country }
     it { should belong_to  :magic_country }
     it { should respond_to :country }
+    it { should respond_to :country_id }
     
     it { should respond_to :magic_state }
     it { should belong_to  :magic_state }
     it { should respond_to :state }
+    it { should respond_to :state_id }
+    
+    it { should respond_to :magic_city }
+    it { should belong_to  :magic_city }
+    it { should respond_to :city }
+    it { should respond_to :city_id }
     
     
   end

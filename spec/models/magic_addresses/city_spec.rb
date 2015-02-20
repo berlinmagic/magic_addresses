@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 
-describe MagicAddresses::State do
+describe MagicAddresses::City do
   
   describe 'should have usual attributes' do
     
@@ -17,6 +17,8 @@ describe MagicAddresses::State do
     # more
     it { should respond_to :country }
     it { should belong_to  :country }
+    it { should respond_to :state }
+    it { should belong_to  :state }
     
   end
   
