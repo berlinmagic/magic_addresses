@@ -8,6 +8,8 @@ module MagicAddresses
     # Addresses default locale
     attr_accessor :default_locale
 
+    attr_accessor :default_country
+
     # Job backend
     attr_accessor :job_backend
 
@@ -17,6 +19,7 @@ module MagicAddresses
     def initialize
       @active_locales = [:en, :de]
       @default_locale = :en
+      @default_country = "Germany"
       @job_backend = :none
       @earthdistance = false
       @hstore = false

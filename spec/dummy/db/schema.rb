@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220213713) do
+ActiveRecord::Schema.define(version: 20150221010447) do
 
   create_table "mgca_address_translations", force: :cascade do |t|
     t.integer  "mgca_address_id", null: false
@@ -27,17 +27,22 @@ ActiveRecord::Schema.define(version: 20150220213713) do
   create_table "mgca_addresses", force: :cascade do |t|
     t.string   "name"
     t.text     "fetch_address"
+    t.string   "street_default"
+    t.string   "street_number"
+    t.string   "street_additional"
+    t.integer  "zipcode"
     t.boolean  "default"
     t.float    "longitude"
     t.float    "latitude"
+    t.integer  "subdistrict_id"
     t.integer  "district_id"
     t.integer  "city_id"
     t.integer  "state_id"
     t.integer  "country_id"
     t.integer  "owner_id"
     t.string   "owner_type"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   add_index "mgca_addresses", ["city_id"], name: "index_mgca_addresses_on_city_id"
@@ -45,6 +50,7 @@ ActiveRecord::Schema.define(version: 20150220213713) do
   add_index "mgca_addresses", ["district_id"], name: "index_mgca_addresses_on_district_id"
   add_index "mgca_addresses", ["owner_type", "owner_id"], name: "index_mgca_addresses_on_owner_type_and_owner_id"
   add_index "mgca_addresses", ["state_id"], name: "index_mgca_addresses_on_state_id"
+  add_index "mgca_addresses", ["subdistrict_id"], name: "index_mgca_addresses_on_subdistrict_id"
 
   create_table "mgca_cities", force: :cascade do |t|
     t.string   "default_name"
@@ -133,6 +139,30 @@ ActiveRecord::Schema.define(version: 20150220213713) do
   end
 
   add_index "mgca_states", ["country_id"], name: "index_mgca_states_on_country_id"
+
+  create_table "mgca_subdistrict_translations", force: :cascade do |t|
+    t.integer  "mgca_subdistrict_id", null: false
+    t.string   "locale",              null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.string   "name"
+  end
+
+  add_index "mgca_subdistrict_translations", ["locale"], name: "index_mgca_subdistrict_translations_on_locale"
+  add_index "mgca_subdistrict_translations", ["mgca_subdistrict_id"], name: "index_mgca_subdistrict_translations_on_mgca_subdistrict_id"
+
+  create_table "mgca_subdistricts", force: :cascade do |t|
+    t.string   "default_name"
+    t.string   "short_name"
+    t.string   "fsm_state",    default: "new"
+    t.integer  "district_id"
+    t.integer  "city_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "mgca_subdistricts", ["city_id"], name: "index_mgca_subdistricts_on_city_id"
+  add_index "mgca_subdistricts", ["district_id"], name: "index_mgca_subdistricts_on_district_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

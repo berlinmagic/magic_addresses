@@ -71,6 +71,9 @@ describe MagicAddresses::Address do
     it "save attributes first in fetch_address" do
       I18n.locale = :en
       expect( address.fetch_address ).to eq( {} )
+      expect( address.fetch_street ).to eq nil
+      expect( address.street ).to eq nil
+      
       address.street = "Heinz-Kapelle-Street"
       expect( address.fetch_address ).to eq( { "fetch_street" => "Heinz-Kapelle-Street" } )
       expect( address.street ).to eq "Heinz-Kapelle-Street"
@@ -78,7 +81,7 @@ describe MagicAddresses::Address do
       expect( address.street_name ).to eq "Heinz-Kapelle-Street"
       address.save
       expect( address.street ).to eq "Heinz-Kapelle-Street"
-      expect( address.fetch_street ).to eq( "Heinz-Kapelle-Street" )
+      expect( address.fetch_street ).to eq( nil )
       expect( address.street_name ).to eq "Heinz-Kapelle-Street"
       I18n.locale = :de
       address.street = "Heinz-Kapelle-Straße"
@@ -88,7 +91,7 @@ describe MagicAddresses::Address do
       expect( address.street_name ).to eq "Heinz-Kapelle-Straße"
       address.save
       expect( address.street ).to eq "Heinz-Kapelle-Straße"
-      expect( address.fetch_street ).to eq( "Heinz-Kapelle-Straße" )
+      expect( address.fetch_street ).to eq( nil )
       expect( address.street_name ).to eq "Heinz-Kapelle-Straße"
       I18n.locale = :en
       expect( address.street_name ).to eq "Heinz-Kapelle-Street"
@@ -98,10 +101,11 @@ describe MagicAddresses::Address do
 
   end
   
-  describe "use fetch address to save country" do
+  describe "use fetch address to save foreign attributes" do
     let(:user){ User.create!(name: "Some User") }
     let(:address){ MagicAddresses::Address.create!(name: "Another", owner: user) }
-    it "save attributes first in fetch_address" do
+    
+    it "save country attributes first in fetch_address" do
       I18n.locale = :en
       expect( address.fetch_address ).to eq( {} )
       address.country = "Germany"
@@ -109,6 +113,46 @@ describe MagicAddresses::Address do
       expect( address.country ).to eq "Germany"
       expect( address.fetch_country ).to eq "Germany"
     end
+    
+    it "save city attributes first in fetch_address" do
+      I18n.locale = :en
+      expect( address.fetch_address ).to eq( {} )
+      address.city = "Berlin"
+      expect( address.fetch_address ).to eq( { "fetch_city" => "Berlin" } )
+      expect( address.city ).to eq "Berlin"
+      expect( address.fetch_city ).to eq "Berlin"
+    end
+    
+    
+  end
+  
+  
+  describe "fetches correct address after save" do
+    
+    let(:user){ User.create!(name: "Some User") }
+    let(:address){ MagicAddresses::Address.create!(name: "Another", owner: user) }
+    
+    it "save country attributes first in fetch_address" do
+      I18n.locale = :en
+      expect( address.fetch_address ).to eq( {} )
+      address.street = "Heinz-Kapelle-Str."
+      address.number = "6"
+      address.postalcode = 10407
+      address.city = "Berlin"
+      address.country = "Germany"
+      
+      expect( address.fetch_address ).to eq( { "fetch_street" => "Heinz-Kapelle-Str.", "fetch_number" => "6", "fetch_zipcode" => 10407, "fetch_city" => "Berlin", "fetch_country" => "Germany" } )
+      
+      address.save
+      
+      expect( address.fetch_address ).to eq( {} )
+      
+      expect( address.city ).to eq( "Berlin" )
+      
+      expect( address.magic_city.name ).to eq( "Berlin" )
+      
+    end
+    
   end
   
   

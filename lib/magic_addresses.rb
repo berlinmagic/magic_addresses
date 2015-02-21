@@ -2,8 +2,8 @@
 
 require 'activerecord-postgres-earthdistance'
 
-# require 'geocoder/results/google_decorator'
-# require 'geocoder/results/nominatim_decorator'
+require 'geocoder/results/google_decorator'
+require 'geocoder/results/nominatim_decorator'
 
 require "magic_addresses/configuration"
 
@@ -15,11 +15,14 @@ require "magic_addresses/railtie" if defined?(Rails::Railtie)
 
 module MagicAddresses
   
-  autoload :Address,    "../../app/models/magic_addresses/address"
-  autoload :Country,    "../../app/models/magic_addresses/country"
-  autoload :State,      "../../app/models/magic_addresses/state"
-  autoload :City,       "../../app/models/magic_addresses/city"
-  autoload :District,   "../../app/models/magic_addresses/district"
+  autoload :Address,      "../../app/models/magic_addresses/address"
+  autoload :Country,      "../../app/models/magic_addresses/country"
+  autoload :State,        "../../app/models/magic_addresses/state"
+  autoload :City,         "../../app/models/magic_addresses/city"
+  autoload :District,     "../../app/models/magic_addresses/district"
+  autoload :Subdistrict,  "../../app/models/magic_addresses/subdistrict"
+  
+  autoload :GeoCoder,     "../../app/models/magic_addresses/geo_coder"
   
   class << self
     attr_accessor :configuration

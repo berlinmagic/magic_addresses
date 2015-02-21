@@ -23,17 +23,19 @@ class AddMagicAddresses < ActiveRecord::Migration
         t.text          :fetch_address            # => default serialize field
       end
       
-      # => t.string        :street_number
-      # => t.string        :street_additional
-      # => t.integer       :zipcode
-      # => 
+      # t.string        :street
+      t.string        :street_default
+      t.string        :street_number
+      t.string        :street_additional
+      t.integer       :zipcode
+      
       # => t.string        :visibility
       t.boolean       :default
-      # => 
+      
       t.float         :longitude
       t.float         :latitude
-      # => 
-      # => t.references    :subdistrict
+      
+      t.references    :subdistrict
       t.references    :district
       t.references    :city
       t.references    :state
@@ -44,7 +46,7 @@ class AddMagicAddresses < ActiveRecord::Migration
       t.timestamps    null: false
     end
     
-    # => add_index :mgca_addresses, :subdistrict_id
+    add_index :mgca_addresses, :subdistrict_id
     add_index :mgca_addresses, :district_id
     add_index :mgca_addresses, :city_id
     add_index :mgca_addresses, :state_id
@@ -130,12 +132,31 @@ class AddMagicAddresses < ActiveRecord::Migration
     MagicAddresses::District.create_translation_table! :name => :string
     
     
+    #############################################################################################################
+    ##### Subdistrict
+    #####
+    create_table :mgca_subdistricts do |t|
+      t.string      :default_name
+      t.string      :short_name
+      # t.string    :name
+      t.string      :fsm_state,      default: "new"
+      t.references  :district
+      t.references  :city
+      t.timestamps
+    end
+    
+    add_index :mgca_subdistricts, :district_id
+    add_index :mgca_subdistricts, :city_id
+    
+    MagicAddresses::Subdistrict.create_translation_table! :name => :string
+    
+    
   end
   def down
     
     ## Addresses
-    # => remove_index  :mgca_addresses, :subdistrict_id
-    # => remove_index  :mgca_addresses, :district_id
+    remove_index  :mgca_addresses, :subdistrict_id
+    remove_index  :mgca_addresses, :district_id
     remove_index  :mgca_addresses, :city_id
     remove_index  :mgca_addresses, :state_id
     remove_index  :mgca_addresses, :country_id
@@ -166,6 +187,14 @@ class AddMagicAddresses < ActiveRecord::Migration
     remove_index  :mgca_districts, :city_id
     drop_table    :mgca_districts
     MagicAddresses::District.drop_translation_table!
+    
+    
+    ## Subdistricts
+    remove_index  :mgca_subdistricts, :district_id
+    remove_index  :mgca_subdistricts, :city_id
+    drop_table    :mgca_subdistricts
+    MagicAddresses::Subdistrict.drop_translation_table!
+    
     
     # => # disable extensions for distance calculation
     # => disable_extension "earthdistance"
