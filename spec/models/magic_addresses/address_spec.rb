@@ -141,15 +141,68 @@ describe MagicAddresses::Address do
       address.city = "Berlin"
       address.country = "Germany"
       
+      # there should be no associations if no address yet 
+      expect( MagicAddresses::Country.all.count ).to eq( 0 )
+      expect( MagicAddresses::State.all.count ).to eq( 0 )
+      expect( MagicAddresses::City.all.count ).to eq( 0 )
+      expect( MagicAddresses::District.all.count ).to eq( 0 )
+      expect( MagicAddresses::Subdistrict.all.count ).to eq( 0 )
+      
+      # fetch_address should be set
       expect( address.fetch_address ).to eq( { "fetch_street" => "Heinz-Kapelle-Str.", "fetch_number" => "6", "fetch_zipcode" => 10407, "fetch_city" => "Berlin", "fetch_country" => "Germany" } )
       
       address.save
       
+      # fetch_address should be emty again
       expect( address.fetch_address ).to eq( {} )
       
-      expect( address.city ).to eq( "Berlin" )
+      # address should have needed associations now
+      expect( MagicAddresses::Country.all.count ).to eq( 1 )
+      expect( MagicAddresses::State.all.count ).to eq( 1 )
+      expect( MagicAddresses::City.all.count ).to eq( 1 )
+      expect( MagicAddresses::District.all.count ).to eq( 1 )
+      expect( MagicAddresses::Subdistrict.all.count ).to eq( 1 )
       
+      # address attributes should be set
+      expect( address.number ).to eq( "6" )
+      expect( address.street_number ).to eq( "6" )
+      expect( address.postalcode ).to eq( 10407 )
+      expect( address.zipcode ).to eq( 10407 )
+      
+      expect( address.street ).to eq( "Heinz-Kapelle-Straße" )
+      expect( address.street_name ).to eq( "Heinz-Kapelle-Straße" )
+      
+      # all virtual atts and associations should be equal
+      expect( address.country ).to eq( "Germany" )
+      expect( address.magic_country.name ).to eq( "Germany" )
+      expect( address.state ).to eq( "Berlin" )
+      expect( address.magic_state.name ).to eq( "Berlin" )
+      expect( address.city ).to eq( "Berlin" )
       expect( address.magic_city.name ).to eq( "Berlin" )
+      expect( address.district ).to eq( "Bezirk Pankow" )
+      expect( address.magic_district.name ).to eq( "Bezirk Pankow" )
+      expect( address.subdistrict ).to eq( "Prenzlauer Berg" )
+      expect( address.magic_subdistrict.name ).to eq( "Prenzlauer Berg" )
+      
+      # There should be no empty or useless translations 
+      # en: "Germany" .. de: "Deutschland"
+      expect( MagicAddresses::Country.first.translations.all.count ).to eq( 2 )
+      expect( MagicAddresses::Country.first.translations.where(name: [nil, ""]).count ).to eq( 0 )
+      # both "Berlin"
+      expect( MagicAddresses::State.first.translations.all.count ).to eq( 1 )
+      expect( MagicAddresses::State.first.translations.where(name: [nil, ""]).count ).to eq( 0 )
+      # both "Berlin"
+      expect( MagicAddresses::City.first.translations.all.count ).to eq( 1 )
+      expect( MagicAddresses::City.first.translations.where(name: [nil, ""]).count ).to eq( 0 )
+      # both "Bezirk Pankow"
+      expect( MagicAddresses::District.first.translations.all.count ).to eq( 1 )
+      expect( MagicAddresses::District.first.translations.where(name: [nil, ""]).count ).to eq( 0 )
+      # both "Prenzlauer Berg"
+      expect( MagicAddresses::Subdistrict.first.translations.all.count ).to eq( 1 )
+      expect( MagicAddresses::Subdistrict.first.translations.where(name: [nil, ""]).count ).to eq( 0 )
+      # both "Heinz-Kapelle-Straße"
+      expect( address.translations.all.count ).to eq( 1 )
+      expect( address.translations.where(street_name: [nil, ""]).count ).to eq( 0 )
       
     end
     

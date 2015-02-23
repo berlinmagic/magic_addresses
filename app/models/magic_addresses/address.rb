@@ -159,7 +159,7 @@ private
       # build street parameters
       street_params = []
       geo_data.each do |key, stuff|
-        street_params << { locale: key.to_s, street: stuff.street } if stuff.street && ((stuff.street != geo_data[default_locale].street) || (default_locale == key.to_s))
+        street_params << { locale: key.to_s, street_name: stuff.street } if stuff.street && ((stuff.street != geo_data[default_locale].street) || (default_locale == key.to_s))
       end
       # set street parameters if present
       if street_params.any?
