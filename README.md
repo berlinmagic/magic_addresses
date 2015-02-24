@@ -32,6 +32,33 @@ rails g magic_addresses:install
 ```
 
 
+#### Structure
+
+Address:
+- street_name *(globaloized)*
+- street_additional
+- number
+- zipcode
+- **country**
+- - name *(globaloized)*
+- - iso_code
+- - dial_code *(telephone)*
+- **state**
+- - name *(globaloized)*
+- - short_name
+- **city**
+- - name *(globaloized)*
+- - short_name
+- **district**
+- - name *(globaloized)*
+- - short_name
+- **subdistrict**
+- - name *(globaloized)*
+- - short_name
+
+
+
+
 
 .. will more info, sometimes ...
 
