@@ -35,29 +35,39 @@ rails g magic_addresses:install
 #### Structure
 
 Address:
-- street_name *(globaloized)*
+- street *(globalized)*
 - street_additional
 - number
-- zipcode
+- postalcode
 - **country**
-- - name *(globaloized)*
+- - name *(globalized)*
 - - iso_code
-- - dial_code *(telephone)*
+- - dial_code *(phone)*
 - **state**
-- - name *(globaloized)*
+- - name *(globalized)*
 - - short_name
 - **city**
-- - name *(globaloized)*
+- - name *(globalized)*
 - - short_name
 - **district**
-- - name *(globaloized)*
+- - name *(globalized)*
 - - short_name
 - **subdistrict**
-- - name *(globaloized)*
+- - name *(globalized)*
 - - short_name
 
 
-
+#### Getter & Setter
+```ruby
+  :street
+  :number
+  :postalcode
+  :city
+  :district
+  :subdistrict
+  :state
+  :country
+```
 
 
 .. will more info, sometimes ...
