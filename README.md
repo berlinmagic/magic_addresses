@@ -9,6 +9,36 @@ For example the german city *munich* in german *München* .. both save a city-mo
 rails g magic_addresses:install
 ```
 
+- 1. **check the initialers** (*its important to first check the settings of the gem*)
+- 2. **check the migration file**
+- 3. **run `rake db:migrate`**
+- 4. **add to your models**
+
+
+#### Model methods
+
+```ruby
+  has_one_address
+```
+This model has one address associated with it. (ie: User)
+
+
+```ruby
+  has_addresses
+```
+This model has many addresses. (ie: Company)
+
+
+*You can use `has_one_address` and `has_addresses` on the same model `has_one_address` sets the default flag so could be major address.*
+
+...
+*in Progress*
+```ruby
+  has_nested_address
+```
+This model has one addresses directly nested. (ie: User.street, User.city)
+
+
 
 .. will more info, sometimes ...
 
