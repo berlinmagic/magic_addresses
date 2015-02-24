@@ -14,7 +14,9 @@ Gem::Specification.new do |s|
   s.description = "Easy sortable and translated addresses uses google-api with nominatim fallback."
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib,spec,vendor}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib,vendor}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+
+  s.test_files = Dir["spec/**/*"]
 
   s.add_runtime_dependency "rails",                                 ">= 4.2"
   s.add_runtime_dependency "globalize",                             ">= 5.0"
