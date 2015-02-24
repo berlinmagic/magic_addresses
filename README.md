@@ -27,7 +27,7 @@ rails g magic_addresses:install
 
 
   # in Progress
-  has_nested_address  # => This model has one addresses directly nested. (ie: User.street, User.city)
+  has_nested_address  # => Has one directly nested addresses. (ie: User.street, User.city)
 
 ```
 
