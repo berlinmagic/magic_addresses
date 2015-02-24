@@ -168,7 +168,6 @@ describe MagicAddresses::Address do
       expect( address.street_number ).to eq( "6" )
       expect( address.postalcode ).to eq( 10407 )
       expect( address.zipcode ).to eq( 10407 )
-      
       expect( address.street ).to eq( "Heinz-Kapelle-Straße" )
       expect( address.street_name ).to eq( "Heinz-Kapelle-Straße" )
       

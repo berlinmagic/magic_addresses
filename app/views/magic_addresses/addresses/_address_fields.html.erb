@@ -1,0 +1,50 @@
+<% style ||= "" %>
+<% placeholder ||= "Your address" %>
+<% idkey = "locations_attributes_#{rand(999999)}_" %>
+<div class="map_form">
+	
+		<input type="text" id="<%= idkey %>map_data" class="mgca_map_data <%= style %>" placeholder="<%= placeholder %>" />
+		
+		<div class="hidden_mgca_form">
+		  <div class="row">
+  		  <div class="col-sm-7">
+		      <%= f.text_field :street, class: "mgca_txt street form-control", id: "#{idkey}street" %>
+  		  </div>
+  		  <div class="col-sm-5">
+		      <%= f.text_field :number, class: "mgca_txt street_number form-control", id: "#{idkey}street_number" %>
+  		  </div>
+  		</div>
+  		<div class="row">
+  		  <div class="col-sm-5">
+		      <%= f.text_field :postalcode, class: "mgca_txt zip form-control", id: "#{idkey}zip" %>
+  		  </div>
+  		  <div class="col-sm-7">
+		      <%= f.text_field :city, class: "mgca_txt city form-control", id: "#{idkey}city" %>
+  		  </div>
+  		</div>
+  		<div class="row">
+  		  <div class="col-sm-12">
+		      <%= f.text_field :country, class: "mgca_txt country form-control", id: "#{idkey}country" %>
+  		  </div>
+  		</div>
+		</div>
+		
+		
+		<%#= f.hidden_field :street, class: "mgca_txt street", id: "#{idkey}street" %>
+		<%#= f.hidden_field :street_number, class: "mgca_txt street_number", id: "#{idkey}street_number" %>
+		<%= f.hidden_field :latitude, id: "#{idkey}latitude", class: "mgca_latitude" %>
+		<%= f.hidden_field :longitude, id: "#{idkey}longitude", class: "mgca_longitude" %>
+		<%#= f.hidden_field :zip, class: "mgca_txt zip", id: "#{idkey}zip" %>
+		<%#= f.hidden_field :country, class: "mgca_txt country", id: "#{idkey}country" %>
+		<%= f.hidden_field :country_code, class: "mgca_txt country_code", id: "#{idkey}country_code" %>
+		<%= f.hidden_field :state, class: "mgca_txt state", id: "#{idkey}state" %>
+		<%#= f.hidden_field :city, class: "mgca_txt city", id: "#{idkey}city" %>
+		<%= f.hidden_field :district, class: "mgca_txt district", id: "#{idkey}district" %>
+		
+		
+		<div class="clearfix"></div>
+		<div id="<%= idkey %>preview_map" class="address_preview_map"></div>
+	
+</div>
+
+

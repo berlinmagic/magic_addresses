@@ -39,6 +39,25 @@ module MagicAddresses
         copy_file( "geocoder_initializer.rb", "config/initializers/geocoder.rb" )
       end
       
+      desc "add magic_addresses routes"
+      def copy_mgca_routes
+        route <<-ROUTE
+
+  scope :mgca, module: :magic_addresses do
+    resources :countries, only: :index
+    resources :states, only: :index
+    resources :cities, only: :index
+    resources :districts, only: :index
+    resources :subdistricts, only: :index
+    get "/" => "countries#index"
+  end
+
+        ROUTE
+      end
+      
+      
+      
+      
     end
   end
 end

@@ -1,0 +1,28 @@
+@import "magic-stylez";
+
+@import "jquery-ui";
+
+
+.ui-autocomplete.ui-menu.ui-widget.ui-widget-content {
+    // display: block !important;
+    margin: 0; padding: 0;
+    background: #fff;
+    width: 52%;
+    list-style: none;
+    border: solid 1px #ccc;
+    li {
+        display: block; position: relative;
+        margin: 0; padding: 5px 10px;
+        font-weight: 300;
+        &.ui-state-focus { font-weight: 400; background: #f9f9f9; }
+    }
+}
+
+.ui-helper-hidden-accessible {
+    display: none;
+}
+
+.hidden_mgca_form {
+    display: none; position: relative;
+    margin: 0; padding: 0;
+}

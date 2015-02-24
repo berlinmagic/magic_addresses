@@ -88,7 +88,7 @@ class MagicAddresses::Address < ActiveRecord::Base
   
   
   # =====> V A L I D A T I O N <============================================================= #
-  validates :owner, :presence => true
+  # => validates :owner, :presence => true
   
   
   # =====> C A L L B A C K S <=============================================================== #
@@ -99,6 +99,22 @@ class MagicAddresses::Address < ActiveRecord::Base
   # =====> C L A S S - M E T H O D S <======================================================= #
   
   # =====> I N S T A N C E - M E T H O D S <================================================= #
+  
+  def presentation( type = "inline" )
+    adr = []
+    adr << "#{street} #{street_number}".strip if street.present?
+    adr << "#{postalcode} #{city}" if zipcode.present? || city.present?
+    adr << "(#{country})" if country.present?
+    if adr.count == 0
+      I18n.t("addresses.no_address_given")
+    else
+      if type == "full"
+        adr.join("<br />")
+      else
+        adr.join(", ")
+      end
+    end
+  end
   
   # =====>  P  R  I  V  A  T  E  !  <======================================================== # # # # # # # #
 private

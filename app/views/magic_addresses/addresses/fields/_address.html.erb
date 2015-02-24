@@ -1,0 +1,12 @@
+<% style ||= "form-control" %>
+<% placeholder ||= "Your address" %>
+<%= f.fields_for :address_attributes do |a| %>
+  <div class="row">
+    <div class="col-sm-4 press">
+      <%= a.label :address %>
+    </div>
+    <div class="col-sm-8 press">
+      <%= render "magic_addresses/addresses/address_fields", f: a, style: style, placeholder: placeholder %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,21 @@
+<div class="section head">
+  <div class="corset">
+    <h1>Users</h1>
+  </div>
+</div>
+
+<div class="section">
+  <div class="corset">
+    
+    <% @users.each do |usr| %>
+      
+      <div class="well">
+        <p class="highlight"><%= usr.name %></p>
+        <p class="loud"><%= usr.address.presentation %></p>
+        <p><%= usr.address.district %> .. <%= usr.address.subdistrict %></p>
+      </div>
+      
+    <% end %>
+    
+  </div>
+</div>

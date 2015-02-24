@@ -1,0 +1,12 @@
+<% if flash %>
+  <div class="application_notice">
+    <% flash.each do |name, msg| %>
+      <% if name.present? && msg.present? && msg.to_s.strip != "true" %>
+        <div class="alert alert-<%= name == "notice" ? "success" : "danger" %>">
+          <%= raw msg %>
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

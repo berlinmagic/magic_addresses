@@ -1,0 +1,141 @@
+de:
+  helpers:
+    label:
+      address:
+        address: "Adresse"
+        street: "Straße"
+        street_number: "Hausnummer"
+        zipcode: "Postleizahl"
+        city: "Stadt"
+        state: "Bundesland"
+        country: "Land"
+        use_location: "Position verwenden"
+        longitude: "Längengrad"
+        latitude: "Breitengrad"
+        street_name: "Straße"
+        city_name: "Stadt"
+        country_name: "Land"
+      magic_addresses_address:
+        name: "Name"
+        street_default: "Straße (system)"
+        street_number: "Hausnummer"
+        street_additional: "Adresszusatz"
+        zipcode: "Postleitzahl"
+        street: "Straße"
+        city: "Stadt"
+        district: "Stadtteil"
+        subdistrict: "Unter-Stadtteil"
+        state: "Bundesland"
+        country: "Land"
+        street_and_number: "Straße / Nummer"
+        zipcode_and_city: "PLZ / Stadt"
+        street_name: "Straße"
+        city_name: "Stadt"
+        country_name: "Land"
+      magic_addresses_city:
+        name: "Stadt-Name"
+        name_default: "Stadt (system)"
+        fsm_state: "Status"
+      magic_addresses_country:
+        name: "Land-Name"
+        name_default: "Land (system)"
+        fsm_state: "Status"
+        iso_code: "Ländercode"
+        dial_code: "Vorwahl"
+      magic_addresses_state:
+        name: "Bundesland-Name"
+        name_default: "Bundesland (system)"
+        fsm_state: "Status"
+        short_name: "Kurzform"
+      magic_addresses_district:
+        name: "Stadtteil-Name"
+        name_default: "Stadtteil (system)"
+        fsm_state: "Status"
+      magic_addresses_subdistrict:
+        name: "Unter-Stadtteil-Name"
+        name_default: "Unter-Stadtteil (system)"
+        fsm_state: "Status"
+      wizard_city:
+        name: "Name"
+        description: "Beschreibung"
+        system_name: "System-Name"
+        country_code: "Länder-Code"
+        fsm_state: "Status"
+      wizard_locale:
+        name: "Name"
+        iso_code: "ISO-Code"
+        locale_state: "Status"
+        states:
+          new: "Neu"
+          active: "Aktiv"
+          live: "Online"
+          inactive: "Deaktiviert"
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    placeholder:
+      your_email: "Deine E-Mail-Adresse"
+      your_password: "Dein Password"
+      magic_addresses_address:
+        street_additional: "Wohnnung, Hinterhof, Gebäude, Etage, usw."
+      patient:
+        age: "Bitte geben Sie ein Alter an"
+        gender: "Bitte Geschlecht wählen"
+        description: "Beispiele: Machmal Agressiv, Starke Verwirtheit, Fragt immer nach ihrem Vater"
+      spoken_language:
+        choose_language: "Sprache wählen"
+
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  activemodel:
+    attributes:
+      address:
+        one: "Anschrift"
+        other: "Anschriften"
+      magic_addresses_address:
+        one: "Adresse"
+        other: "Adressen"
+      magic_addresses_city:
+        one: "Stadt"
+        other: "Städte"
+      magic_addresses_country:
+        one: "Land"
+        other: "Länder"
+      magic_addresses_state:
+        one: "Bundesland"
+        other: "Bundesländer"
+      magic_addresses_district:
+        one: "Stadtteil"
+        other: "Stadtteile"
+      magic_addresses_subdistrict:
+        one: "Unter-Stadtteil"
+        other: "Unter-Stadtteile"
+      wizard_city:
+        one: "System-Stadt"
+        other: "System-Städte"
+
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  activerecord:
+    attributes:
+      address:
+        one: "Anschrift"
+        other: "Anschriften"
+      magic_addresses_address:
+        one: "Adresse"
+        other: "Adressen"
+      magic_addresses_city:
+        one: "Stadt"
+        other: "Städte"
+      magic_addresses_country:
+        one: "Land"
+        other: "Länder"
+      magic_addresses_state:
+        one: "Bundesland"
+        other: "Bundesländer"
+      magic_addresses_district:
+        one: "Stadtteil"
+        other: "Stadtteile"
+      magic_addresses_subdistrict:
+        one: "Unter-Stadtteil"
+        other: "Unter-Stadtteile"
+      wizard_city:
+        one: "System-Stadt"
+        other: "System-Städte"
+

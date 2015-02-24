@@ -1,0 +1,41 @@
+<% style ||= "" %>
+<% placeholder ||= "Your address" %>
+<% idkey = "locations_attributes_#{rand(999999)}_" %>
+<div class="line short form_fiels_box map_form">
+	
+	<div class="symbol">
+		<%= icon("map-marker") %>
+	</div>
+	
+	<div class="fields">
+		<input type="text" id="<%= idkey %>map_data" class="mgca_short_data <%= style %>" placeholder="<%= placeholder %>"/>
+		<%= f.hidden_field :street, class: "mgca_txt street", id: "#{idkey}street" %>
+		<%= f.hidden_field :street_number, class: "mgca_txt street_number", id: "#{idkey}street_number" %>
+		<%= f.hidden_field :latitude, id: "#{idkey}latitude", class: "mgca_latitude" %>
+		<%= f.hidden_field :longitude, id: "#{idkey}longitude", class: "mgca_longitude" %>
+		<%= f.hidden_field :zip, class: "mgca_txt zip", id: "#{idkey}zip" %>
+		<%= f.hidden_field :country, class: "mgca_txt country", id: "#{idkey}country" %>
+		<%= f.hidden_field :country_code, class: "mgca_txt country_code", id: "#{idkey}country_code" %>
+		
+		<%= f.hidden_field :city, class: "mgca_txt city", id: "#{idkey}city" %>
+		<%= f.hidden_field :district, class: "mgca_txt district", id: "#{idkey}district" %>
+		
+		
+		<%= f.hidden_field :state, class: "mgca_txt state", id: "#{idkey}state" %>
+		<%= f.hidden_field :county, class: "mgca_txt county", id: "#{idkey}county" %>
+		<%= f.hidden_field :subcounty, class: "mgca_txt subcounty", id: "#{idkey}subcounty" %>
+		
+		
+	</div>
+	
+	<div class="action">
+		<%= f.hidden_field :_destroy %>
+		<%= link_to '#', class: "remove_fields btn" do %>
+			<%= icon("close") %>
+		<% end %>
+	</div>
+	
+	<div class="clearfix"></div>
+	
+</div>
+

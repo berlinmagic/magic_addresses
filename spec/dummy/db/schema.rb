@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150221010447) do
+ActiveRecord::Schema.define(version: 20150223223200) do
 
   create_table "mgca_address_translations", force: :cascade do |t|
     t.integer  "mgca_address_id", null: false

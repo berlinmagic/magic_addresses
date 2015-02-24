@@ -21,7 +21,7 @@ module MagicAddresses
                     :class_name => "MagicAddresses::Address",
                     :autosave => true,
                     :dependent => :destroy
-        # => delegate    :street, :street_number, :zipcode, :city, :subcity, :subsubcity, :state, :country, 
+        # => delegate    :street, :street_number, :zipcode, :city, :district, :subdistrict, :state, :country, 
         # =>             to: :address, allow_nil: true
         accepts_nested_attributes_for :address, allow_destroy: true # => , reject_if: :all_blank
       end

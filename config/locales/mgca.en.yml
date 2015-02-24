@@ -1,0 +1,106 @@
+en:
+  helpers:
+    label:
+      address:
+        address: "Address"
+        street: "Street"
+        street_number: "Street number"
+        zip: "Zip"
+        city: "Town"
+        state: "State"
+        country: "Country"
+        use_location: "Use location"
+        longitude: "Longitude"
+        latitude: "Latitude"
+      magic_addresses_address:
+        name: "Name"
+        street_default: "Street (system)"
+        street_number: "Street number"
+        street_additional: "Street additional"
+        zipcode: "Zipcode"
+      magic_addresses_city:
+        name: "City-Name"
+        name_default: "City (system)"
+        fsm_state: "State"
+      magic_addresses_country:
+        name: "Country-Name"
+        name_default: "Country (system)"
+        fsm_state: "Status"
+        iso_code: "Country code"
+        dial_code: "Dial code"
+      magic_addresses_state:
+        name: "State-Name"
+        name_default: "State (system)"
+        fsm_state: "State"
+        short_name: "Short form"
+      magic_addresses_district:
+        name: "District-Name"
+        name_default: "District (system)"
+        fsm_state: "State"
+      magic_addresses_subdistrict:
+        name: "Subdistrict-Name"
+        name_default: "Subdistrict (system)"
+        fsm_state: "State"
+      wizard_city:
+        name: "Name"
+        description: "Description"
+        system_name: "System-Name"
+        country_code: "Country code"
+        fsm_state: "State"
+
+
+  activemodel:
+    attributes:
+      address:
+        one: "Address"
+        other: "Addresses"
+      magic_addresses_address:
+        one: "Address"
+        other: "Addresses"
+      magic_addresses_city:
+        one: "City"
+        other: "Cities"
+      magic_addresses_country:
+        one: "Country"
+        other: "Countries"
+      magic_addresses_state:
+        one: "State"
+        other: "State"
+      magic_addresses_district:
+        one: "District"
+        other: "Districts"
+      magic_addresses_subdistrict:
+        one: "Subdistrict"
+        other: "Subdistricts"
+      wizard_city:
+        one: "System-City"
+        other: "System-Cities"
+
+
+  activerecord:
+    attributes:
+      address:
+        one: "Address"
+        other: "Addresses"
+      magic_addresses_address:
+        one: "Address"
+        other: "Addresses"
+      magic_addresses_city:
+        one: "City"
+        other: "Cities"
+      magic_addresses_country:
+        one: "Country"
+        other: "Countries"
+      magic_addresses_state:
+        one: "State"
+        other: "State"
+      magic_addresses_district:
+        one: "District"
+        other: "Districts"
+      magic_addresses_subdistrict:
+        one: "Subdistrict"
+        other: "Subdistricts"
+      wizard_city:
+        one: "System-City"
+        other: "System-Cities"
+
