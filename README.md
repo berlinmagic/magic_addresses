@@ -18,25 +18,22 @@ rails g magic_addresses:install
 #### Model methods
 
 ```ruby
-  has_one_address
+  has_one_address     # => This model has one address associated with it. (ie: User)
+
+  has_addresses       # => This model has many addresses. (ie: Company)
+
+# *You can use `has_one_address` and `has_addresses` on the same model `has_one_address` sets the default flag so could be major address.*
+
 ```
-This model has one address associated with it. (ie: User)
+
+
 
 
 ```ruby
-  has_addresses
+  # in Progress
+  has_nested_address  # => This model has one addresses directly nested. (ie: User.street, User.city)
 ```
-This model has many addresses. (ie: Company)
 
-
-*You can use `has_one_address` and `has_addresses` on the same model `has_one_address` sets the default flag so could be major address.*
-
-...
-*in Progress*
-```ruby
-  has_nested_address
-```
-This model has one addresses directly nested. (ie: User.street, User.city)
 
 
 
