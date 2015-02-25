@@ -203,11 +203,182 @@ describe MagicAddresses::Address do
       expect( address.translations.all.count ).to eq( 1 )
       expect( address.translations.where(street_name: [nil, ""]).count ).to eq( 0 )
       
+      # check has_one through connection
+      expect( address.magic_subdistrict.country.name ).to eq( "Germany" )
+      expect( address.magic_district.country.name ).to eq( "Germany" )
+      
     end
     
   end
   
   
+  
+  # => describe 'attribute changes' do
+  # =>   before(:each) do
+  # =>     @address = MagicAddresses::Address.new( )
+  # =>   end
+  # =>   
+  # =>   it 'saves address childs correct' do
+  # =>     expect( MagicAddresses::Country.count ).to eq 0
+  # =>     expect( MagicAddresses::State.count ).to eq 0
+  # =>     expect( MagicAddresses::City.count ).to eq 0
+  # =>     expect( MagicAddresses::District.count ).to eq 0
+  # =>     expect( MagicAddresses::Subdistrict.count ).to eq 0
+  # =>     
+  # =>     # expect( I18n.available_locales.count ).to eq 2
+  # =>     expect( I18n::available_locales.count ).to eq 2
+  # =>     
+  # =>     @address.street = "Heinz-Kapelle-Str."
+  # =>     @address.number = 6
+  # =>     @address.postalcode = 10407
+  # =>     @address.city = "Berlin"
+  # =>     
+  # =>     # puts @address.translations_attributes.to_yaml
+  # =>     
+  # =>     
+  # =>     @address.save
+  # =>     
+  # =>     expect( MagicAddresses::Country.count ).to eq 1
+  # =>     expect( MagicAddresses::State.count ).to eq 1
+  # =>     expect( MagicAddresses::City.count ).to eq 1
+  # =>     expect( MagicAddresses::District.count ).to eq 1
+  # =>     expect( MagicAddresses::Subdistrict.count ).to eq 1
+  # =>     
+  # =>     # trigger background task
+  # =>     # @address.build_association_translations
+  # =>     
+  # =>     expect( @address.magic_city.read_attribute(:name, locale: :en)  ).to eq ("Berlin")
+  # =>     
+  # =>     expect( @address.magic_subdistrict.read_attribute(:name, locale: :en)  ).to eq ("Prenzlauer Berg")
+  # =>     expect( @address.magic_district.read_attribute(:name, locale: :en)  ).to eq ("Bezirk Pankow")
+  # =>     
+  # =>     expect( @address.magic_country.read_attribute(:name, locale: :en)  ).to eq ("Germany")
+  # =>     expect( @address.magic_country.read_attribute(:name, locale: :de)  ).to eq ("Deutschland")
+  # =>     
+  # =>     expect( @address.street_number ).to eq ("6")
+  # =>     
+  # =>     # expect( @address.translations.count ).to eq 3
+  # =>     # new model only saves stuff when different than english!
+  # =>     expect( @address.translations.count ).to eq 1
+  # =>     
+  # =>     # puts @address.translations.map{ |t| "'#{t.street}'"}
+  # =>     
+  # =>     Rails.application.config.i18n.fallbacks = true
+  # =>     expect( @address.read_attribute(:street_name, locale: :en)  ).to eq ("Heinz-Kapelle-Straße")
+  # =>     expect( @address.read_attribute(:street_name, locale: :de)  ).to eq ("Heinz-Kapelle-Straße")
+  # =>     
+  # =>   end
+  # =>   
+  # =>   it 'saves street languages correct' do
+  # =>     I18n.locale = "de"
+  # =>     @address.street = "Sesam Str."
+  # =>     I18n.locale = "en"
+  # =>     @address.street = "Sesamstreet"
+  # =>     @address.save
+  # =>     
+  # =>     expect( @address.read_attribute(:street_name, locale: :en)  ).to eq ("Sesamstreet")
+  # =>     expect( @address.read_attribute(:street_name, locale: :de)  ).to eq ("Sesam Str.")
+  # =>   end
+  # =>   
+  # =>   # => it 'saves from values correct', sidekiq: :fake do
+  # =>   # =>   @address.street = "Heinz-Kapelle-Str."
+  # =>   # =>   @address.number = "6"
+  # =>   # =>   @address.city = "Berlin"
+  # =>   # =>   @address.postalcode = "10407"
+  # =>   # =>   @address.country = "Deutschland"
+  # =>   # =>   expect( AddressWorker.jobs.size ).to eq 0
+  # =>   # =>   # => expect {
+  # =>   # =>   # =>   @address.save
+  # =>   # =>   # =>   sleep 1
+  # =>   # =>   # => }.to change(AddressWorker.jobs, :size).by(1)
+  # =>   # =>   expect( AddressWorker ).to receive(:perform_async).with( 1 )
+  # =>   # =>   @address.save
+  # =>   # =>   # expect( AddressWorker.jobs.size ).to eq 1
+  # =>   # =>   # AddressWorker.should have_queued_job(1)
+  # =>   # =>   # => expect(AddressWorker).to have_enqueued_job( @address.id )
+  # =>   # =>   #expect(AddressWorker).to have_enqueued_job( @address.id, true )
+  # =>   # =>   # AddressWorker.should_receive(:perform_async).with( @address.id )
+  # =>   # =>   expect( @address.fetch_address ).to eq ("Heinz-Kapelle-Str. 6 Berlin 10407 Deutschland")
+  # =>   # =>   # trigger background task
+  # =>   # =>   @address.build_association_translations
+  # =>   # =>   expect( @address.city.read_attribute(:name, locale: :en)  ).to eq ("Berlin")
+  # =>   # =>   expect( @address.subdistrict.read_attribute(:name, locale: :en)  ).to eq ("Prenzlauer Berg")
+  # =>   # =>   expect( @address.district.read_attribute(:name, locale: :en)  ).to eq ("Bezirk Pankow")
+  # =>   # =>   expect( @address.country.read_attribute(:name, locale: :en)  ).to eq ("Germany")
+  # =>   # =>   expect( @address.country.read_attribute(:name, locale: :de)  ).to eq ("Deutschland")
+  # =>   # => end
+  # =>   
+  # =>   
+  # =>   it 'saves right connections' do
+  # =>     
+  # =>     expect( MagicAddresses::Country.count ).to eq 0
+  # =>     expect( MagicAddresses::State.count ).to eq 0
+  # =>     expect( MagicAddresses::City.count ).to eq 0
+  # =>     expect( MagicAddresses::District.count ).to eq 0
+  # =>     expect( MagicAddresses::Subdistrict.count ).to eq 0
+  # =>     
+  # =>     @address.street = "Heinz-Kapelle-Str."
+  # =>     @address.number = 6
+  # =>     @address.postalcode = 10407
+  # =>     @address.city = "Berlin"
+  # =>     
+  # =>     @address.save
+  # =>     sleep 0.3
+  # =>     # trigger background task
+  # =>     # @address.build_association_translations
+  # =>     
+  # =>     @address2 = MagicAddresses::Address.new( )
+  # =>     @address2.street = "Grünbergerstr."
+  # =>     @address2.number = 60
+  # =>     @address2.postalcode = 10245
+  # =>     @address2.city = "Berlin"
+  # =>     @address2.save
+  # =>     sleep 0.3
+  # =>     # trigger background task
+  # =>     # @address2.build_association_translations
+  # =>     
+  # =>     @address3 = MagicAddresses::Address.new( )
+  # =>     @address3.street = "Josef-orlopp-str."
+  # =>     @address3.number = 54
+  # =>     @address3.postalcode = 10365
+  # =>     @address3.city = "Berlin"
+  # =>     @address3.save
+  # =>     sleep 0.3
+  # =>     # trigger background task
+  # =>     # @address3.build_association_translations
+  # =>     
+  # =>     sleep 1
+  # =>     
+  # =>     expect( MagicAddresses::Country.count ).to eq 1
+  # =>     expect( MagicAddresses::State.count ).to eq 1
+  # =>     expect( MagicAddresses::City.count ).to eq 1
+  # =>     expect( MagicAddresses::District.count ).to eq 3
+  # =>     expect( MagicAddresses::Subdistrict.count ).to eq 3
+  # =>     
+  # =>     
+  # =>     expect( MagicAddresses::City.first.name ).to eq "Berlin"
+  # =>     
+  # =>     # only save translation when different to "en"
+  # =>     # de: "Berlin"
+  # =>     # en: "Berlin"
+  # =>     # it: "Berlino"
+  # =>     expect( MagicAddresses::City.first.translations.count ).to eq 1
+  # =>     
+  # =>     expect( @address.translations.count ).to eq 1
+  # =>     expect( @address2.translations.count ).to eq 1
+  # =>     expect( @address3.translations.count ).to eq 1
+  # =>     I18n.locale = "de"
+  # =>     expect(  @address.city ).to eq "Berlin"
+  # =>     expect( @address2.city ).to eq "Berlin"
+  # =>     expect( @address3.city ).to eq "Berlin"
+  # =>     I18n.locale = "en"
+  # =>     expect(  @address.city ).to eq "Berlin"
+  # =>     expect( @address2.city ).to eq "Berlin"
+  # =>     expect( @address3.city ).to eq "Berlin"
+  # =>   end
+  # =>   
+  # =>   
+  # => end
   
   
 end

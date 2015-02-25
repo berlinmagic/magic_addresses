@@ -25,11 +25,46 @@ rails g magic_addresses:install
 #   You can use `has_one_address` and `has_addresses` on the same model 
 #   `has_one_address` sets the default flag so could be major address.
 
-
-  # in Progress
   has_nested_address  # => Has one directly nested addresses. (ie: User.street, User.city)
 
 ```
+
+#### View Mehtods
+
+```ruby
+  
+  <%= country_flag( :de, "small" ) %>
+  # flag helper for all default countries ( "small" | "medium" | "large")
+  
+  <%= render "magic_addresses/addresses/fields/address", f: f %>
+  # form helper for 'has_one_address'
+  
+```
+
+#### in your Controllers:
+
+```ruby
+  
+  private
+  
+    # Never trust parameters from the scary internet! ... has_one_address
+    def instance_params
+      params.require(:instance).permit( .. :address_attributes => [:id, :street, :number, :postalcode, :city, :country, :_destroy] .. )
+    end
+    
+    
+    # Never trust parameters from the scary internet! ... has_addresses
+    def instance_params
+      params.require(:instance).permit( .. :addresses_attributes => [:id, :street, :number, :postalcode, :city, :country, :_destroy] .. )
+    end
+  
+  - or -
+  
+  :address_attributes => MagicAddresses::Address::PARAMS      # has_one_address
+  :addresses_attributes => MagicAddresses::Address::PARAMS    # has_addresses
+  
+```
+
 
 
 #### Structure

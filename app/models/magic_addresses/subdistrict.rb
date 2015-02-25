@@ -7,6 +7,8 @@ class MagicAddresses::Subdistrict < ActiveRecord::Base
   belongs_to :city,       class_name: "MagicAddresses::City",     foreign_key: :city_id
   belongs_to :district,   class_name: "MagicAddresses::District", foreign_key: :district_id
   
+  has_one   :state,       through: :city,                         source: :state
+  has_one   :country,     through: :state,                        source: :country
   
   # =====> A T T R I B U T E S <============================================================= #
   mgca_translate :name
