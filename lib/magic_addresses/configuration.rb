@@ -14,7 +14,6 @@ module MagicAddresses
     attr_accessor :job_backend
 
     attr_accessor :earthdistance
-    attr_accessor :hstore
 
     def initialize
       @active_locales = [:en, :de]
@@ -22,7 +21,6 @@ module MagicAddresses
       @default_country = "Germany"
       @job_backend = :none
       @earthdistance = false
-      @hstore = false
     end
 
     # Returns a hash of all configurable options

@@ -3,8 +3,6 @@ class AddMagicAddresses < ActiveRecord::Migration
   def up
     
     # if using with postgresql
-    # => # add hstore extensions
-    # => enable_extension "hstore"
     # => # add extensions for distance calculation
     # => enable_extension "cube"
     # => enable_extension "earthdistance"
@@ -16,12 +14,7 @@ class AddMagicAddresses < ActiveRecord::Migration
       
       t.string        :name                     # => name (if needed)
       
-      # if not empty fetch and translate that address
-      if MagicAddresses.configuration.hstore
-        t.hstore        :fetch_address            # => hstore method
-      else
-        t.text          :fetch_address            # => default serialize field
-      end
+      t.text          :fetch_address            # => default serialize field
       
       # t.string        :street
       t.string        :street_default
@@ -199,8 +192,6 @@ class AddMagicAddresses < ActiveRecord::Migration
     # => # disable extensions for distance calculation
     # => disable_extension "earthdistance"
     # => disable_extension "cube"
-    # => # disable hstore extension
-    # => disable_extension "hstore"
     
   end
 end

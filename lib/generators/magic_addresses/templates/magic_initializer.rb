@@ -9,6 +9,4 @@ MagicAddresses.configure do |config|
   config.job_backend = :none
   # use a postgres earthdistance for distance calculation
   config.earthdistance = false
-  # use a postgres hstore or serializer
-  config.hstore = false
 end

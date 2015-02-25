@@ -28,15 +28,9 @@ class MagicAddresses::Address < ActiveRecord::Base
   
   
   # =====> A T T R I B U T E S <============================================================= #
-  if MagicAddresses.configuration.hstore
-    # setup hstore
-    store_accessor  :fetch_address # , :fetch_street, :fetch_number, :fetch_city, :fetch_zipcode, :fetch_country
-  else
-    serialize       :fetch_address, Hash
-  end
+  serialize       :fetch_address, Hash
   
   %w[fetch_street fetch_number fetch_city fetch_zipcode fetch_country].each do |key|
-    # attr_accessor key
     define_method(key) do
       fetch_address && fetch_address[key]
     end
@@ -44,7 +38,6 @@ class MagicAddresses::Address < ActiveRecord::Base
       self.fetch_address = (fetch_address || {}).merge(key => value)
     end
   end
-  
   # attr_accessor :street
   def street
     fetch_address && fetch_address["fetch_street"] || street_name
@@ -53,7 +46,6 @@ class MagicAddresses::Address < ActiveRecord::Base
     self.street_name = value
     self.fetch_address = (fetch_address || {}).merge("fetch_street" => value)
   end
-  
   # attr_accessor :number (:street_number)
   def number
     fetch_address && fetch_address["fetch_number"] || street_number
@@ -61,7 +53,6 @@ class MagicAddresses::Address < ActiveRecord::Base
   def number=(value)
     self.fetch_address = (fetch_address || {}).merge("fetch_number" => value)
   end
-  
   # attr_accessor :postalcode (:zipcode)
   def postalcode
     fetch_address && fetch_address["fetch_zipcode"] || zipcode
@@ -69,7 +60,6 @@ class MagicAddresses::Address < ActiveRecord::Base
   def postalcode=(value)
     self.fetch_address = (fetch_address || {}).merge("fetch_zipcode" => value)
   end
-  
   
   %w[country state city district subdistrict].each do |key|
     # attr_accessor key
