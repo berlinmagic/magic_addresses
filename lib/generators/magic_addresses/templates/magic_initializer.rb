@@ -3,7 +3,7 @@ MagicAddresses.configure do |config|
   config.active_locales = [:en, :de]
   # what is the default language (should be :en, except you don't need english at all)
   config.default_locale = :en
-  # what is the default language (should be :en, except you don't need english at all)
+  # what is the default country (for lookup)
   config.default_country = "Germany"
   # use a background-process for the lookups
   config.job_backend = :none
