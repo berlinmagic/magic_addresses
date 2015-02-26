@@ -56,10 +56,6 @@ module MagicAddresses
       yield(configuration)
     end
     
-    def self.root
-      File.expand_path '../..', __FILE__
-    end
-    
   end
   
 end
@@ -69,7 +65,7 @@ ActiveSupport.on_load(:active_record) do
   require 'geocoder'
 end
 
-ActionController::Base.prepend_view_path "#{MagicAddresses.root}/app/views"
+ActionController::Base.prepend_view_path File.expand_path '../../app/views', __FILE__
 # => ActionController::Base.append_view_path File.dirname(__FILE__) + "app/views"
 
 #require 'geocoder'
