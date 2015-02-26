@@ -96,7 +96,7 @@ class MagicAddresses::Address < ActiveRecord::Base
     adr = []
     adr << "#{street} #{number}".strip if street.present?
     adr << "#{postalcode} #{city}" if zipcode.present? || city.present?
-    adr << "(#{country})" if country.present?
+    adr << country if country.present?
     if adr.count == 0
       I18n.t("addresses.no_address_given")
     else
