@@ -13,7 +13,8 @@ require "app/models/magic_addresses"
 
 require "helpers/mgca_helper"
 
-require "magic_addresses/railtie" if defined?(Rails::Railtie)
+# require "magic_addresses/railtie" if defined?(Rails::Railtie)
+require "magic_addresses/rails" if defined?(Rails)
 
 module MagicAddresses
   
@@ -55,14 +56,10 @@ module MagicAddresses
       yield(configuration)
     end
     
-  end
-  
-  class Engine < ::Rails::Engine
+    def self.root
+      File.expand_path '../..', __FILE__
+    end
     
-  end
-  
-  def self.root
-    File.expand_path '../..', __FILE__
   end
   
 end
@@ -72,7 +69,7 @@ ActiveSupport.on_load(:active_record) do
   require 'geocoder'
 end
 
-ActionController::Base.prepend_view_path "#{root}/app/views"
+ActionController::Base.prepend_view_path "#{MagicAddresses.root}/app/views"
 # => ActionController::Base.append_view_path File.dirname(__FILE__) + "app/views"
 
 #require 'geocoder'
