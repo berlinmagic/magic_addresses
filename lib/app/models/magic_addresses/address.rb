@@ -94,7 +94,7 @@ class MagicAddresses::Address < ActiveRecord::Base
   
   def presentation( type = "inline" )
     adr = []
-    adr << "#{street} #{street_number}".strip if street.present?
+    adr << "#{street} #{number}".strip if street.present?
     adr << "#{postalcode} #{city}" if zipcode.present? || city.present?
     adr << "(#{country})" if country.present?
     if adr.count == 0
@@ -167,7 +167,7 @@ private
       # build street parameters
       street_params = []
       geo_data.each do |key, stuff|
-        street_params << { locale: key.to_s, street_name: stuff.street } if stuff.street && ((stuff.street != geo_data[default_locale].street) || (default_locale == key.to_s))
+        street_params << { locale: key.to_s, street_name: stuff.street } if stuff.street # && ((stuff.street != geo_data[default_locale].street) || (default_locale == key.to_s))
       end
       # set street parameters if present
       if street_params.any?
@@ -234,7 +234,7 @@ private
     lng_params = []
     geo_data.each do |key, stuff|
       dev_log "#{that.to_s.titleize}-Params (#{key}) ... #{stuff.send(that)}"
-      lng_params << { locale: key.to_s, name: stuff.send(that) } if stuff.send(that) && ((stuff.send(that) != geo_data[default_locale].send(that)) || (key.to_s == default_locale))
+      lng_params << { locale: key.to_s, name: stuff.send(that) } if stuff.send(that) # && ((stuff.send(that) != geo_data[default_locale].send(that)) || (key.to_s == default_locale))
     end
     lng_params
   end
