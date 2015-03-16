@@ -19,15 +19,15 @@ require "magic_addresses/rails" if defined?(Rails)
 module MagicAddresses
   
   # models
-  autoload :Address,      "app/models/magic_addresses/address"
-  autoload :Country,      "app/models/magic_addresses/country"
-  autoload :State,        "app/models/magic_addresses/state"
-  autoload :City,         "app/models/magic_addresses/city"
-  autoload :District,     "app/models/magic_addresses/district"
-  autoload :Subdistrict,  "app/models/magic_addresses/subdistrict"
+  autoload :Address,                  "app/models/magic_addresses/address"
+  autoload :Country,                  "app/models/magic_addresses/country"
+  autoload :State,                    "app/models/magic_addresses/state"
+  autoload :City,                     "app/models/magic_addresses/city"
+  autoload :District,                 "app/models/magic_addresses/district"
+  autoload :Subdistrict,              "app/models/magic_addresses/subdistrict"
   
   # services
-  autoload :GeoCoder,     "app/models/magic_addresses/geo_coder"
+  autoload :GeoCoder,                 "app/models/magic_addresses/geo_coder"
   
   # controllers
   autoload :BaseController,           "app/controllers/magic_addresses/base_controller"
@@ -36,6 +36,9 @@ module MagicAddresses
   autoload :CitiesController,         "app/controllers/magic_addresses/cities_controller"
   autoload :DistrictsController,      "app/controllers/magic_addresses/districts_controller"
   autoload :SubdistrictsController,   "app/controllers/magic_addresses/subdistricts_controller"
+  
+  # serializer
+  autoload :AddressSerializer,        "app/serializers/magic_addresses/address_serializer" if defined?(ActiveModel::Serializer)
   
   class << self
     
