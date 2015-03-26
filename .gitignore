@@ -1,11 +1,19 @@
 .bundle/
 log/*.log
 pkg/
+
+# ignore dummy stuff
 spec/dummy/db/*.sqlite3
 spec/dummy/db/*.sqlite3-journal
 spec/dummy/log/*.log
 spec/dummy/tmp/
 spec/dummy/.sass-cache
+
+# ignore linked spec folder
+spec/dummy/spec
+spec/dummy/spec/
+
+# ignore builded gems
 *.gem
 /gems
 gems/
