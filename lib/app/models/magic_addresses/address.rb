@@ -74,6 +74,12 @@ class MagicAddresses::Address < ActiveRecord::Base
     end
   end
   
+  def country_code
+    fetch_address && fetch_address["fetch_country_code"] || self.send("magic_country") && self.send("magic_country").iso_code
+  end
+  def country_code=(value)
+    self.fetch_address = (fetch_address || {}).merge("fetch_country_code" => value)
+  end
   
   
   # accepts_nested_attributes_for :translations
@@ -127,7 +133,7 @@ private
       # MagicAddresses::GeoCoder
       addr << "#{self.fetch_street} #{self.fetch_number}".strip if self.fetch_street
       addr << "#{self.fetch_zipcode} #{self.fetch_city}".strip if self.fetch_city || self.fetch_zipcode
-      addr << "#{self.fetch_country || MagicAddresses.configuration.default_country}".strip
+      addr << "#{self.fetch_country || self.fetch_country_code || MagicAddresses.configuration.default_country}".strip
     end
     
     self.fetch_address = {}
