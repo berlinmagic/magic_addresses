@@ -6,7 +6,7 @@ class MagicAddresses::Address < ActiveRecord::Base
   
   
   # =====> C O N S T A N T S <=============================================================== #
-  PARAMS = [ :id, :street, :street_additional, :number, :postalcode, :city, :country, :owner, :_destroy ]
+  PARAMS = [ :id, :street, :street_additional, :number, :postalcode, :city, :country, :country_code, :owner, :_destroy ]
   
   
   # =====> A S S O Z I A T I O N S <========================================================= #
