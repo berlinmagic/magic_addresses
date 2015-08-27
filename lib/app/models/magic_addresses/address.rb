@@ -32,7 +32,7 @@ class MagicAddresses::Address < ActiveRecord::Base
   # =====> A T T R I B U T E S <============================================================= #
   serialize       :fetch_address, Hash
   
-  %w[fetch_street fetch_number fetch_city fetch_zipcode fetch_country].each do |key|
+  %w[fetch_street fetch_number fetch_city fetch_zipcode fetch_country fetch_country_code].each do |key|
     define_method(key) do
       fetch_address && fetch_address[key]
     end
