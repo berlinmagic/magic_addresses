@@ -188,6 +188,13 @@ describe MagicAddresses::Address do
       expect( MagicAddresses::Country.first.translations.all.count ).to eq( 2 )
       expect( MagicAddresses::Country.first.translations.where(name: [nil, ""]).count ).to eq( 0 )
       # both "Berlin"
+      
+      puts "address: #{ address.translations.map{ |x| "#{x.locale} = #{x.street_name}"}.join(", ") }"
+      puts "State: #{ MagicAddresses::State.first.translations.map{ |x| "#{x.locale} = #{x.name}"}.join(", ") }"
+      puts "City: #{ MagicAddresses::City.first.translations.map{ |x| "#{x.locale} = #{x.name}"}.join(", ") }"
+      puts "District: #{ MagicAddresses::District.first.translations.map{ |x| "#{x.locale} = #{x.name}"}.join(", ") }"
+      puts "Subdistrict: #{ MagicAddresses::Subdistrict.first.translations.map{ |x| "#{x.locale} = #{x.name}"}.join(", ") }"
+      
       expect( MagicAddresses::State.first.translations.all.count ).to eq( 1 )
       expect( MagicAddresses::State.first.translations.where(name: [nil, ""]).count ).to eq( 0 )
       # both "Berlin"

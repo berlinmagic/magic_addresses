@@ -173,7 +173,9 @@ private
       # build street parameters
       street_params = []
       geo_data.each do |key, stuff|
-        street_params << { locale: key.to_s, street_name: stuff.street } if stuff.street # && ((stuff.street != geo_data[default_locale].street) || (default_locale == key.to_s))
+        # street_params << { locale: key.to_s, street_name: stuff.street } if stuff.street
+        # => only save locale if different from default-locale:
+        street_params << { locale: key.to_s, street_name: stuff.street } if stuff.street && ((stuff.street != geo_data[default_locale].street) || (default_locale == key.to_s))
       end
       # set street parameters if present
       if street_params.any?
@@ -229,7 +231,8 @@ private
     
     dev_log "#{that} .. #{this}"
     
-    self.send(this).translations = []
+    # self.send(this).translations = []
+    self.send(this).translations.delete_all
     self.send(this).translations_attributes = lng_params( that, geo_data )
     self.send(this).save
   end
@@ -240,7 +243,10 @@ private
     lng_params = []
     geo_data.each do |key, stuff|
       dev_log "#{that.to_s.titleize}-Params (#{key}) ... #{stuff.send(that)}"
-      lng_params << { locale: key.to_s, name: stuff.send(that) } if stuff.send(that) # && ((stuff.send(that) != geo_data[default_locale].send(that)) || (key.to_s == default_locale))
+      
+      # lng_params << { locale: key.to_s, name: stuff.send(that) } if stuff.send(that)
+      # => only save locale if different from default-locale:
+      lng_params << { locale: key.to_s, name: stuff.send(that) } if stuff.send(that) && ((stuff.send(that) != geo_data[default_locale].send(that)) || (key.to_s == default_locale))
     end
     lng_params
   end

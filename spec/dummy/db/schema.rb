@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150225220219) do
+ActiveRecord::Schema.define(version: 20151111133333) do
+
+  create_table "companies", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "mgca_address_translations", force: :cascade do |t|
     t.integer  "mgca_address_id", null: false
@@ -31,7 +37,6 @@ ActiveRecord::Schema.define(version: 20150225220219) do
     t.string   "street_number"
     t.string   "street_additional"
     t.integer  "zipcode"
-    t.boolean  "default"
     t.float    "longitude"
     t.float    "latitude"
     t.integer  "subdistrict_id"
@@ -48,9 +53,20 @@ ActiveRecord::Schema.define(version: 20150225220219) do
   add_index "mgca_addresses", ["city_id"], name: "index_mgca_addresses_on_city_id"
   add_index "mgca_addresses", ["country_id"], name: "index_mgca_addresses_on_country_id"
   add_index "mgca_addresses", ["district_id"], name: "index_mgca_addresses_on_district_id"
-  add_index "mgca_addresses", ["owner_type", "owner_id"], name: "index_mgca_addresses_on_owner_type_and_owner_id"
   add_index "mgca_addresses", ["state_id"], name: "index_mgca_addresses_on_state_id"
   add_index "mgca_addresses", ["subdistrict_id"], name: "index_mgca_addresses_on_subdistrict_id"
+
+  create_table "mgca_addressibles", force: :cascade do |t|
+    t.boolean  "default"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.integer  "address_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "mgca_addressibles", ["address_id"], name: "index_mgca_addressibles_on_address_id"
+  add_index "mgca_addressibles", ["owner_type", "owner_id"], name: "index_mgca_addressibles_on_owner_type_and_owner_id"
 
   create_table "mgca_cities", force: :cascade do |t|
     t.string   "default_name"
