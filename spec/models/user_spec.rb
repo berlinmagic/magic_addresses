@@ -25,6 +25,14 @@ RSpec.describe User, type: :model do
     expect( User.all.count ).to eq 2
     expect( MagicAddresses::Address.all.count ).to eq 1
     
+    u1 = User.find_by( name: "tom" )
+    u2 = User.find_by( name: "tim" )
+    
+    expect( u1.address.id ).to eq MagicAddresses::Address.first.id
+    expect( u2.address.id ).to eq MagicAddresses::Address.first.id
+    
+    expect( u1.address.id ).to eq u2.address.id
+    
   end
   
 end

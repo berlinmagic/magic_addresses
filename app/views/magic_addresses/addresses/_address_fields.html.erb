@@ -3,7 +3,7 @@
 <% idkey = "locations_attributes_#{rand(999999)}_" %>
 <div class="map_form">
 	
-		<input type="text" id="<%= idkey %>map_data" class="mgca_map_data <%= style %>" placeholder="<%= placeholder %>" value="<%= f.object.presentation %>" />
+		<input type="text" id="<%= idkey %>map_data" class="mgca_map_data <%= style %>" placeholder="<%= placeholder %>" value="<%= f.object ? f.object.presentation : "" %>" autocomplete="false" role="presentation" />
 		
 		<div class="hidden_mgca_form">
 		  <div class="row">

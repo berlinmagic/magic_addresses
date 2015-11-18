@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151111133333) do
+ActiveRecord::Schema.define(version: 20151118102658) do
 
   create_table "companies", force: :cascade do |t|
     t.string   "name"
@@ -44,10 +44,9 @@ ActiveRecord::Schema.define(version: 20151111133333) do
     t.integer  "city_id"
     t.integer  "state_id"
     t.integer  "country_id"
-    t.integer  "owner_id"
-    t.string   "owner_type"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.string   "status",            default: "new"
   end
 
   add_index "mgca_addresses", ["city_id"], name: "index_mgca_addresses_on_city_id"
@@ -58,6 +57,7 @@ ActiveRecord::Schema.define(version: 20151111133333) do
 
   create_table "mgca_addressibles", force: :cascade do |t|
     t.boolean  "default"
+    t.string   "name"
     t.integer  "owner_id"
     t.string   "owner_type"
     t.integer  "address_id"

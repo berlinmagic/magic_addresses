@@ -147,6 +147,11 @@ class AddMagicAddresses < ActiveRecord::Migration
   end
   def down
     
+    # when use postgres earthdistance
+    if MagicAddresses.configuration.earthdistance
+      remove_index :mgca_addresses, [:latitude,:longitude], name: "mgca_addresses_earthdistance_ix"
+    end
+    
     ## Addresses
     remove_index  :mgca_addresses, :subdistrict_id
     remove_index  :mgca_addresses, :district_id

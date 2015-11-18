@@ -11,8 +11,8 @@
       
       <div class="well">
         <p class="highlight"><%= usr.name %></p>
-        <p class="loud"><%= usr.address.presentation %></p>
-        <p><%= usr.address.district %> .. <%= usr.address.subdistrict %></p>
+        <p class="loud"><%=  usr.address ? usr.address.presentation : "- - -" %></p>
+        <p><%= usr.address ? usr.address.district : "- - -" %> .. <%= usr.address ? usr.address.subdistrict : "- - -" %></p>
       </div>
       
     <% end %>

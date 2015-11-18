@@ -2,10 +2,10 @@ require 'rails/generators/migration'
 
 module MagicAddresses
   module Generators
-    class UpdateGenerator < ::Rails::Generators::Base
+    class AddEarthdistanceGenerator < ::Rails::Generators::Base
       include Rails::Generators::Migration
       source_root File.expand_path('../templates', __FILE__)
-      desc "add magic_addresses update migrations"
+      desc "add magic_addresses earthdistance migrations"
 
       def self.next_migration_number(path)
         unless @prev_migration_nr
@@ -17,7 +17,7 @@ module MagicAddresses
       end
 
       def copy_migrations
-        migration_template( "update_address_migration.rb", "db/migrate/update_magic_addresses.rb" )
+        migration_template( "earthdistance_migration.rb", "db/migrate/add_earthdistance.rb" )
       end
 
     end
