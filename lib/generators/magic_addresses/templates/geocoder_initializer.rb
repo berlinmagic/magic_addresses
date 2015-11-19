@@ -1,5 +1,6 @@
 # Geocoder initialer slightly changed to work with magic_addresses
 Geocoder.configure(
+
   # geocoding options
   :timeout      => 5,           # geocoding service timeout (secs)
   :lookup       => :google,     # name of geocoding service (symbol)
@@ -15,14 +16,15 @@ Geocoder.configure(
   # (if you want to implement custom error handling);
   # supports SocketError and TimeoutError
   # :always_raise => [],
-  
+
   # needs to raise OverQueryLimitError to change lookup type when appears
   :always_raise => [Geocoder::OverQueryLimitError],
 
   # calculation options
   # :units     => :mi,       # :km for kilometers or :mi for miles
   # :distances => :linear    # :spherical or :linear
-  
+
   # needed for nominatim lookups
   :http_headers => { "User-Agent" => "YOUR-APP-NAME", "Accept-Language" => "de" },
+
 )

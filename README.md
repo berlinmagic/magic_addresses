@@ -15,7 +15,38 @@ rails g magic_addresses:install
 - 4. **add to your models**
 
 
-#### Model methods
+## Features
+
+- full tranlated addresses
+- allways correct addresses (query to google/verbatim service)
+- addresses, cities, countries, and so one, are uniq (i.e. only one "New-York" with lots of addresses, districts, ..)
+- perfect order ( city has X addresses )
+- postgresql earthdistance included (for distance checks)
+- tested
+
+
+
+
+## New
+since version `0.0.13` addresses are uniq, so the same address never will be saved twice, instead owners share one address
+
+run:
+```ruby
+rails g magic_addresses:update
+```
+to update old addresses and add the new structure
+
+
+##### You can add Earthdistance plugin later!
+run:
+```ruby
+rails g magic_addresses:add_earthdistance
+```
+be sure to activate it in initializer before migrate!
+
+
+
+### Model methods
 
 ```ruby
   has_one_address     # => This model has one address associated with it. (ie: User)
@@ -29,7 +60,7 @@ rails g magic_addresses:install
 
 ```
 
-#### View Mehtods
+### View Mehtods
 
 ```ruby
   
@@ -41,7 +72,7 @@ rails g magic_addresses:install
   
 ```
 
-#### in your Controllers:
+### in your Controllers:
 
 ```ruby
   
@@ -62,6 +93,29 @@ rails g magic_addresses:install
   
   :address_attributes => MagicAddresses::Address::PARAMS      # has_one_address
   :addresses_attributes => MagicAddresses::Address::PARAMS    # has_addresses
+  
+```
+
+
+## Configuration
+```ruby
+  
+  MagicAddresses.configure do |config|
+    # in which locales addresses should be saved
+    config.active_locales = [:en, :de]
+    # what is the default language (should be :en, except you don't need english at all)
+    config.default_locale = :en
+    # what is the default country for query
+    config.default_country = "Germany"
+    # add default country in each query ?
+    config.query_defaults = true
+    # only save tranlations when differs from default-locale?
+    config.uniq_translations = true
+    # use a background-process for the lookups ( :none | :sidekiq )
+    config.job_backend = :none
+    # use a postgres earthdistance for distance calculation
+    config.earthdistance = false
+  end
   
 ```
 
@@ -105,7 +159,7 @@ Address:
 ```
 
 
-.. will more info, sometimes ...
+.. will add more info, sometimes ...
 
 
 This project rocks and uses MIT-LICENSE.

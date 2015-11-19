@@ -10,7 +10,14 @@ class MagicAddresses::Address < ActiveRecord::Base
   
   
   # =====> A S S O Z I A T I O N S <========================================================= #
-  belongs_to :owner,              polymorphic: true
+  has_many :addressibles,         class_name: "MagicAddresses::Addressible",  foreign_key: :address_id
+  
+  
+  ## add associations (set in configuration)
+  MagicAddresses.configuration.address_owners.each do |key,type|
+    has_many key.to_sym, through: :addressibles, source: :owner, source_type: type
+  end
+  
   
   belongs_to :magic_country,      class_name: "MagicAddresses::Country",      foreign_key: :country_id
   belongs_to :magic_state,        class_name: "MagicAddresses::State",        foreign_key: :state_id
@@ -23,13 +30,14 @@ class MagicAddresses::Address < ActiveRecord::Base
   #     address.street_name                                      # => street in I18n.locale
   #     address.read_attribute(:street_name, locale: :de)        # => street in german (:de), no fallback
   #
-  # translates :street_name, fallbacks_for_empty_translations: true #, table_name: "mgca_addresses"
   mgca_translate :street_name
   
   acts_as_geolocated lat: 'latitude', lng: 'longitude' if MagicAddresses.configuration.earthdistance
   
   
   # =====> A T T R I B U T E S <============================================================= #
+  # accepts_nested_attributes_for :translations
+  
   serialize       :fetch_address, Hash
   
   %w[fetch_street fetch_number fetch_city fetch_zipcode fetch_country fetch_country_code].each do |key|
@@ -81,16 +89,16 @@ class MagicAddresses::Address < ActiveRecord::Base
     self.fetch_address = (fetch_address || {}).merge("fetch_country_code" => value)
   end
   
+  def owner=(this)
+    self.addressibles.where( owner_type: this.class.to_s, owner_id: this.id ).first_or_create!
+  end
   
-  # accepts_nested_attributes_for :translations
-  
-  
-  # =====> V A L I D A T I O N <============================================================= #
-  # => validates :owner, :presence => true
   
   
   # =====> C A L L B A C K S <=============================================================== #
-  after_save :build_address_associations_if_needed
+  ## now in addressible or doesnt work nested ..
+  # => after_save :build_address_associations_if_needed
+  # => after_create :build_address_associations_if_needed
   
   # =====> S C O P E S <===================================================================== #
   
@@ -114,11 +122,25 @@ class MagicAddresses::Address < ActiveRecord::Base
     end
   end
   
+  def owners
+    addressibles.map { |that| ::MagicAddresses::OwnerProxy.new( that ) }
+  end
+  
+  def trigger_build_address_associations
+    build_address_associations()
+  end
+  
+  def trigger_complete_translated_attributes
+    complete_translated_attributes()
+  end
+  
+  
   # =====>  P  R  I  V  A  T  E  !  <======================================================== # # # # # # # #
 private
   
   def build_address_associations_if_needed
-    if self.new_record? || self.fetch_street.present? || self.fetch_city.present? || self.fetch_zipcode.present? || self.fetch_number.present?
+    #if self.new_record? || self.fetch_street.present? || self.fetch_city.present? || self.fetch_zipcode.present? || self.fetch_number.present?
+    if self.new_record? || !["fetched", "translated"].include?( self.status )
       build_address_associations
     else
       true
@@ -128,52 +150,94 @@ private
   def build_address_associations
     dev_log "triggered   A D D R E S S - B U I L D E R ! - - #{self.street} #{self.number} #{self.city} #{self.zipcode}"
     
-    addr = []
     if self.fetch_city.present? || self.fetch_zipcode.present?
+      self.fetch_address["addr"] = []
       # MagicAddresses::GeoCoder
-      addr << "#{self.fetch_street} #{self.fetch_number}".strip if self.fetch_street
-      addr << "#{self.fetch_zipcode} #{self.fetch_city}".strip if self.fetch_city || self.fetch_zipcode
-      addr << "#{self.fetch_country || self.fetch_country_code || MagicAddresses.configuration.default_country}".strip
-    end
-    
-    self.fetch_address = {}
-    
-    geo_data = {}
-    if addr.any?
-      # => gd = Geocoder.search( self.fetch_address, params: { language: "en" })
-      gd = MagicAddresses::GeoCoder.search( addr.join(", "), default_locale )
-      geo_data[default_locale] =  gd.first if gd.first
-      MagicAddresses.configuration.active_locales.each do |lcl|
-        unless lcl.to_s == default_locale
-          sleep 0.3
-          gd = MagicAddresses::GeoCoder.search( addr.join(", "), lcl.to_s )
-          geo_data[lcl.to_s] =  gd.first if gd.first
-        end
+      self.fetch_address["addr"] << "#{self.fetch_street} #{self.fetch_number}".strip if self.fetch_street
+      self.fetch_address["addr"] << "#{self.fetch_zipcode} #{self.fetch_city}".strip if self.fetch_city || self.fetch_zipcode
+      if MagicAddresses.configuration.query_defaults
+        self.fetch_address["addr"] << "#{self.fetch_country || self.fetch_country_code || MagicAddresses.configuration.default_country}".strip
+      else
+        self.fetch_address["addr"] << "#{self.fetch_country || self.fetch_country_code}".strip if self.fetch_country || self.fetch_country
       end
     end
-    if geo_data.any?
-      dev_log "   geo_data  is present !!!"
-      # set default values
-      self.street_default = geo_data[default_locale].street if geo_data[default_locale] && geo_data[default_locale].street
-      self.zipcode = geo_data[default_locale].postal_code if geo_data[default_locale] && geo_data[default_locale].postal_code
-      self.street_number = geo_data[default_locale].street_number if geo_data[default_locale] && geo_data[default_locale].street_number
-      # set geo-position
-      self.latitude = geo_data[default_locale].latitude if geo_data[default_locale] && geo_data[default_locale].latitude
-      self.longitude = geo_data[default_locale].longitude if geo_data[default_locale] && geo_data[default_locale].longitude
-    end
-    complete_translated_attributes( geo_data )
     
-    self.fetch_address = {}
-    self.save
+    
+    if self.fetch_address["addr"] && self.fetch_address["addr"].any?
+      self.fetch_address["geo_data"] = {}
+      gd = MagicAddresses::GeoCoder.search(self.fetch_address["addr"].join(", "), default_locale)
+      self.fetch_address["geo_data"][default_locale] =  gd.first if gd.first
+      self.fetch_address["fetched"] = true
+      self.status = "fetched"
+    end
+    
+    
+    if self.fetch_address["geo_data"] && self.fetch_address["geo_data"].any?
+      geo_data = self.fetch_address["geo_data"][default_locale]
+      sames = MagicAddresses::Address.where(  latitude:       geo_data.latitude, 
+                                              longitude:      geo_data.longitude, 
+                                              zipcode:        geo_data.postal_code, 
+                                              street_number:  geo_data.street_number )
+      dev_log "Address.count: #{ MagicAddresses::Address.all.count } .. . .. SAMES.count: #{ sames.count }"
+      if sames.any? && sames.first != self
+        dev_log "   found similar address .. will use that !!!"
+        dev_log "addressibles   #{self.addressibles.count}"
+        that = sames.first
+        dev_log "owners - #{self.owners.inspect}"
+        self.addressibles.each do |x|
+          dev_log "kill - #{x.address_id}"
+          x.address_id = that.id
+          x.save
+          # x.owner.touch
+          dev_log "kill - #{x.address_id}"
+        end
+        self.destroy
+      else
+        dev_log "   geo_data  is present !!!"
+        self.street_default = geo_data.street if geo_data && geo_data.street
+        self.zipcode = geo_data.postal_code if geo_data && geo_data.postal_code
+        self.street_number = geo_data.street_number if geo_data && geo_data.street_number
+        # set geo-position
+        self.latitude = geo_data.latitude if geo_data && geo_data.latitude
+        self.longitude = geo_data.longitude if geo_data && geo_data.longitude
+        # translate other languages
+        
+        if MagicAddresses.configuration.job_backend == :sidekiq
+          AddressWorker.perform_async( self.id )
+        else
+          complete_translated_attributes()
+        end
+        
+        self.save
+      end
+      
+    end
+    
   end
   
   
-  def complete_translated_attributes( geo_data = {} )
+  def complete_translated_attributes
+    
+    MagicAddresses.configuration.active_locales.each do |lcl|
+      unless lcl.to_s == default_locale
+        sleep 0.3
+        gd = MagicAddresses::GeoCoder.search( self.fetch_address["addr"].join(", "), lcl.to_s )
+        self.fetch_address["geo_data"][lcl.to_s] =  gd.first if gd.first
+      end
+    end
+    
+    geo_data = self.fetch_address["geo_data"]
+    
     if geo_data.any?
       # build street parameters
       street_params = []
       geo_data.each do |key, stuff|
-        street_params << { locale: key.to_s, street_name: stuff.street } if stuff.street # && ((stuff.street != geo_data[default_locale].street) || (default_locale == key.to_s))
+        if MagicAddresses.configuration.uniq_translations
+          # => only save locale if different from default-locale:
+          street_params << { locale: key.to_s, street_name: stuff.street } if stuff.street && ((stuff.street != geo_data[default_locale].street) || (default_locale == key.to_s))
+        else
+          street_params << { locale: key.to_s, street_name: stuff.street } if stuff.street
+        end
       end
       # set street parameters if present
       if street_params.any?
@@ -209,6 +273,10 @@ private
         connet_address_association( :subdistrict, geo_data )
       end
       
+      self.fetch_address  = {}
+      self.status         = "translated"
+      self.save
+      
     end
   end
   
@@ -229,7 +297,8 @@ private
     
     dev_log "#{that} .. #{this}"
     
-    self.send(this).translations = []
+    # self.send(this).translations = []
+    self.send(this).translations.delete_all
     self.send(this).translations_attributes = lng_params( that, geo_data )
     self.send(this).save
   end
@@ -240,7 +309,13 @@ private
     lng_params = []
     geo_data.each do |key, stuff|
       dev_log "#{that.to_s.titleize}-Params (#{key}) ... #{stuff.send(that)}"
-      lng_params << { locale: key.to_s, name: stuff.send(that) } if stuff.send(that) # && ((stuff.send(that) != geo_data[default_locale].send(that)) || (key.to_s == default_locale))
+      
+      if MagicAddresses.configuration.uniq_translations
+        # => only save locale if different from default-locale:
+        lng_params << { locale: key.to_s, name: stuff.send(that) } if stuff.send(that) && ((stuff.send(that) != geo_data[default_locale].send(that)) || (key.to_s == default_locale))
+      else
+        lng_params << { locale: key.to_s, name: stuff.send(that) } if stuff.send(that)
+      end
     end
     lng_params
   end

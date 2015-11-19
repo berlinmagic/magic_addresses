@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    magic_addresses (0.0.2)
+    magic_addresses (0.0.13)
       activerecord-postgres-earthdistance (>= 0.3)
       geocoder (>= 1.2)
       globalize (>= 5.0)

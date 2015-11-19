@@ -26,6 +26,12 @@ module MagicAddresses
   autoload :District,                 "app/models/magic_addresses/district"
   autoload :Subdistrict,              "app/models/magic_addresses/subdistrict"
   
+  # connections
+  autoload :Addressible,              "app/models/magic_addresses/addressible"
+  
+  # owner proxie
+  autoload :OwnerProxy,               "app/models/magic_addresses/owner_proxy"
+  
   # services
   autoload :GeoCoder,                 "app/models/magic_addresses/geo_coder"
   
