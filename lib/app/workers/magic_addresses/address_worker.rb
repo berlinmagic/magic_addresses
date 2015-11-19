@@ -9,7 +9,7 @@ class MagicAddresses::AddressWorker
         puts "###"
         puts "### AddressWorker:[#{address_id}]:   #{address.fetch_address}"
         puts "###"
-        address.build_association_translations
+        address.trigger_complete_translated_attributes
       end
       
     end
