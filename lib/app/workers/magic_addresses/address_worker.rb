@@ -3,7 +3,7 @@ class MagicAddresses::AddressWorker
   include Sidekiq::Worker
 
   def perform( address_id = nil )
-    if address_id && address = ::Location::Address.find( address_id )
+    if address_id && address = ::MagicAddresses::Address.find( address_id )
       
       if address.fetch_address.present?
         puts "###"
