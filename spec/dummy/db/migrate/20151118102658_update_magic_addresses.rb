@@ -21,7 +21,7 @@ class UpdateMagicAddresses < ActiveRecord::Migration
       if that.owner_type.present? && that.owner_id.present? && "#{that.owner_type}".constantize.find(that.owner_id.to_i)
         MagicAddresses::Addressible.create!( address_id: that.id, owner_type: that.owner_type, owner_id: that.owner_id, default: that.default )
       end
-      sames = MagicAddresses::Address.where(latitude: that.latitude, longitude: that.longitude, zipcode: that.postal_code, street_number: that.street_number )
+      sames = MagicAddresses::Address.where(latitude: that.latitude, longitude: that.longitude, zipcode: that.postalcode, street_number: that.street_number )
       sames.each do |this|
         unless this == that
           MagicAddresses::Addressible.create!( address_id: that.id, owner_type: this.owner_type, owner_id: this.owner_id, default: this.default )
