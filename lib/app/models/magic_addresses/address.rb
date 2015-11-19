@@ -203,7 +203,7 @@ private
         # translate other languages
         
         if MagicAddresses.configuration.job_backend == :sidekiq
-          AddressWorker.perform_async( self.id )
+          MagicAddresses::AddressWorker.perform_async( self.id )
         else
           complete_translated_attributes()
         end

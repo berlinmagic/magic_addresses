@@ -43,6 +43,9 @@ module MagicAddresses
   autoload :DistrictsController,      "app/controllers/magic_addresses/districts_controller"
   autoload :SubdistrictsController,   "app/controllers/magic_addresses/subdistricts_controller"
   
+  # worker (sidekiq)
+  autoload :AddressWorker,            "app/workers/magic_addresses/addresses_worker" if MagicAddresses.configuration.job_backend == :sidekiq
+  
   # serializer
   autoload :AddressSerializer,        "app/serializers/magic_addresses/address_serializer" if defined?(ActiveModel::Serializer)
   

@@ -311,18 +311,18 @@ describe MagicAddresses::Address do
   # =>   # =>   @address.city = "Berlin"
   # =>   # =>   @address.postalcode = "10407"
   # =>   # =>   @address.country = "Deutschland"
-  # =>   # =>   expect( AddressWorker.jobs.size ).to eq 0
+  # =>   # =>   expect( MagicAddresses::AddressWorker.jobs.size ).to eq 0
   # =>   # =>   # => expect {
   # =>   # =>   # =>   @address.save
   # =>   # =>   # =>   sleep 1
-  # =>   # =>   # => }.to change(AddressWorker.jobs, :size).by(1)
-  # =>   # =>   expect( AddressWorker ).to receive(:perform_async).with( 1 )
+  # =>   # =>   # => }.to change(MagicAddresses::AddressWorker.jobs, :size).by(1)
+  # =>   # =>   expect( MagicAddresses::AddressWorker ).to receive(:perform_async).with( 1 )
   # =>   # =>   @address.save
-  # =>   # =>   # expect( AddressWorker.jobs.size ).to eq 1
-  # =>   # =>   # AddressWorker.should have_queued_job(1)
-  # =>   # =>   # => expect(AddressWorker).to have_enqueued_job( @address.id )
-  # =>   # =>   #expect(AddressWorker).to have_enqueued_job( @address.id, true )
-  # =>   # =>   # AddressWorker.should_receive(:perform_async).with( @address.id )
+  # =>   # =>   # expect( MagicAddresses::AddressWorker.jobs.size ).to eq 1
+  # =>   # =>   # MagicAddresses::AddressWorker.should have_queued_job(1)
+  # =>   # =>   # => expect(MagicAddresses::AddressWorker).to have_enqueued_job( @address.id )
+  # =>   # =>   #expect(MagicAddresses::AddressWorker).to have_enqueued_job( @address.id, true )
+  # =>   # =>   # MagicAddresses::AddressWorker.should_receive(:perform_async).with( @address.id )
   # =>   # =>   expect( @address.fetch_address ).to eq ("Heinz-Kapelle-Str. 6 Berlin 10407 Deutschland")
   # =>   # =>   # trigger background task
   # =>   # =>   @address.build_association_translations
