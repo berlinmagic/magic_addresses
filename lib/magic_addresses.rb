@@ -16,6 +16,9 @@ require "helpers/mgca_helper"
 # require "magic_addresses/railtie" if defined?(Rails::Railtie)
 require "magic_addresses/rails" if defined?(Rails)
 
+# worker (sidekiq)
+require "app/workers/magic_addresses/addresses_worker" if defined?(Sidekiq)
+
 module MagicAddresses
   
   # models
@@ -43,8 +46,7 @@ module MagicAddresses
   autoload :DistrictsController,      "app/controllers/magic_addresses/districts_controller"
   autoload :SubdistrictsController,   "app/controllers/magic_addresses/subdistricts_controller"
   
-  # worker (sidekiq)
-  autoload :AddressWorker,            "app/workers/magic_addresses/addresses_worker" if defined?(Sidekiq)
+  
   
   # serializer
   autoload :AddressSerializer,        "app/serializers/magic_addresses/address_serializer" if defined?(ActiveModel::Serializer)
