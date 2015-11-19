@@ -17,7 +17,7 @@ require "helpers/mgca_helper"
 require "magic_addresses/rails" if defined?(Rails)
 
 # worker (sidekiq)
-require "app/workers/magic_addresses/addresses_worker" if defined?(Sidekiq)
+require "app/workers/magic_addresses/address_worker" if defined?(Sidekiq)
 
 module MagicAddresses
   
