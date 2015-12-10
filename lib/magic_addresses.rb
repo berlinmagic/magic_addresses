@@ -79,8 +79,8 @@ ActiveSupport.on_load(:active_record) do
   require 'geocoder'
 end
 
-ActionController::Base.prepend_view_path File.expand_path '../../app/views', __FILE__
-# => ActionController::Base.append_view_path File.dirname(__FILE__) + "app/views"
+# ActionController::Base.prepend_view_path File.expand_path '../../app/views', __FILE__
+ActionController::Base.append_view_path File.expand_path '../../app/views', __FILE__
 
 #require 'geocoder'
 
