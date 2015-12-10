@@ -159,6 +159,17 @@ Address:
 ```
 
 
+#### TESTs
+since version 0.0.24 you can only run rspec from the project folder:
+```ruby
+~/Sites/magic_addresses:$ rspec spec
+```
+the symlink in the dummy folder is removed for compatibility with ruby 2.2
+
+
+
+
+
 .. will add more info, sometimes ...
 
 

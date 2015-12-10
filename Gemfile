@@ -12,11 +12,11 @@ gemspec
 
 
 ## A S S E T S
-gem 'sass-rails',         ">= 4.0.3"
-gem 'uglifier',           ">= 2.5.1"
-gem 'coffee-rails',       ">= 4.0.1"
-gem 'jquery-rails',       ">= 3.1.1"
-gem 'jquery-ui-rails',    '>= 4.2.1'
+gem 'sass-rails'
+gem 'uglifier'
+gem 'coffee-rails'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 
 gem "magic_stylez",       ">= 0.0.0.65"
