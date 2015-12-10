@@ -1,0 +1,58 @@
+<div class="section">
+  <div class="corset full">
+    
+    <div class="row">
+      <div class="col-sm-4 col-md-3 col-xl-2">
+        
+        <div class="box setting">
+          <div class="header">
+            Locations
+          </div>
+          <div class="body flat-top">
+            <ul class="nav_list flat">
+              
+              <% %w(country state city district subdistrict).each do |l| %>
+                
+                <li class="<%= 'active current' if current_page?(url_for(controller: "magic_addresses/#{l.tableize}", action: "index")) %>">
+                  <%= link_to url_for(controller: "magic_addresses/#{l.tableize}", action: "index") do %>
+                    <%= t("activerecord.attributes.magic_addresses_#{l}.other") %> <span class="label"><%= "::MagicAddresses::#{l.classify}".constantize.count %></span>
+                  <% end %>
+                </li>
+                
+              <% end %>
+              
+            </ul>
+          </div>
+        </div>
+        
+      </div>
+      <div class="col-sm-8 col-md-9 col-xl-10">
+        
+        
+        <div class="box setting">
+          <div class="header">
+            <%= yield :headline %>
+          </div>
+          <div class="body">
+            
+            <%= body %>
+            
+          </div>
+        </div>
+
+        <br/>
+        <br/>
+        
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<br/>
+<br/>
+
+
+
+

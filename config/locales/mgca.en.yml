@@ -20,26 +20,26 @@ en:
         zipcode: "Zipcode"
       magic_addresses_city:
         name: "City-Name"
-        name_default: "City (system)"
+        default_name: "City (system)"
         fsm_state: "State"
       magic_addresses_country:
         name: "Country-Name"
-        name_default: "Country (system)"
+        default_name: "Country (system)"
         fsm_state: "Status"
         iso_code: "Country code"
         dial_code: "Dial code"
       magic_addresses_state:
         name: "State-Name"
-        name_default: "State (system)"
+        default_name: "State (system)"
         fsm_state: "State"
         short_name: "Short form"
       magic_addresses_district:
         name: "District-Name"
-        name_default: "District (system)"
+        default_name: "District (system)"
         fsm_state: "State"
       magic_addresses_subdistrict:
         name: "Subdistrict-Name"
-        name_default: "Subdistrict (system)"
+        default_name: "Subdistrict (system)"
         fsm_state: "State"
       wizard_city:
         name: "Name"

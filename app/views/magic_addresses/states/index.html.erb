@@ -1,95 +1,45 @@
-<div class="section">
-  <div class="corset full">
-    
-    <div class="row">
-      <div class="col-sm-4 col-md-3 col-xl-2">
-        
-        <div class="box setting">
-          <div class="header">
-            Locations
-          </div>
-          <div class="body flat-top">
-            <ul class="nav_list flat">
-              
-              <% %w(country state city district subdistrict).each do |l| %>
-                
-                <li class="<%= 'active current' if current_page?(url_for(controller: "magic_addresses/#{l.tableize}", action: "index")) %>">
-                  <%= link_to url_for(controller: "magic_addresses/#{l.tableize}", action: "index") do %>
-                    <%= t("activerecord.attributes.magic_addresses_#{l}.other") %> <span class="label"><%= "::MagicAddresses::#{l.classify}".constantize.count %></span>
-                  <% end %>
-                </li>
-                
-              <% end %>
-              
-            </ul>
-          </div>
-        </div>
-        
-      </div>
-      <div class="col-sm-8 col-md-9 col-xl-10">
-        
-        
-        <div class="box setting">
-          <div class="header">
-            <%= t("activerecord.attributes.magic_addresses_state.other") %>
-          </div>
-          <div class="body">
-    
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th><%= t("helpers.label.magic_addresses_state.name") %></th>
-                  <th><%= t("activerecord.attributes.magic_addresses_address.other") %></th>
-          
-                  <th><%= t("activerecord.attributes.magic_addresses_country.one") %></th>
-          
-                  <th><%= t("helpers.label.magic_addresses_state.default_name") %></th>
-          
-                  <th>FSM-State</th>
-                  <th>Triggers</th>
-                </tr>
-              </thead>
-              <tbody>
-              <% @states.each do |state| %>
-                <tr>
-          
-                  <td><strong><%= state.name %></strong></td>
-                  <td><%= state.addresses.count %></td>
-          
-                  <td><%= state.country.name if state.country %></td>
-          
-                  <td><%= state.default_name %></td>
-                  <td><%= state.fsm_state %></td>
-                  <td>
-                    <%# %w(activate deactivate).each do |state| %>
-                      <%# if city.machine.trigger?(state.to_sym) %>
-                        <%#= link_to state.to_s.titleize, trigger_wizard_city_path(city, state), class: "btn btn-default btn-sm" %>
-                      <%# end %>
-                    <%# end %>
-                  </td>
-                </tr>
-              <% end %>
-              </tbody>
-            </table>
-    
-    
-    
-          </div>
-        </div>
+<%= address_admin_template do %>
 
-        <br/>
-        <br/>
-        
-        
-      </div>
-    </div>
-    
-  </div>
-</div>
-
-<br/>
-<br/>
-
-
-
+  <%= content_for :headline do %>
+    <%= t("activerecord.attributes.magic_addresses_state.other") %>
+  <% end %>
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th><%= t("helpers.label.magic_addresses_state.name") %></th>
+        <th><%= t("activerecord.attributes.magic_addresses_address.other") %></th>
+  
+        <th><%= t("activerecord.attributes.magic_addresses_country.one") %></th>
+  
+        <th><%= t("helpers.label.magic_addresses_state.default_name") %></th>
+  
+        <th>FSM-State</th>
+        <th>Triggers</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @states.each do |state| %>
+      <tr>
+  
+        <td><strong><%= state.name %></strong></td>
+        <td><%= state.addresses.count %></td>
+  
+        <td><%= state.country.name if state.country %></td>
+  
+        <td><%= state.default_name %></td>
+        <td><%= state.fsm_state %></td>
+        <td>
+          <%# %w(activate deactivate).each do |state| %>
+            <%# if city.machine.trigger?(state.to_sym) %>
+              <%#= link_to state.to_s.titleize, trigger_wizard_city_path(city, state), class: "btn btn-default btn-sm" %>
+            <%# end %>
+          <%# end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  
+<% end %>
 

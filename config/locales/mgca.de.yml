@@ -34,26 +34,26 @@ de:
         country_name: "Land"
       magic_addresses_city:
         name: "Stadt-Name"
-        name_default: "Stadt (system)"
+        default_name: "Stadt (system)"
         fsm_state: "Status"
       magic_addresses_country:
         name: "Land-Name"
-        name_default: "Land (system)"
+        default_name: "Land (system)"
         fsm_state: "Status"
         iso_code: "Ländercode"
         dial_code: "Vorwahl"
       magic_addresses_state:
         name: "Bundesland-Name"
-        name_default: "Bundesland (system)"
+        default_name: "Bundesland (system)"
         fsm_state: "Status"
         short_name: "Kurzform"
       magic_addresses_district:
         name: "Stadtteil-Name"
-        name_default: "Stadtteil (system)"
+        default_name: "Stadtteil (system)"
         fsm_state: "Status"
       magic_addresses_subdistrict:
         name: "Unter-Stadtteil-Name"
-        name_default: "Unter-Stadtteil (system)"
+        default_name: "Unter-Stadtteil (system)"
         fsm_state: "Status"
       wizard_city:
         name: "Name"

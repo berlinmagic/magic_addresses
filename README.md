@@ -72,6 +72,11 @@ be sure to activate it in initializer before migrate!
   
 ```
 
+
+**NEW** since *v. 0.0.25*:
+rewrite the template of admin views, just place [admin_template](https://github.com/berlinmagic/magic_addresses/tree/master/app/views/magic_addresses/_admin_template.html.erb) in *YOUR_PROJECT/app/views/magic_addresses/_admin_template.html.erb* and rewrite it for your needs ...
+
+
 ### in your Controllers:
 
 ```ruby
