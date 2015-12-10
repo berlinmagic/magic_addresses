@@ -40,6 +40,7 @@ module MagicAddresses
   
   # controllers
   autoload :BaseController,           "app/controllers/magic_addresses/base_controller"
+  autoload :AddressesController,      "app/controllers/magic_addresses/addresses_controller"
   autoload :CountriesController,      "app/controllers/magic_addresses/countries_controller"
   autoload :StatesController,         "app/controllers/magic_addresses/states_controller"
   autoload :CitiesController,         "app/controllers/magic_addresses/cities_controller"
