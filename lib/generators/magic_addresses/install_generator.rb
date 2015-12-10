@@ -44,6 +44,7 @@ module MagicAddresses
         route <<-ROUTE
 
   scope :mgca, module: :magic_addresses do
+    resources :addresses, only: :index
     resources :countries, only: :index
     resources :states, only: :index
     resources :cities, only: :index

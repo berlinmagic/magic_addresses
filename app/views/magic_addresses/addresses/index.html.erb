@@ -1,0 +1,76 @@
+<%= block_to_partial "magic_addresses/admin_tmpl" do %>
+
+  <%= content_for :headline do %>
+    <%= t("activerecord.attributes.magic_addresses_address.other") %>
+  <% end %>
+
+  <table class="table table-striped table-left">
+    <thead>
+      <tr>
+        <th> </th>
+        <th><%= t("activerecord.attributes.magic_addresses_city.one") %></th>
+
+        <th><%= t("helpers.label.magic_addresses_address.postalcode") %></th>
+        <th><%= t("helpers.label.magic_addresses_address.street") %></th>
+        <th><%= t("helpers.label.magic_addresses_address.street_number") %></th>
+
+        <th><%= t("activerecord.attributes.magic_addresses_state.one") %></th>
+        <th><%= t("activerecord.attributes.magic_addresses_country.one") %></th>
+        <th><%= t("activerecord.attributes.magic_addresses_district.one") %></th>
+        <th><%= t("activerecord.attributes.magic_addresses_subdistrict.one") %></th>
+
+        <th>Uses</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @addresses.each do |address| %>
+      <tr>
+  
+        <td>
+          <%= country_flag( address.country.iso_code, "smasll" ) if address.country %> 
+        </td>
+        
+        <td>
+          <strong><%= address.city ? address.city.name : "- - -" %></strong>
+        </td>
+        
+        <td>
+          <strong><%= address.postal_code %></strong>
+        </td>
+        
+        <td>
+          <strong><%= address.street %></strong>
+        </td>
+        
+        <td>
+          <strong><%= address.street_number %></strong>
+        </td>
+        
+        
+        <td>
+          <strong><%= address.state ? address.state.name : "-" %></strong>
+        </td>
+        
+        <td>
+          <strong><%= address.country ? address.country.name : "-" %></strong>
+        </td>
+        
+        <td>
+          <small><%= address.district ? address.district.name : "-" %></small>
+        </td>
+        
+        <td>
+          <small><%= address.subdistrict ? address.subdistrict.name : "-" %></small>
+        </td>
+        
+        <td>
+          <strong><%= address.addressibles.count %></strong>
+        </td>
+        
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+
+<% end %>

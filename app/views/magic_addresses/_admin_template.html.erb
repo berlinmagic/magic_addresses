@@ -11,7 +11,7 @@
           <div class="body flat-top">
             <ul class="nav_list flat">
               
-              <% %w(country state city district subdistrict).each do |l| %>
+              <% %w(address country state city district subdistrict).each do |l| %>
                 
                 <li class="<%= 'active current' if current_page?(url_for(controller: "magic_addresses/#{l.tableize}", action: "index")) %>">
                   <%= link_to url_for(controller: "magic_addresses/#{l.tableize}", action: "index") do %>
