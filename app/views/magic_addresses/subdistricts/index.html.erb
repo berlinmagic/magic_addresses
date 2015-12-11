@@ -25,7 +25,7 @@
     </thead>
     <tbody class="wizard_table_body">
     <% @subdistricts.each do |scity| %>
-      <tr data-id="<%= subdistrict.id %>" data-name="<%= subdistrict.name %>" data-default-name="<%= subdistrict.default_name %>" data-short-name="<%= subdistrict.short_name %>" data-state="<%= subdistrict.fsm_subdistrict %>">
+      <tr data-id="<%= subdistrict.id %>" data-name="<%= subdistrict.name %>" data-default-name="<%= subdistrict.default_name %>" data-short-name="<%= subdistrict.short_name %>" data-state="<%= subdistrict.fsm_state %>">
   
         <td><strong><%= scity.name %></strong></td>
         <td><%= scity.addresses.count %></td>
