@@ -22,49 +22,85 @@
         <th>Uses</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="wizard_table_body">
     <% @addresses.each do |address| %>
-      <tr>
-  
+      <tr data-id="<%= address.id %>" data-street="<%= address.street %>" data-postalcode="<%= address.postalcode %>" data-number="<%= address.street_number %>" data-city="<%= address.city %>" data-country="<%= address.country %>" data-district="<%= address.district %>" data-subdistrict="<%= address.subdistrict %>" data-owners="<%= address.owners.to_json %>" data-longitude="<%= address.longitude %>" data-latitude="<%= address.latitude %>">
+        
         <td>
           <%= country_flag( address.magic_country.iso_code, "medium" ) if address.magic_country %> 
         </td>
         
         <td>
-          <strong><%= address.city ? address.city : "- - -" %></strong>
+          <% if address.magic_city %>
+            <span title="<%= "#{address.magic_city.id} => #{address.magic_city.default_name}" %>">
+              <%= address.magic_city.name %>
+            </span>
+          <% else %>
+            <em><%= address.city || "- -" %></em>
+          <% end %>
         </td>
         
         <td>
-          <strong><%= address.postalcode %></strong>
+          <%= address.postalcode %>
         </td>
         
         <td>
-          <strong><%= address.street %></strong>
+          <%= address.street %>
         </td>
         
         <td>
-          <strong><%= address.street_number %></strong>
+          <%= address.street_number %>
         </td>
         
         
         <td>
-          <strong><%= address.state ? address.state : "-" %></strong>
+          <% if address.magic_state %>
+            <span title="<%= "#{address.magic_state.id} => #{address.magic_state.default_name}" %>">
+              <%= address.magic_state.name %>
+            </span>
+          <% else %>
+            <em><%= address.state || "- -" %></em>
+          <% end %>
         </td>
         
         <td>
-          <strong><%= address.country ? address.country : "-" %></strong>
+          <% if address.magic_country %>
+            <span title="<%= "#{address.magic_country.id} => #{address.magic_country.default_name}" %>">
+              <%= address.magic_country.name %>
+            </span>
+          <% else %>
+            <em><%= address.country || "- -" %></em>
+          <% end %>
         </td>
         
         <td>
-          <small><%= address.district ? address.district : "-" %></small>
+          <small>
+            <% if address.magic_district %>
+              <span title="<%= "#{address.magic_district.id} => #{address.magic_district.default_name}" %>">
+                <%= address.magic_district.name %>
+              </span>
+            <% else %>
+              <em><%= address.district || "- -" %></em>
+            <% end %>
+          </small>
         </td>
         
         <td>
-          <small><%= address.subdistrict ? address.subdistrict : "-" %></small>
+          <small>
+            <% if address.magic_subdistrict %>
+              <span title="<%= "#{address.magic_subdistrict.id} => #{address.magic_subdistrict.default_name}" %>">
+                <%= address.magic_subdistrict.name %>
+              </span>
+            <% else %>
+              <em><%= address.subdistrict || "- -" %></em>
+            <% end %>
+          </small>
         </td>
         
         <td>
-          <strong><%= address.addressibles.count %></strong>
+          <span title="<%= address.owners.to_yaml %>">
+            <%= address.addressibles.count %>
+          </span>
         </td>
         
       </tr>

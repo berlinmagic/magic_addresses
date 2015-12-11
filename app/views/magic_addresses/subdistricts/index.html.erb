@@ -14,14 +14,18 @@
         <th><%= t("activerecord.attributes.magic_addresses_city.one") %></th>
   
         <th><%= t("helpers.label.magic_addresses_subdistrict.default_name") %></th>
-  
-        <th>FSM-State</th>
-        <th>Triggers</th>
+        
+        <% if MagicAddresses.configuration.show_states %>
+          <th>FSM-State</th>
+        <% end %>
+        <% if MagicAddresses.configuration.show_triggers %>
+          <th>Triggers</th>
+        <% end %>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="wizard_table_body">
     <% @subdistricts.each do |scity| %>
-      <tr>
+      <tr data-id="<%= subdistrict.id %>" data-name="<%= subdistrict.name %>" data-default-name="<%= subdistrict.default_name %>" data-short-name="<%= subdistrict.short_name %>" data-state="<%= subdistrict.fsm_subdistrict %>">
   
         <td><strong><%= scity.name %></strong></td>
         <td><%= scity.addresses.count %></td>
@@ -30,14 +34,18 @@
         <td><%= scity.city.name if scity.city %></td>
   
         <td><%= scity.default_name %></td>
-        <td><%= scity.fsm_state %></td>
-        <td>
-          <%# %w(activate deactivate).each do |state| %>
-            <%# if city.machine.trigger?(state.to_sym) %>
-              <%#= link_to state.to_s.titleize, trigger_wizard_city_path(city, state), class: "btn btn-default btn-sm" %>
+        <% if MagicAddresses.configuration.show_states %>
+          <td><%= scity.fsm_state %></td>
+        <% end %>
+        <% if MagicAddresses.configuration.show_triggers %>
+          <td>
+            <%# %w(activate deactivate).each do |state| %>
+              <%# if city.machine.trigger?(state.to_sym) %>
+                <%#= link_to state.to_s.titleize, trigger_wizard_city_path(city, state), class: "btn btn-default btn-sm" %>
+              <%# end %>
             <%# end %>
-          <%# end %>
-        </td>
+          </td>
+        <% end %>
       </tr>
     <% end %>
     </tbody>

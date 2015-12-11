@@ -13,29 +13,40 @@
         <th><%= t("activerecord.attributes.magic_addresses_country.one") %></th>
   
         <th><%= t("helpers.label.magic_addresses_state.default_name") %></th>
-  
-        <th>FSM-State</th>
-        <th>Triggers</th>
+        
+        <% if MagicAddresses.configuration.show_states %>
+          <th>FSM-State</th>
+        <% end %>
+        <% if MagicAddresses.configuration.show_triggers %>
+          <th>Triggers</th>
+        <% end %>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="wizard_table_body">
     <% @states.each do |state| %>
-      <tr>
+      <tr data-id="<%= state.id %>" data-name="<%= state.name %>" data-default-name="<%= state.default_name %>" data-short-name="<%= state.short_name %>" data-state="<%= state.fsm_state %>">
   
         <td><strong><%= state.name %></strong></td>
         <td><%= state.addresses.count %></td>
   
-        <td><%= state.country.name if state.country %></td>
+        <td>
+          <%= country_flag( state.country.iso_code, "small" ) if state.country %>
+          <%= state.country.iso_code if state.country %>
+        </td>
   
         <td><%= state.default_name %></td>
-        <td><%= state.fsm_state %></td>
-        <td>
-          <%# %w(activate deactivate).each do |state| %>
-            <%# if city.machine.trigger?(state.to_sym) %>
-              <%#= link_to state.to_s.titleize, trigger_wizard_city_path(city, state), class: "btn btn-default btn-sm" %>
+        <% if MagicAddresses.configuration.show_states %>
+          <td><%= state.fsm_state %></td>
+        <% end %>
+        <% if MagicAddresses.configuration.show_triggers %>
+          <td>
+            <%# %w(activate deactivate).each do |state| %>
+              <%# if city.machine.trigger?(state.to_sym) %>
+                <%#= link_to state.to_s.titleize, trigger_wizard_city_path(city, state), class: "btn btn-default btn-sm" %>
+              <%# end %>
             <%# end %>
-          <%# end %>
-        </td>
+          </td>
+        <% end %>
       </tr>
     <% end %>
     </tbody>

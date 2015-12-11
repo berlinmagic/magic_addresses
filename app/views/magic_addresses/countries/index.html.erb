@@ -7,6 +7,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th> </th>
         <th><%= t("helpers.label.magic_addresses_country.name") %></th>
   
         <th><%= t("activerecord.attributes.magic_addresses_address.other") %></th>
@@ -14,18 +15,24 @@
         <th><%= t("helpers.label.magic_addresses_country.default_name") %></th>
   
         <th><%= t("helpers.label.magic_addresses_country.dial_code") %></th>
-  
-        <th><%= t("helpers.label.magic_addresses_country.fsm_state") %></th>
-  
-        <th>Triggers</th>
+        
+        <% if MagicAddresses.configuration.show_states %>
+          <th><%= t("helpers.label.magic_addresses_country.fsm_state") %></th>
+        <% end %>
+        <% if MagicAddresses.configuration.show_triggers %>
+          <th>Triggers</th>
+        <% end %>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="wizard_table_body">
     <% @countries.each do |country| %>
-      <tr>
+      <tr data-id="<%= country.id %>" data-name="<%= country.name %>" data-dial-code="<%= country.dial_code %>" data-default-name="<%= country.default_name %>" data-state="<%= country.fsm_state %>">
   
         <td>
           <%= country_flag( country.iso_code, "small" ) %> 
+        </td>
+
+        <td>
           <strong><%= country.name %></strong>
         </td>
   
@@ -39,14 +46,18 @@
   
         <td><%= country.default_name %></td>
         <td><%= country.dial_code %></td>
-        <td><%= country.fsm_state %></td>
-        <td>
-          <%# %w(activate deactivate).each do |state| %>
-            <%# if city.machine.trigger?(state.to_sym) %>
-              <%#= link_to state.to_s.titleize, trigger_wizard_city_path(city, state), class: "btn btn-default btn-sm" %>
+        <% if MagicAddresses.configuration.show_states %>
+          <td><%= country.fsm_state %></td>
+        <% end %>
+        <% if MagicAddresses.configuration.show_triggers %>
+          <td>
+            <%# %w(activate deactivate).each do |state| %>
+              <%# if city.machine.trigger?(state.to_sym) %>
+                <%#= link_to state.to_s.titleize, trigger_wizard_city_path(city, state), class: "btn btn-default btn-sm" %>
+              <%# end %>
             <%# end %>
-          <%# end %>
-        </td>
+          </td>
+        <% end %>
       </tr>
     <% end %>
     </tbody>
