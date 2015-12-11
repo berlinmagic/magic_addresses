@@ -293,7 +293,7 @@ private
     
     this = "magic_#{that}".to_sym
     
-    self.attributes = { this => "MagicAddresses::#{that.to_s.classify}".constantize.unscoped.where( that_params ).first_or_create }# unless self.send(that)
+    self.attributes = { this => "MagicAddresses::#{that.to_s.classify}".constantize.unscoped.where( that_params ).first_or_create! }# unless self.send(that)
     
     dev_log "#{that} .. #{this}"
     
