@@ -67,7 +67,7 @@ module MagicAddresses
                     :street=, :number=, :postalcode=, :city=, :country=, 
                     to: :address, allow_nil: true
         accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :all_blank
-        alias_method_chain :address, :build
+        # alias_method_chain :address, :build
       end
       
       
