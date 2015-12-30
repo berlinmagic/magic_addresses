@@ -18,14 +18,14 @@ Gem::Specification.new do |s|
 
   s.test_files = Dir["spec/**/*"]
 
-  s.add_runtime_dependency "rails",                                 "~> 4.2"
-  s.add_runtime_dependency "globalize",                             "~> 5.0"
-  s.add_runtime_dependency "geocoder",                              "~> 1.2"
-  s.add_runtime_dependency "activerecord-postgres-earthdistance",   "~> 0.3"
+  s.add_runtime_dependency "rails",                                 "~> 4.2", ">= 3.2"
+  s.add_runtime_dependency "globalize",                             "~> 5.0", ">= 5.0"
+  s.add_runtime_dependency "geocoder",                              "~> 1.2", ">= 1.2"
+  s.add_runtime_dependency "activerecord-postgres-earthdistance",   "~> 0.3", ">= 0.3"
   
-  s.add_dependency "railties",                                      "~> 4.2"
-
-  s.add_development_dependency "sqlite3",                           '>= 1.3.10'
-  s.add_development_dependency "rspec-rails",                       '>= 3.2.0'
+  s.add_dependency "railties",                                      "~> 4.2", ">= 3.2"
+  
+  s.add_development_dependency  "sqlite3",                          '~> 3.2', '>= 3.2'
+  s.add_development_dependency  "rspec-rails",                      '~> 1.3', '>= 1.3'
   
 end

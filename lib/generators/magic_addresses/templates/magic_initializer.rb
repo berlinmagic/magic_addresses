@@ -23,9 +23,10 @@ MagicAddresses.configure do |config|
 end
 
 ##
-## Need authentication for admin routes use this:
+## Need authentication for address admin routes use this:
 ##
 # => MagicAddresses::BaseController.class_eval do 
+# =>   # layout proc { |controller| controller.request.xhr? ? false : "application" }
 # =>   private
 # =>     # overwrite authentication method
 # =>     def authenticate_visitor
