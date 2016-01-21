@@ -9,6 +9,11 @@ class MagicAddresses::Addressible < ActiveRecord::Base
 private
   
   def log_some_stuff
+    Rails.logger.info "### ###"
+    Rails.logger.info "### ###"
+    Rails.logger.info "###  Triggered Addressible callback"
+    Rails.logger.info "### ###"
+    Rails.logger.info "### ###"
     self.address ? self.address.trigger_build_address_associations : true
   end
   
