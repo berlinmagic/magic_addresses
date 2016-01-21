@@ -2,7 +2,7 @@
 class MagicAddresses::Addressible < ActiveRecord::Base
   
   # =====> C O N S T A N T S <=============================================================== #
-  PARAMS = [ :id, :owner_type, :owner_id, :address_attributes => MagicAddresses::Address::PARAMS, :_destroy ]
+  PARAMS = [ :id, :owner_type, :owner_id, :_destroy, :address_attributes => [ :id, :street, :street_additional, :number, :postalcode, :city, :country, :country_code, :owner, :_destroy ] ]
   
   
   # =====> A S S O Z I A T I O N S <========================================================= #
