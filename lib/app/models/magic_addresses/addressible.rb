@@ -10,6 +10,10 @@ class MagicAddresses::Addressible < ActiveRecord::Base
   belongs_to :address,    class_name: "MagicAddresses::Address",    foreign_key: :address_id
   
   
+  # =====> A T T R I B U T E S <============================================================= #
+  accepts_nested_attributes_for :address, allow_destroy: true
+  
+  
   # =====> C A L L B A C K S <=============================================================== #
   after_commit :log_some_stuff
   
