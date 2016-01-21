@@ -79,7 +79,8 @@ module MagicAddresses
       # => http://stackoverflow.com/a/6989403/1470996
       def build_address(params = {})
         self.build_addressible
-        self.addressible.address = MagicAddresses::Address.new(params)
+        # => self.addressible.address = MagicAddresses::Address.new(params)
+        self.addressible.build_address(params)
       end
       
     end #> InstanceMethods
