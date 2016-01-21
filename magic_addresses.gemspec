@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.add_runtime_dependency "rails",                                 ">= 4.0"
-  s.add_runtime_dependency "globalize",                             ">= 5.1.1"
+  s.add_runtime_dependency "globalize",                             ">= 5.0.1"
   s.add_runtime_dependency "geocoder",                              ">= 1.2"
   s.add_runtime_dependency "activerecord-postgres-earthdistance",   ">= 0.3"
   
