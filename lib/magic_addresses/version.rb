@@ -1,3 +1,3 @@
 module MagicAddresses
-  VERSION = "0.0.39.rc8"
+  VERSION = "0.0.39"
 end

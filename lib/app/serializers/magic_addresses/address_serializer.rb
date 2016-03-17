@@ -11,11 +11,11 @@ class MagicAddresses::AddressSerializer < ActiveModel::Serializer
   attributes :latitude, :longitude
   
   ## Owner
-  attributes :owner_type, :owner_id, :owner
+  attributes :owners
   
   
-  def owner
-    { id: object.owner_id, type: object.owner_type }
+  def owners
+    object.owners
   end
 
 end
