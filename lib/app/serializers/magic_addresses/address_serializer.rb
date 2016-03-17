@@ -5,7 +5,7 @@ class MagicAddresses::AddressSerializer < ActiveModel::Serializer
   attributes :id, :created_at, :updated_at
 
   ## Address - Attributes
-  attributes :name, :default, :street, :street_additional, :number, :postalcode, :city, :district, :subdistrict, :state, :country
+  attributes :name, :street, :street_additional, :number, :postalcode, :city, :district, :subdistrict, :state, :country
 
   ## Location
   attributes :latitude, :longitude

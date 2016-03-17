@@ -73,7 +73,16 @@ $ ->
       radius = (radius / earthRadii[unitKey]) * earthRadii['mt']
       
       
-      if radius > 31000
+      if radius > 91000
+        console.log "zoom .. #{radius} > 91000"
+        map.setZoom(4)
+      else if radius > 71000
+        console.log "zoom .. #{radius} > 71000"
+        map.setZoom(5)
+      else if radius > 51000
+        console.log "zoom .. #{radius} > 51000"
+        map.setZoom(6)
+      else if radius > 31000
         console.log "zoom .. #{radius} > 31000"
         map.setZoom(7)
       else if radius > 21000
