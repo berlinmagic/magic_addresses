@@ -22,8 +22,7 @@ class AddMagicAddresses < ActiveRecord::Migration
       t.string        :street_additional
       t.integer       :zipcode
       
-      # => t.string        :visibility
-      t.boolean       :default
+      t.string        :status,                  default: "new"
       
       t.float         :longitude
       t.float         :latitude
@@ -34,8 +33,6 @@ class AddMagicAddresses < ActiveRecord::Migration
       t.references    :state
       t.references    :country
       
-      t.references    :owner,      polymorphic: true
-      
       t.timestamps    null: false
     end
     
@@ -44,7 +41,6 @@ class AddMagicAddresses < ActiveRecord::Migration
     add_index :mgca_addresses, :city_id
     add_index :mgca_addresses, :state_id
     add_index :mgca_addresses, :country_id
-    add_index :mgca_addresses, [:owner_type, :owner_id]
     
     # when use postgres earthdistance
     if MagicAddresses.configuration.earthdistance
@@ -52,6 +48,21 @@ class AddMagicAddresses < ActiveRecord::Migration
     end
     
     MagicAddresses::Address.create_translation_table! :street_name => :string
+    
+    
+    #############################################################################################################
+    ##### Addressibles
+    #####
+    create_table :mgca_addressibles do |t|
+      t.boolean       :default      # is default address ?
+      t.string        :name         # address name (home | office | ..)
+      t.references    :owner,       polymorphic: true
+      t.references    :address
+      t.timestamps    null: false
+    end
+    
+    add_index :mgca_addressibles, [:owner_type, :owner_id]
+    add_index :mgca_addressibles, :address_id
     
     
     #############################################################################################################
