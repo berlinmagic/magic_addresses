@@ -1,4 +1,12 @@
 class AddEarthdistance < ActiveRecord::Migration
+  def get_indexes_for_table( table = 'mgca_addresses' )
+    ## ActiveRecord indexes .. doesnt include earthdistance, because its build directly in postgres!
+    # => ActiveRecord::Base.connection.indexes(:mgca_addresses).map{ |x| x.name }
+    # => index_exists?(:mgca_addresses, :earthdistance, name: "mgca_addresses_earthdistance_ix")
+    ## Postgres-Indexes .. thanks to: http://www.alberton.info/postgresql_meta_info.html#p13
+    execute( "SELECT c.relname AS index_name FROM pg_class AS a JOIN pg_index AS b ON (a.oid = b.indrelid) JOIN pg_class AS c ON (c.oid = b.indexrelid) WHERE a.relname = '#{table}';").map{ |that| that["index_name"] }
+  end
+  
   def self.up
     
     # comented out to avoid PG::InsufficientPrivilege-ERROR
@@ -11,16 +19,30 @@ class AddEarthdistance < ActiveRecord::Migration
       enable_extension "earthdistance"
     end
     
-    ## ActiveRecord indexes .. doesnt include earthdistance, because its build directly in postgres!
-    # => address_indexes = ActiveRecord::Base.connection.indexes(:mgca_addresses).map{ |x| x.name }
-    # => index_exists?(:mgca_addresses, :earthdistance, name: "mgca_addresses_earthdistance_ix")
-    
-    ## Postgres-Indexes .. thanks to: http://www.alberton.info/postgresql_meta_info.html#p13
-    address_indexes = execute( "SELECT c.relname AS index_name FROM pg_class AS a JOIN pg_index AS b ON (a.oid = b.indrelid) JOIN pg_class AS c ON (c.oid = b.indexrelid) WHERE a.relname = 'mgca_addresses';").map{ |that| that["index_name"] }
-    
-    unless address_indexes.include?("mgca_addresses_earthdistance_ix")
+    unless get_indexes_for_table('mgca_addresses').include?("mgca_addresses_earthdistance_ix")
       add_earthdistance_index :mgca_addresses, lat: 'latitude', lng: 'longitude'
     end
+    
+    
+    ## Want to add indexes to other models?
+    ## -- Model needs this mehtod
+    ##       acts_as_geolocated lat: 'latitude', lng: 'longitude')
+    ## 
+    ## i.e.: Job-model:
+    ## 
+    # => add_column :jobs,   :latitude,      :float
+    # => add_column :jobs,   :longitude,     :float
+    # => Job.all.each do |that|
+    # =>   if that.address && that.address.latitude && that.address.longitude
+    # =>     that.latitude   = that.address.latitude
+    # =>     that.longitude  = that.address.longitude
+    # =>     that.save(:validate => false)
+    # =>   end
+    # => end
+    # => unless get_indexes_for_table('jobs').include?("jobs_earthdistance_ix")
+    # =>   add_earthdistance_index :jobs, lat: 'latitude', lng: 'longitude'
+    # => end
+    
     
   end
 
@@ -33,12 +55,17 @@ class AddEarthdistance < ActiveRecord::Migration
       disable_extension "cube"
     end
     
-    ## Postgres-Indexes
-    address_indexes = execute( "SELECT c.relname AS index_name FROM pg_class AS a JOIN pg_index AS b ON (a.oid = b.indrelid) JOIN pg_class AS c ON (c.oid = b.indexrelid) WHERE a.relname = 'mgca_addresses';").map{ |that| that["index_name"] }
     
-    if address_indexes.include?("mgca_addresses_earthdistance_ix")
+    if get_indexes_for_table('mgca_addresses').include?("mgca_addresses_earthdistance_ix")
       remove_earthdistance_index :mgca_addresses
     end
+    
+    ## remove from Job
+    # => if get_indexes_for_table('jobs').include?("jobs_earthdistance_ix")
+    # =>   remove_earthdistance_index :jobs
+    # => end
+    # => remove_column :jobs,      :latitude,    :float
+    # => remove_column :jobs,      :longitude,   :float
     
     
   end
