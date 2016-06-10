@@ -21,6 +21,12 @@ gem 'jquery-ui-rails'
 
 gem "magic_stylez",       ">= 0.0.0.65"
 
+
+## DB-Gems
+gem 'sqlite3'
+gem "pg"
+
+
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 group :test do

@@ -106,11 +106,11 @@ class MagicAddresses::Address < ActiveRecord::Base
   
   # =====> I N S T A N C E - M E T H O D S <================================================= #
   
-  def presentation( type = "inline" )
+  def presentation( style = "full", type = "inline" )
     adr = []
     adr << "#{street} #{number}".strip if street.present?
     adr << "#{postalcode} #{city}" if zipcode.present? || city.present?
-    adr << country if country.present?
+    adr << country if country.present? if style == "full"
     if adr.count == 0
       I18n.t("addresses.no_address_given")
     else
@@ -203,7 +203,7 @@ private
         # translate other languages
         
         if MagicAddresses.configuration.job_backend == :sidekiq
-          MagicAddresses::AddressWorker.perform_async( self.id )
+          ::MagicAddresses::AddressWorker.perform_async( self.id )
         else
           complete_translated_attributes()
         end
