@@ -126,6 +126,10 @@ class MagicAddresses::Address < ActiveRecord::Base
     addressibles.map { |that| ::MagicAddresses::OwnerProxy.new( that ) }
   end
   
+  def touch_owners
+    addressibles.map { |that| that.owner.touch }
+  end
+  
   def trigger_build_address_associations
     build_address_associations()
   end
@@ -146,6 +150,7 @@ private
       true
     end
   end
+  
   
   def build_address_associations
     dev_log "triggered   A D D R E S S - B U I L D E R ! - - #{self.street} #{self.number} #{self.city} #{self.zipcode}"
@@ -192,6 +197,9 @@ private
           dev_log "kill - #{x.address_id}"
         end
         self.destroy
+        
+        ## inform address owners
+        that.touch_owners
       else
         dev_log "   geo_data  is present !!!"
         self.street_default = geo_data.street if geo_data && geo_data.street
@@ -209,6 +217,9 @@ private
         end
         
         self.save
+        
+        ## inform address owners
+        self.touch_owners
       end
       
     end
