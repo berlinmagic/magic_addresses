@@ -40,6 +40,8 @@ class MagicAddresses::Address < ActiveRecord::Base
   
   serialize       :fetch_address, Hash
   
+  
+  # fetch getter and setter
   %w[fetch_street fetch_number fetch_city fetch_zipcode fetch_country fetch_country_code].each do |key|
     define_method(key) do
       fetch_address && fetch_address[key]
@@ -52,59 +54,84 @@ class MagicAddresses::Address < ActiveRecord::Base
   def street
     fetch_address && fetch_address["fetch_street"] || street_name
   end
-  def street=(value)
-    self.street_name = value
-    self.fetch_address = (fetch_address || {}).merge("fetch_street" => value)
-  end
   # attr_accessor :number (:street_number)
   def number
     fetch_address && fetch_address["fetch_number"] || street_number
-  end
-  def number=(value)
-    self.fetch_address = (fetch_address || {}).merge("fetch_number" => value)
   end
   # attr_accessor :postalcode (:zipcode)
   def postalcode
     fetch_address && fetch_address["fetch_zipcode"] || zipcode
   end
-  def postalcode=(value)
-    self.fetch_address = (fetch_address || {}).merge("fetch_zipcode" => value)
+  # attr_accessor :country_code
+  def country_code
+    fetch_address && fetch_address["fetch_country_code"] || self.send("magic_country") && self.send("magic_country").iso_code
   end
-  
+  # more getter
   %w[country state city district subdistrict].each do |key|
     # attr_accessor key
     define_method(key) do
       fetch_address && fetch_address["fetch_#{key}"] || self.send("magic_#{key}") && self.send("magic_#{key}").name
     end
+  end
+  # settter methods
+  %w[country state city district subdistrict street number postalcode country_code].each do |key|
     define_method("#{key}=") do |value|
-      # self["fetch_#{key}"] = value
-      self.fetch_address = (fetch_address || {}).merge("fetch_#{key}" => value)
+      self.street_name = value  if key == "street"
+      self.fetch_address = (fetch_address || {}).merge("fetch_#{ key == 'postalcode' ? 'zipcode' : key }" => value)
     end
   end
-  
-  def country_code
-    fetch_address && fetch_address["fetch_country_code"] || self.send("magic_country") && self.send("magic_country").iso_code
-  end
-  def country_code=(value)
-    self.fetch_address = (fetch_address || {}).merge("fetch_country_code" => value)
-  end
-  
-  def owner=(this)
-    self.addressibles.where( owner_type: this.class.to_s, owner_id: this.id ).first_or_create!
-  end
-  
-  
-  
+
+
+
   # =====> C A L L B A C K S <=============================================================== #
   ## now in addressible or doesnt work nested ..
   # => after_save :build_address_associations_if_needed
   # => after_create :build_address_associations_if_needed
-  
+
+
   # =====> S C O P E S <===================================================================== #
-  
+
+
   # =====> C L A S S - M E T H O D S <======================================================= #
+  def self.get_one( owner, params )
+    # => that = self.new( city: params[:city], postalcode: params[:postalcode], street: params[:street], number:  params[:number], country: params[:country] )
+    # => that.owner = owner
+    # => that.save
+    # => that.trigger_build_address_associations
+    # puts "> get_one( #{ owner.class },  #{params}  )"
+    if params[:id].present? && self.find( params[:id].to_i )
+      current = self.find( params[:id].to_i )
+      # if params[:postalcode].present? || params[:postalcode].present? || params[:postalcode].present? || params[:postalcode].present?
+      checker = []
+      [:street, :number, :postalcode, :city, :country].each do |prm|
+        if params[prm].present? && ( "#{ params[prm] }" != "#{ current.send("#{prm}") }" )
+          checker << true
+          puts "#{prm}:  #{ params[prm] }  !=  #{ current.send("#{prm}") }"
+        end
+      end
+      if checker.include?( true )
+        that = self.new( city: params[:city], postalcode: params[:postalcode], street: params[:street], number:  params[:number], country: params[:country] )
+        that.trigger_build_address_associations
+      else
+        current
+      end
+    else
+      if params[:postalcode].present? && params[:city].present?
+        that = self.new( city: params[:city], postalcode: params[:postalcode], street: params[:street], number:  params[:number], country: params[:country] )
+        that.trigger_build_address_associations
+      else
+        nil
+      end
+    end
+  end
+  
   
   # =====> I N S T A N C E - M E T H O D S <================================================= #
+  
+  def update_fetch_address( atts = {} )
+    self.fetch_address = (self.fetch_address || {}).merge( atts )
+  end
+  
   
   def presentation( style = "full", type = "inline" )
     adr = []
@@ -124,6 +151,10 @@ class MagicAddresses::Address < ActiveRecord::Base
   
   def owners
     addressibles.map { |that| ::MagicAddresses::OwnerProxy.new( that ) }
+  end
+  
+  def owner=(this)
+    self.addressibles.where( owner_type: this.class.to_s, owner_id: this.id ).first_or_create!
   end
   
   def touch_owners
@@ -152,9 +183,7 @@ private
   end
   
   
-  def build_address_associations
-    dev_log "triggered   A D D R E S S - B U I L D E R ! - - #{self.street} #{self.number} #{self.city} #{self.zipcode}"
-    
+  def build_fetch_address_addr
     if self.fetch_city.present? || self.fetch_zipcode.present?
       self.fetch_address["addr"] = []
       # MagicAddresses::GeoCoder
@@ -166,8 +195,10 @@ private
         self.fetch_address["addr"] << "#{self.fetch_country || self.fetch_country_code}".strip if self.fetch_country || self.fetch_country
       end
     end
-    
-    
+  end
+  
+  
+  def build_fetch_address_geo_data
     if self.fetch_address["addr"] && self.fetch_address["addr"].any?
       self.fetch_address["geo_data"] = {}
       gd = MagicAddresses::GeoCoder.search(self.fetch_address["addr"].join(", "), default_locale)
@@ -175,54 +206,75 @@ private
       self.fetch_address["fetched"] = true
       self.status = "fetched"
     end
+  end
+  
+  def set_address_defaults( geo_data )
+    if geo_data
+      self.street_default = geo_data.street         if geo_data.street
+      self.zipcode        = geo_data.postal_code    if geo_data.postal_code
+      self.street_number  = geo_data.street_number  if geo_data.street_number
+      # set geo-position
+      self.latitude       = geo_data.latitude       if geo_data.latitude
+      self.longitude      = geo_data.longitude      if geo_data.longitude
+    end
+  end
+  
+  
+  def build_address_associations
+    dev_log "- - - - - - - - - - - - - - - - -"
+    dev_log " A D D R E S S - B U I L D E R !  ->  #{self.street} #{self.number} #{self.city} #{self.postalcode}"
     
+    build_fetch_address_addr( )
+    
+    build_fetch_address_geo_data( )
     
     if self.fetch_address["geo_data"] && self.fetch_address["geo_data"].any?
       geo_data = self.fetch_address["geo_data"][default_locale]
-      sames = MagicAddresses::Address.where(  latitude:       geo_data.latitude, 
-                                              longitude:      geo_data.longitude, 
-                                              zipcode:        geo_data.postal_code, 
-                                              street_number:  geo_data.street_number )
-      dev_log "Address.count: #{ MagicAddresses::Address.all.count } .. . .. SAMES.count: #{ sames.count }"
-      if sames.any? && sames.first != self
-        dev_log "   found similar address .. will use that !!!"
-        dev_log "addressibles   #{self.addressibles.count}"
+      if self.id && self.id.present?
+        loockups = MagicAddresses::Address.where.not( id: self.id )
+      else
+        loockups = MagicAddresses::Address.unscoped
+      end
+      sames = loockups.where(
+                                latitude: geo_data.latitude, longitude: geo_data.longitude, 
+                                zipcode: geo_data.postal_code, street_default: geo_data.street, street_number: geo_data.street_number 
+                             )
+      if sames.any?
+        dev_log "! found similar address .. will use that !"
         that = sames.first
-        dev_log "owners - #{self.owners.inspect}"
-        self.addressibles.each do |x|
-          dev_log "kill - #{x.address_id}"
-          x.address_id = that.id
-          x.save
-          # x.owner.touch
-          dev_log "kill - #{x.address_id}"
-        end
+        self.addressibles.map{ |x| x.update_column(:address_id, that.id) }
         self.destroy
-        
+        dev_log
         ## inform address owners
         that.touch_owners
+        ## return address
+        that
       else
-        dev_log "   geo_data  is present !!!"
-        self.street_default = geo_data.street if geo_data && geo_data.street
-        self.zipcode = geo_data.postal_code if geo_data && geo_data.postal_code
-        self.street_number = geo_data.street_number if geo_data && geo_data.street_number
-        # set geo-position
-        self.latitude = geo_data.latitude if geo_data && geo_data.latitude
-        self.longitude = geo_data.longitude if geo_data && geo_data.longitude
-        # translate other languages
         
-        if MagicAddresses.configuration.job_backend == :sidekiq
-          ::MagicAddresses::AddressWorker.perform_async( self.id )
+        if self.status == "translated"
+          dev_log "! allready set-up ... change!"
+          dev_log
         else
-          complete_translated_attributes()
+          # set default values
+          set_address_defaults( geo_data )
+          # translate other languages
+          if MagicAddresses.configuration.job_backend == :sidekiq
+            ::MagicAddresses::AddressWorker.perform_async( self.id )
+          else
+            complete_translated_attributes()
+          end
+          self.save
+          dev_log
+          ## inform address owners
+          self.touch_owners
+          ## return address
+          self
         end
         
-        self.save
-        
-        ## inform address owners
-        self.touch_owners
       end
       
     end
+    
     
   end
   
@@ -241,8 +293,10 @@ private
     
     if geo_data.any?
       # build street parameters
+      dev_log ">>> Street"
       street_params = []
       geo_data.each do |key, stuff|
+        dev_log "    #{key}:  #{ stuff.street }"
         if MagicAddresses.configuration.uniq_translations
           # => only save locale if different from default-locale:
           street_params << { locale: key.to_s, street_name: stuff.street } if stuff.street && ((stuff.street != geo_data[default_locale].street) || (default_locale == key.to_s))
@@ -252,13 +306,12 @@ private
       end
       # set street parameters if present
       if street_params.any?
-        dev_log "empty street translations"
         # reset translations (avoid empty translation in default language)
         # => self.translations = []
         self.translations.delete_all
         # set street parameters
         self.translations_attributes = street_params
-        dev_log "set new street translations"
+        dev_log "    set translations: #{ street_params.map{ |k| k[:locale] }.join(", ") }"
       end
       
       self.street_default = geo_data[default_locale].street if geo_data[default_locale] && geo_data[default_locale].street
@@ -294,7 +347,8 @@ private
   ## Build Associations
   
   def connet_address_association( that, geo_data )
-    dev_log ">>> #{that.to_s.upcase}: #{ geo_data[default_locale].send(that) }"
+    this = "magic_#{that}".to_sym
+    dev_log "#{that.to_s.upcase} (#{this}):   #{ geo_data[default_locale].send(that) }"
     that_params = { default_name: geo_data[default_locale].send(that).to_s }
     that_params[ that == :country ? :iso_code : :short_name ] = geo_data[default_locale].send( "#{that}_code".to_sym ).to_s
     that_params.merge!({ country_id: self.magic_country.id })     if [:city, :state].include?(that) && self.magic_country
@@ -302,11 +356,7 @@ private
     that_params.merge!({ city_id: self.magic_city.id })           if [:district, :subdistrict].include?(that) && self.magic_city
     that_params.merge!({ district_id: self.magic_district.id })   if that == :subdistrict && self.magic_district
     
-    this = "magic_#{that}".to_sym
-    
     self.attributes = { this => "MagicAddresses::#{that.to_s.classify}".constantize.unscoped.where( that_params ).first_or_create! }# unless self.send(that)
-    
-    dev_log "#{that} .. #{this}"
     
     # self.send(this).translations = []
     self.send(this).translations.delete_all
@@ -319,7 +369,7 @@ private
   def lng_params( that, geo_data )
     lng_params = []
     geo_data.each do |key, stuff|
-      dev_log "#{that.to_s.titleize}-Params (#{key}) ... #{stuff.send(that)}"
+      dev_log "    #{key}:   #{stuff.send(that)}"
       
       if MagicAddresses.configuration.uniq_translations
         # => only save locale if different from default-locale:
@@ -331,11 +381,15 @@ private
     lng_params
   end
   
+  def update_fetch_address( atts = {} )
+    self.fetch_address = (self.fetch_address || {}).merge( atts )
+  end
+  
   def dev_log( stuff = " " )
-    if !Rails.env.production?
-      Rails.logger.info "###"
+    if Rails.env.test?
+      puts "#: #{stuff}"
+    elsif !Rails.env.production?
       Rails.logger.info "###   #{stuff}"
-      Rails.logger.info "###"
     end
   end
   

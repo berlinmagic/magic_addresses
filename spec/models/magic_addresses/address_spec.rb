@@ -136,6 +136,9 @@ describe MagicAddresses::Address do
   describe "fetches correct address after save" do
     
     let(:user){ User.create!(name: "Some User", address_attributes: { street: "Heinz-Kapelle-Str.", number: "6", postalcode: 10407, city: "Berlin", country:"Germany"}) }
+    
+    # let(:user){ User.create!(name: "Some User", addressible_attributes: { address_attributes: { street: "Heinz-Kapelle-Str.", number: "6", postalcode: 10407, city: "Berlin", country:"Germany"}}) }
+    
     # let(:address){ MagicAddresses::Address.create!(name: "Another", owner: user) }
     let(:address){ 
       user.address
@@ -182,12 +185,12 @@ describe MagicAddresses::Address do
       expect( MagicAddresses::Subdistrict.all.count ).to eq( 1 )
       
       # address attributes should be set
-      expect( address.number ).to eq( "6" )
-      expect( address.street_number ).to eq( "6" )
-      expect( address.postalcode ).to eq( 10407 )
-      expect( address.zipcode ).to eq( 10407 )
-      expect( address.street ).to eq( "Heinz-Kapelle-Straße" )
-      expect( address.street_name ).to eq( "Heinz-Kapelle-Straße" )
+      expect( user.address.number ).to eq( "6" )
+      expect( user.address.street_number ).to eq( "6" )
+      expect( user.address.postalcode ).to eq( 10407 )
+      expect( user.address.zipcode ).to eq( 10407 )
+      expect( user.address.street ).to match( /Heinz-Kapelle-Str[.|aße]{1,3}/ )
+      expect( user.address.street_name ).to match( /Heinz-Kapelle-Str[.|aße]{1,3}/ )
       
       # all virtual atts and associations should be equal
       expect( address.country ).to eq( "Germany" )

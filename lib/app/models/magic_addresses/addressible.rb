@@ -15,7 +15,7 @@ class MagicAddresses::Addressible < ActiveRecord::Base
   
   
   # =====> C A L L B A C K S <=============================================================== #
-  after_commit :log_some_stuff
+  # after_commit :log_some_stuff
   
   # =====>  P  R  I  V  A  T  E  !  <======================================================== # # # # # # # #
 private

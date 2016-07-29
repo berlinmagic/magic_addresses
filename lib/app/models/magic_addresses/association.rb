@@ -47,7 +47,7 @@ module MagicAddresses
                     through: :addressible, 
                     source: :address
         
-        accepts_nested_attributes_for :addressible, :address, allow_destroy: true, reject_if: :all_blank
+        # accepts_nested_attributes_for :addressible, :address, allow_destroy: true, reject_if: :all_blank
       end
       
       
@@ -81,6 +81,16 @@ module MagicAddresses
         self.build_addressible
         # => self.addressible.address = MagicAddresses::Address.new(params)
         self.addressible.build_address(params)
+      end
+      
+      def address_attributes=( params )
+        # puts "address_attributes"
+        self.address = MagicAddresses::Address.get_one( self, params )
+      end
+      
+      def addressible_attributes=( params )
+        # puts "addressible_attributes"
+        self.address = MagicAddresses::Address.get_one( self, params[:address_attributes] )
       end
       
     end #> InstanceMethods
