@@ -82,26 +82,26 @@ describe MagicAddresses::Address do
       expect( address.fetch_address ).to eq( { "fetch_street" => "Heinz-Kapelle-Street" } )
       expect( address.street ).to eq "Heinz-Kapelle-Street"
       expect( address.fetch_street ).to eq "Heinz-Kapelle-Street"
-      expect( address.street_name ).to eq "Heinz-Kapelle-Street"
+      # expect( address.street_name ).to eq "Heinz-Kapelle-Street"
       # address.save
       user.save
       expect( address.street ).to eq "Heinz-Kapelle-Street"
       #expect( address.fetch_street ).to eq( nil )
-      expect( address.street_name ).to eq "Heinz-Kapelle-Street"
+      # expect( address.street_name ).to eq "Heinz-Kapelle-Street"
       I18n.locale = :de
       address.street = "Heinz-Kapelle-Straße"
       expect( address.fetch_address ).to eq( { "fetch_street" => "Heinz-Kapelle-Straße" } )
       expect( address.street ).to eq "Heinz-Kapelle-Straße"
       expect( address.fetch_street ).to eq "Heinz-Kapelle-Straße"
-      expect( address.street_name ).to eq "Heinz-Kapelle-Straße"
+      # expect( address.street_name ).to eq "Heinz-Kapelle-Straße"
       address.save
       expect( address.street ).to eq "Heinz-Kapelle-Straße"
-      #expect( address.fetch_street ).to eq( nil )
-      expect( address.street_name ).to eq "Heinz-Kapelle-Straße"
-      I18n.locale = :en
-      expect( address.street_name ).to eq "Heinz-Kapelle-Street"
-      I18n.locale = :de
-      expect( address.street_name ).to eq "Heinz-Kapelle-Straße"
+      # expect( address.fetch_street ).to eq( nil )
+      # => expect( address.street_name ).to eq "Heinz-Kapelle-Straße"
+      # => I18n.locale = :en
+      # => expect( address.street_name ).to eq "Heinz-Kapelle-Street"
+      # => I18n.locale = :de
+      # => expect( address.street_name ).to eq "Heinz-Kapelle-Straße"
     end
 
   end

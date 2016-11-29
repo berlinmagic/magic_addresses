@@ -38,7 +38,7 @@ module MagicAddresses
         #             dependent: :destroy
         
         has_one     :addressible, 
-                    -> { where(default: true) }, 
+                    -> { where(default: true, named_address: ["", nil]) }, 
                     as: :owner, 
                     class_name: "MagicAddresses::Addressible", 
                     dependent: :destroy
@@ -48,6 +48,28 @@ module MagicAddresses
                     source: :address
         
         # accepts_nested_attributes_for :addressible, :address, allow_destroy: true, reject_if: :all_blank
+      end
+      
+      def has_one_named_address( name = "address" )
+        
+        has_one     "#{name}_addressible".to_sym, 
+                    -> { where(default: true, named_address: name) }, 
+                    as: :owner, 
+                    class_name: "MagicAddresses::Addressible", 
+                    dependent: :destroy
+        
+        has_one     "#{name}".to_sym, 
+                    through: "#{name}_addressible".to_sym, 
+                    source: :address
+        
+        define_method "#{name}_attributes=" do |params|
+          self.send( "#{name}=", MagicAddresses::Address.get_one( self, params ) )
+        end
+        
+        define_method "#{name}_addressible_attributes=" do |params|
+          self.send( "#{name}=", MagicAddresses::Address.get_one( self, params["#{name}_attributes".to_sym] ) )
+        end
+        
       end
       
       
@@ -94,6 +116,22 @@ module MagicAddresses
       end
       
     end #> InstanceMethods
+    
+    
+    # module OneNamedInstanceMethods
+    #   @@named_address.each do |that|
+    #     
+    #     define_method "#{that}_attributes=" do |params|
+    #       self.send( "#{that}=", MagicAddresses::Address.get_one( self, params ) )
+    #     end
+    #     
+    #     define_method "#{that}_addressible_attributes=" do |params|
+    #       self.send( "#{that}", MagicAddresses::Address.get_one( self, params[:address_attributes] ) )
+    #     end
+    #     
+    #   end if @@named_address
+    # end #> OneNamedInstanceMethods
+    
     
     module NestedInstanceMethods
       

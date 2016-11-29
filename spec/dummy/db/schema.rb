@@ -11,9 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151118102658) do
+ActiveRecord::Schema.define(version: 20161013102744) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "companies", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "customers", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -27,8 +36,8 @@ ActiveRecord::Schema.define(version: 20151118102658) do
     t.string   "street_name"
   end
 
-  add_index "mgca_address_translations", ["locale"], name: "index_mgca_address_translations_on_locale"
-  add_index "mgca_address_translations", ["mgca_address_id"], name: "index_mgca_address_translations_on_mgca_address_id"
+  add_index "mgca_address_translations", ["locale"], name: "index_mgca_address_translations_on_locale", using: :btree
+  add_index "mgca_address_translations", ["mgca_address_id"], name: "index_mgca_address_translations_on_mgca_address_id", using: :btree
 
   create_table "mgca_addresses", force: :cascade do |t|
     t.string   "name"
@@ -49,11 +58,11 @@ ActiveRecord::Schema.define(version: 20151118102658) do
     t.string   "status",            default: "new"
   end
 
-  add_index "mgca_addresses", ["city_id"], name: "index_mgca_addresses_on_city_id"
-  add_index "mgca_addresses", ["country_id"], name: "index_mgca_addresses_on_country_id"
-  add_index "mgca_addresses", ["district_id"], name: "index_mgca_addresses_on_district_id"
-  add_index "mgca_addresses", ["state_id"], name: "index_mgca_addresses_on_state_id"
-  add_index "mgca_addresses", ["subdistrict_id"], name: "index_mgca_addresses_on_subdistrict_id"
+  add_index "mgca_addresses", ["city_id"], name: "index_mgca_addresses_on_city_id", using: :btree
+  add_index "mgca_addresses", ["country_id"], name: "index_mgca_addresses_on_country_id", using: :btree
+  add_index "mgca_addresses", ["district_id"], name: "index_mgca_addresses_on_district_id", using: :btree
+  add_index "mgca_addresses", ["state_id"], name: "index_mgca_addresses_on_state_id", using: :btree
+  add_index "mgca_addresses", ["subdistrict_id"], name: "index_mgca_addresses_on_subdistrict_id", using: :btree
 
   create_table "mgca_addressibles", force: :cascade do |t|
     t.boolean  "default"
@@ -61,12 +70,14 @@ ActiveRecord::Schema.define(version: 20151118102658) do
     t.integer  "owner_id"
     t.string   "owner_type"
     t.integer  "address_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "named_address"
   end
 
-  add_index "mgca_addressibles", ["address_id"], name: "index_mgca_addressibles_on_address_id"
-  add_index "mgca_addressibles", ["owner_type", "owner_id"], name: "index_mgca_addressibles_on_owner_type_and_owner_id"
+  add_index "mgca_addressibles", ["address_id"], name: "index_mgca_addressibles_on_address_id", using: :btree
+  add_index "mgca_addressibles", ["named_address"], name: "index_mgca_addressibles_on_named_address", using: :btree
+  add_index "mgca_addressibles", ["owner_type", "owner_id"], name: "index_mgca_addressibles_on_owner_type_and_owner_id", using: :btree
 
   create_table "mgca_cities", force: :cascade do |t|
     t.string   "default_name"
@@ -78,8 +89,8 @@ ActiveRecord::Schema.define(version: 20151118102658) do
     t.datetime "updated_at"
   end
 
-  add_index "mgca_cities", ["country_id"], name: "index_mgca_cities_on_country_id"
-  add_index "mgca_cities", ["state_id"], name: "index_mgca_cities_on_state_id"
+  add_index "mgca_cities", ["country_id"], name: "index_mgca_cities_on_country_id", using: :btree
+  add_index "mgca_cities", ["state_id"], name: "index_mgca_cities_on_state_id", using: :btree
 
   create_table "mgca_city_translations", force: :cascade do |t|
     t.integer  "mgca_city_id", null: false
@@ -89,8 +100,8 @@ ActiveRecord::Schema.define(version: 20151118102658) do
     t.string   "name"
   end
 
-  add_index "mgca_city_translations", ["locale"], name: "index_mgca_city_translations_on_locale"
-  add_index "mgca_city_translations", ["mgca_city_id"], name: "index_mgca_city_translations_on_mgca_city_id"
+  add_index "mgca_city_translations", ["locale"], name: "index_mgca_city_translations_on_locale", using: :btree
+  add_index "mgca_city_translations", ["mgca_city_id"], name: "index_mgca_city_translations_on_mgca_city_id", using: :btree
 
   create_table "mgca_countries", force: :cascade do |t|
     t.string   "default_name"
@@ -109,8 +120,8 @@ ActiveRecord::Schema.define(version: 20151118102658) do
     t.string   "name"
   end
 
-  add_index "mgca_country_translations", ["locale"], name: "index_mgca_country_translations_on_locale"
-  add_index "mgca_country_translations", ["mgca_country_id"], name: "index_mgca_country_translations_on_mgca_country_id"
+  add_index "mgca_country_translations", ["locale"], name: "index_mgca_country_translations_on_locale", using: :btree
+  add_index "mgca_country_translations", ["mgca_country_id"], name: "index_mgca_country_translations_on_mgca_country_id", using: :btree
 
   create_table "mgca_district_translations", force: :cascade do |t|
     t.integer  "mgca_district_id", null: false
@@ -120,8 +131,8 @@ ActiveRecord::Schema.define(version: 20151118102658) do
     t.string   "name"
   end
 
-  add_index "mgca_district_translations", ["locale"], name: "index_mgca_district_translations_on_locale"
-  add_index "mgca_district_translations", ["mgca_district_id"], name: "index_mgca_district_translations_on_mgca_district_id"
+  add_index "mgca_district_translations", ["locale"], name: "index_mgca_district_translations_on_locale", using: :btree
+  add_index "mgca_district_translations", ["mgca_district_id"], name: "index_mgca_district_translations_on_mgca_district_id", using: :btree
 
   create_table "mgca_districts", force: :cascade do |t|
     t.string   "default_name"
@@ -132,7 +143,7 @@ ActiveRecord::Schema.define(version: 20151118102658) do
     t.datetime "updated_at"
   end
 
-  add_index "mgca_districts", ["city_id"], name: "index_mgca_districts_on_city_id"
+  add_index "mgca_districts", ["city_id"], name: "index_mgca_districts_on_city_id", using: :btree
 
   create_table "mgca_state_translations", force: :cascade do |t|
     t.integer  "mgca_state_id", null: false
@@ -142,8 +153,8 @@ ActiveRecord::Schema.define(version: 20151118102658) do
     t.string   "name"
   end
 
-  add_index "mgca_state_translations", ["locale"], name: "index_mgca_state_translations_on_locale"
-  add_index "mgca_state_translations", ["mgca_state_id"], name: "index_mgca_state_translations_on_mgca_state_id"
+  add_index "mgca_state_translations", ["locale"], name: "index_mgca_state_translations_on_locale", using: :btree
+  add_index "mgca_state_translations", ["mgca_state_id"], name: "index_mgca_state_translations_on_mgca_state_id", using: :btree
 
   create_table "mgca_states", force: :cascade do |t|
     t.string   "default_name"
@@ -154,7 +165,7 @@ ActiveRecord::Schema.define(version: 20151118102658) do
     t.datetime "updated_at"
   end
 
-  add_index "mgca_states", ["country_id"], name: "index_mgca_states_on_country_id"
+  add_index "mgca_states", ["country_id"], name: "index_mgca_states_on_country_id", using: :btree
 
   create_table "mgca_subdistrict_translations", force: :cascade do |t|
     t.integer  "mgca_subdistrict_id", null: false
@@ -164,8 +175,8 @@ ActiveRecord::Schema.define(version: 20151118102658) do
     t.string   "name"
   end
 
-  add_index "mgca_subdistrict_translations", ["locale"], name: "index_mgca_subdistrict_translations_on_locale"
-  add_index "mgca_subdistrict_translations", ["mgca_subdistrict_id"], name: "index_mgca_subdistrict_translations_on_mgca_subdistrict_id"
+  add_index "mgca_subdistrict_translations", ["locale"], name: "index_mgca_subdistrict_translations_on_locale", using: :btree
+  add_index "mgca_subdistrict_translations", ["mgca_subdistrict_id"], name: "index_mgca_subdistrict_translations_on_mgca_subdistrict_id", using: :btree
 
   create_table "mgca_subdistricts", force: :cascade do |t|
     t.string   "default_name"
@@ -177,8 +188,8 @@ ActiveRecord::Schema.define(version: 20151118102658) do
     t.datetime "updated_at"
   end
 
-  add_index "mgca_subdistricts", ["city_id"], name: "index_mgca_subdistricts_on_city_id"
-  add_index "mgca_subdistricts", ["district_id"], name: "index_mgca_subdistricts_on_district_id"
+  add_index "mgca_subdistricts", ["city_id"], name: "index_mgca_subdistricts_on_city_id", using: :btree
+  add_index "mgca_subdistricts", ["district_id"], name: "index_mgca_subdistricts_on_district_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

@@ -76,7 +76,7 @@ class MagicAddresses::Address < ActiveRecord::Base
   # settter methods
   %w[country state city district subdistrict street number postalcode country_code].each do |key|
     define_method("#{key}=") do |value|
-      self.street_name = value  if key == "street"
+      # self.street_name = value  if key == "street"
       self.fetch_address = (fetch_address || {}).merge("fetch_#{ key == 'postalcode' ? 'zipcode' : key }" => value)
     end
   end
@@ -146,6 +146,27 @@ class MagicAddresses::Address < ActiveRecord::Base
       else
         adr.join(", ")
       end
+    end
+  end
+  
+  def display( *args )
+    options = args.extract_options!
+    ## style =>  'inline' | 'full'
+    style = args.first || options[:style] if args.first.present? || options[:style].present?
+    show_state        = options[:state].present? ? options[:state] : false
+    show_country      = options[:country].present? ? options[:country] : false
+    show_district     = options[:district].present? ? options[:district] : false
+    show_subdistrict  = options[:subdistrict].present? ? options[:subdistrict] : false
+    adr = []
+    adr << "#{street} #{number}".strip if street.present?
+    adr << "#{postalcode} #{city}".strip if zipcode.present? || city.present?
+    adr << "#{district.present? && show_district ? district : ''} #{subdistrict.present? && show_subdistrict ? "(#{subdistrict})" : ''}".strip if show_district || show_subdistrict
+    adr << state     if state.present? && show_state
+    adr << country   if country.present? && show_country
+    if adr.count == 0
+      I18n.t("addresses.no_address_given")
+    else
+      type == "full" ? adr.join("<br />") : adr.join(", ")
     end
   end
   

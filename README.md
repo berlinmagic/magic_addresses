@@ -27,8 +27,34 @@ rails g magic_addresses:install
 
 
 
-## New
-since version `0.0.13` addresses are uniq, so the same address never will be saved twice, instead owners share one address
+## News
+##### since version `0.0.44` there are named addresses, so one model can have multiple-times one-address
+
+run:
+```ruby
+rails g magic_addresses:add_named_addresses
+.. or ..
+rails g magic_addresses:update
+```
+and migrate your Database
+ 
+
+Model-Example
+```ruby
+class Customer < ActiveRecord::Base
+  
+  has_one_address()
+  has_one_named_address( "invoice_address" )
+  has_one_named_address( "delivery_address" )
+  
+end
+```
+
+
+ 
+
+
+##### since version `0.0.13` addresses are uniq, so the same address never will be saved twice, instead owners share one address
 
 run:
 ```ruby
@@ -53,9 +79,21 @@ be sure to activate it in initializer before migrate!
 
   has_addresses       # => This model has many addresses. (ie: Company)
 
-#   You can use `has_one_address` and `has_addresses` on the same model 
-#   `has_one_address` sets the default flag so could be major address.
+  # You can use `has_one_address` and `has_addresses` on the same model 
+  # `has_one_address` sets the default flag so could be major address.
 
+  ## NEW:
+  
+  has_one_named_address( "name_me" )
+  
+  # works together with the other both .. so models can have multiple single addresses
+  # ie:
+  has_one_address()
+  has_one_named_address( "invoice_address" )
+  has_one_named_address( "delivery_address" )
+  
+  
+  ## UNSTABLE: 
   has_nested_address  # => Has one directly nested addresses. (ie: User.street, User.city)
 
 ```

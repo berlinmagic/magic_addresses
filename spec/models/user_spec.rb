@@ -157,7 +157,7 @@ RSpec.describe User, type: :model do
       expect( @that.address.longitude ).not_to eql( nil )
     end
     
-    it 'doesn`t change address for multiple companies', focus: true do
+    it 'doesn`t change address for multiple companies' do
       @that = User.create!( name: "Acme", addressible_attributes: {address_attributes: {street: "Reinhardtstraße", number: "9", postalcode: "10117", city: "Berlin", country: "Germany"}} )
       # @that.address.trigger_build_address_associations
       # sleep 4
